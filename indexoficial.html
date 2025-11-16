@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./ultracreators.PNG" />
+  <title>Ultra Creators · Método Ultra Milionário</title>
+  <meta name="description" content="Conheça o Método Ultra Milionário da Ultra Creators e transforme sua renda como afiliado com um treinamento 100% gratuito." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       RESET E VARIÁVEIS
+    ========================================================= */
+    :root {
+      --color-black: #000000;
+      --color-black-soft: #0b0b0b;
+      --color-black-alt: #111111;
+      --color-black-muted: #181818;
+      --color-gold: #d4af37;
+      --color-gold-dark: #b89418;
+      --color-white: #ffffff;
+      --color-gray: #c7c7c7;
+      --color-gray-soft: #9a9a9a;
+      --max-width: 1180px;
+      --radius-pill: 999px;
+      --radius-card: 18px;
+      --transition-base: 0.28s ease;
+      --header-height: 84px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--color-black);
+      color: var(--color-white);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      border-radius: 50%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .container {
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header span {
+      text-transform: uppercase;
+      letter-spacing: 0.25rem;
+      font-size: 0.7rem;
+      color: var(--color-gold);
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-header p {
+      margin: 0 auto;
+      max-width: 48ch;
+      color: var(--color-gray);
+      font-size: 1rem;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 0.95rem 2.8rem;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform var(--transition-base), box-shadow var(--transition-base), filter var(--transition-base);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(0.95);
+      box-shadow: 0 12px 26px rgba(212, 175, 55, 0.25);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--color-gold);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .tagline::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--color-gold);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.88);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+      z-index: 1800;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      letter-spacing: 0.28em;
+      font-weight: 600;
+      color: var(--color-gold);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: var(--color-gray);
+      position: relative;
+      padding-bottom: 0.4rem;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--color-gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform var(--transition-base);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .header-cta {
+      padding: 0.6rem 1.8rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-gold);
+      color: var(--color-black);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: transform var(--transition-base), filter var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .header-cta:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.95);
+      box-shadow: 0 12px 22px rgba(212, 175, 55, 0.25);
+    }
+
+    .burger {
+      display: none;
+      position: relative;
+      flex-direction: column;
+      gap: 6px;
+      width: 38px;
+      height: 30px;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2400;
+    }
+
+    .burger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-gold);
+      transition: transform var(--transition-base), opacity var(--transition-base);
+    }
+
+    .burger.is-active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .burger.is-active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger.is-active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000;
+      transform: translateX(100%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: transform 0.4s ease, opacity 0.35s ease, visibility 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: calc(var(--header-height) + 2rem) 2.5rem 2.8rem;
+      gap: 2.5rem;
+      z-index: 2000;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.05);
+    }
+
+    .mobile-nav.active {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .mobile-nav ul {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.75rem;
+      font-size: 1.1rem;
+      color: var(--color-white);
+      width: 100%;
+    }
+
+    .mobile-nav ul a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-white);
+      width: 100%;
+      padding: 0.35rem 0;
+    }
+
+    .mobile-nav ul a::before {
+      content: '';
+      width: 12px;
+      height: 1px;
+      background-color: var(--color-gold);
+      transition: width var(--transition-base);
+    }
+
+    .mobile-nav ul a:hover::before {
+      width: 22px;
+    }
+
+    .mobile-nav ul a:focus-visible {
+      outline: 2px solid rgba(212, 175, 55, 0.7);
+      outline-offset: 6px;
+    }
+
+    .mobile-nav .header-cta {
+      align-self: stretch;
+      display: inline-flex;
+      justify-content: center;
+      padding: 0.9rem 1.5rem;
+    }
+
+    body.nav-open {
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    main {
+      padding-top: var(--header-height);
+    }
+
+    section {
+      padding: clamp(4rem, 8vw, 6.5rem) 0;
+    }
+
+    .hero {
+      min-height: calc(100vh - var(--header-height));
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 15% auto auto 50%;
+      width: 520px;
+      height: 520px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.18), transparent 65%);
+      filter: blur(6px);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 2rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--color-gold);
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      color: var(--color-gold);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      max-width: 14ch;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--color-gray);
+      max-width: 52ch;
+    }
+
+    .hero .cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .hero .proof {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--color-gold);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .hero .proof svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: var(--color-gold);
+      stroke-width: 1.8;
+    }
+
+    /* =========================================================
+       NÚMEROS
+    ========================================================= */
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.8rem;
+    }
+
+    .numbers-card {
+      background: linear-gradient(145deg, rgba(24, 24, 24, 0.9), rgba(10, 10, 10, 0.9));
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: var(--radius-card);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .numbers-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.12), transparent 60%);
+      pointer-events: none;
+    }
+
+    .numbers-icon {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 1.5rem;
+    }
+
+    .numbers-value {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      color: var(--color-gold);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+    }
+
+    .numbers-label {
+      margin: 0;
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+
+    /* =========================================================
+       COMO FUNCIONA
+    ========================================================= */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .step-card {
+      background-color: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-card);
+      padding: 2.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.12);
+    }
+
+    .step-label {
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(212, 175, 55, 0.8);
+    }
+
+    .step-card h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .step-card p {
+      margin: 0;
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+
+    .icon-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    .icon-circle svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--color-gold);
+      stroke-width: 1.6;
+      fill: none;
+    }
+
+    /* =========================================================
+       PROVA SOCIAL
+    ========================================================= */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .testimonial-card {
+      background-color: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-card::before {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.6rem;
+      font-size: 3rem;
+      color: rgba(212, 175, 55, 0.16);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .testimonial-author img {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+    }
+
+    .testimonial-author strong {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .testimonial-text {
+      margin: 0;
+      color: var(--color-gray);
+      font-size: 0.98rem;
+    }
+    /* =========================================================
+       DIFERENCIAIS E OFERTA
+    ========================================================= */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background-color: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: var(--radius-card);
+      padding: 2.1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feature-card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+
+    .offer-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .offer-card {
+      background-color: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: var(--radius-card);
+      padding: 2.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .offer-card::after {
+      content: '';
+      position: absolute;
+      inset: auto 20% -2px 20%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+    }
+
+    .offer-card h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .offer-card p {
+      margin: 0;
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+
+    /* =========================================================
+       BÔNUS
+    ========================================================= */
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .bonus-card {
+      background-color: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .bonus-card span {
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(212, 175, 55, 0.75);
+    }
+
+    .bonus-card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .bonus-card p {
+      margin: 0;
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+
+    /* =========================================================
+       FAQ
+    ========================================================= */
+    .faq-list {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      background-color: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.2rem 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      color: var(--color-white);
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    .faq-question svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: var(--color-gold);
+      stroke-width: 2;
+      transition: transform var(--transition-base);
+    }
+
+    .faq-question[aria-expanded="true"] svg {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-answer p {
+      margin: 0;
+      padding: 0 1.6rem 1.4rem;
+      color: var(--color-gray);
+      font-size: 0.96rem;
+    }
+
+    /* =========================================================
+       CTA FINAL
+    ========================================================= */
+    .final-cta {
+      text-align: center;
+      position: relative;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 15% 20% 10% 20%;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 30px;
+      pointer-events: none;
+    }
+
+    .final-cta h2 {
+      margin: 0 0 1.2rem;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--color-gold);
+    }
+
+    .final-cta p {
+      margin: 0 auto 2rem;
+      max-width: 50ch;
+      color: var(--color-gray);
+    }
+
+    .final-cta .details {
+      margin-top: 1.8rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+
+    .final-cta .details span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .final-cta .details span::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--color-gold);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      background-color: var(--color-black);
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      padding: 3.5rem 0 2.5rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-column h4 {
+      margin: 0 0 1.2rem;
+      font-size: 1rem;
+      color: var(--color-gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-column p,
+    .footer-column a,
+    .footer-column li {
+      font-size: 0.92rem;
+      color: var(--color-gray);
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-column a:hover {
+      color: var(--color-gold);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .footer-socials a {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition-base), transform var(--transition-base);
+    }
+
+    .footer-socials a svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--color-gold);
+    }
+
+    .footer-socials a:hover {
+      background-color: rgba(212, 175, 55, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      color: var(--color-gray);
+      font-size: 0.85rem;
+    }
+
+    .footer-bottom a {
+      color: var(--color-gray);
+    }
+
+    .footer-bottom a:hover {
+      color: var(--color-gold);
+    }
+
+    /* =========================================================
+       BOTÃO VOLTAR AO TOPO
+    ========================================================= */
+    .back-to-top {
+      position: fixed;
+      right: 2rem;
+      bottom: 2rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base), transform var(--transition-base);
+      z-index: 900;
+    }
+
+    .back-to-top svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--color-gold);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       RESPONSIVIDADE
+    ========================================================= */
+    @media (max-width: 1023px) {
+      header {
+        --header-height: 76px;
+      }
+
+      .header-inner {
+        width: min(calc(100% - 2.5rem), var(--max-width));
+      }
+
+      nav {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
+      }
+
+      .numbers-grid,
+      .steps-grid,
+      .features-grid,
+      .offer-grid,
+      .bonus-grid,
+      .testimonials-grid,
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero .container {
+        gap: 1.5rem;
+      }
+
+      .hero .cta-group {
+        align-items: flex-start;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .mobile-nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        width: min(calc(100% - 2rem), var(--max-width));
+      }
+
+      section {
+        padding: 3.8rem 0;
+      }
+
+      .mobile-nav {
+        padding: calc(var(--header-height) + 1.5rem) 1.75rem 2.5rem;
+        gap: 2rem;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 4.5rem 0 4rem;
+      }
+
+      .hero::before {
+        width: 360px;
+        height: 360px;
+        inset: 25% auto auto 50%;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.4rem, 10vw, 3rem);
+      }
+
+      .hero .cta-group {
+        width: 100%;
+      }
+
+      .hero .cta-group .cta-button {
+        width: 100%;
+      }
+
+      .hero .proof {
+        font-size: 0.9rem;
+      }
+
+      .numbers-grid,
+      .steps-grid,
+      .features-grid,
+      .offer-grid,
+      .bonus-grid,
+      .testimonials-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header h2 {
+        font-size: clamp(1.85rem, 8vw, 2.4rem);
+      }
+
+      .final-cta::before {
+        inset: 10% 10% 8% 10%;
+      }
+
+      .back-to-top {
+        right: 1rem;
+        bottom: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- =========================================================
+       HEADER
+  ========================================================= -->
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="#hero">ULTRA CREATORS</a>
+      <nav aria-label="Navegação principal">
+        <ul class="nav-links">
+          <li><a href="#social-proof">Prova Social</a></li>
+          <li><a href="#numbers">Números</a></li>
+          <li><a href="#training">Treinamento</a></li>
+          <li><a href="#method">Como Funciona</a></li>
+          <li><a href="#offer">Produtos</a></li>
+          <li><a href="#differentials">Diferenciais</a></li>
+          <li><a href="#bonuses">Bônus</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a class="header-cta" href="#cta">Quero Acesso</a>
+      <button class="burger" type="button" aria-label="Abrir menu mobile" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" role="dialog" aria-modal="true" aria-label="Menu mobile" aria-hidden="true">
+      <ul>
+        <li><a href="#social-proof">Prova Social</a></li>
+        <li><a href="#numbers">Números</a></li>
+        <li><a href="#training">Treinamento</a></li>
+        <li><a href="#method">Como Funciona</a></li>
+        <li><a href="#offer">Produtos</a></li>
+        <li><a href="#differentials">Diferenciais</a></li>
+        <li><a href="#bonuses">Bônus</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="header-cta" href="#cta">Quero Acesso</a>
+    </div>
+  </header>
+
+  <button class="back-to-top" type="button" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <main>
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
+    <section id="hero" class="hero">
+      <div class="container reveal">
+        <span class="hero-badge">Curso 100% Gratuito</span>
+        <h1>Método Ultra Milionário</h1>
+        <p>Descubra como pessoas comuns estão faturando de R$5.000 a R$25.000 por mês como afiliados da Ultra Creators, mesmo sem experiência, sem aparecer e com uma estrutura completa pronta para você.</p>
+        <p>Um treinamento direto ao ponto que entrega estratégias comprovadas, materiais profissionais e acompanhamento contínuo para você acelerar resultados.</p>
+        <div class="cta-group">
+          <a class="cta-button" href="#cta">Quero Acesso Gratuito Agora</a>
+          <div class="proof">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            <span>Mais de 1.500 alunos já estão lucrando</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         NÚMEROS
+    ========================================================= -->
+    <section id="numbers">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Resultados</span>
+          <h2>Números que Comprovam</h2>
+          <p>Indicadores reais da performance dos afiliados que aplicam o Método Ultra Milionário todos os dias.</p>
+        </div>
+        <div class="numbers-grid">
+          <article class="numbers-card reveal">
+            <svg class="numbers-icon" viewBox="0 0 48 48" aria-hidden="true">
+              <g fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <rect x="6" y="16" width="36" height="26" rx="4"/>
+                <path d="M6 22h36"/>
+                <circle cx="16" cy="28" r="3"/>
+                <circle cx="32" cy="28" r="3"/>
+              </g>
+            </svg>
+            <p class="numbers-value"><span class="counter" data-target="180000" data-prefix="R$ " data-suffix="+">R$ 0+</span></p>
+            <p class="numbers-label">Total pago em comissões</p>
+          </article>
+          <article class="numbers-card reveal">
+            <svg class="numbers-icon" viewBox="0 0 48 48" aria-hidden="true">
+              <g fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <circle cx="24" cy="16" r="8"/>
+                <path d="M10 40c2-7 8-10 14-10s12 3 14 10"/>
+              </g>
+            </svg>
+            <p class="numbers-value"><span class="counter" data-target="1500" data-suffix="+">0+</span></p>
+            <p class="numbers-label">Afiliados ativos hoje</p>
+          </article>
+          <article class="numbers-card reveal">
+            <svg class="numbers-icon" viewBox="0 0 48 48" aria-hidden="true">
+              <g fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <path d="M24 40s-14-9.2-14-21A8 8 0 0124 16a8 8 0 0114 3c0 11.8-14 21-14 21z"/>
+                <path d="M16 25l4 4 12-12" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+            </svg>
+            <p class="numbers-value"><span class="counter" data-target="98.7" data-decimals="1" data-suffix="%">0%</span></p>
+            <p class="numbers-label">Taxa de satisfação</p>
+          </article>
+          <article class="numbers-card reveal">
+            <svg class="numbers-icon" viewBox="0 0 48 48" aria-hidden="true">
+              <g fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <path d="M8 32l9-9 8 6 9-10 6 5"/>
+                <path d="M8 38h32" stroke-linecap="round"/>
+                <circle cx="12" cy="12" r="2" fill="var(--color-gold)"/>
+                <circle cx="24" cy="6" r="2" fill="var(--color-gold)"/>
+                <circle cx="36" cy="16" r="2" fill="var(--color-gold)"/>
+              </g>
+            </svg>
+            <p class="numbers-value"><span class="counter" data-target="50" data-suffix="%">0%</span></p>
+            <p class="numbers-label">Comissão média</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TREINAMENTO
+    ========================================================= -->
+    <section id="training">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Treinamento</span>
+          <h2>O que você vai dominar</h2>
+          <p>Estrutura completa para aplicar estratégias de marketing de afiliados com consistência e profissionalismo.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M4 5l8 6 8-6-8 12-8-12z"/></svg>
+            </div>
+            <h3>Fundamentos de Elite</h3>
+            <p>Domine o modelo de negócio, entenda métricas e monte sua operação com clareza desde o primeiro dia.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v10l-7 4-7-4V7l7-4zm0 0v18m-7-9h14"/></svg>
+            </div>
+            <h3>Produtos Validados</h3>
+            <p>Acesso ao catálogo Ultra com ofertas vencedoras, copy pronta e funis otimizados para conversão alta.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h9a4 4 0 010 8H5zm0 8h11a4 4 0 010 8H5z"/></svg>
+            </div>
+            <h3>Conteúdo & Tráfego</h3>
+            <p>Playbooks de conteúdo orgânico, roteiros de stories, scripts de vídeo e distribuição multiplataforma.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6l2 3h8v13H4z"/></svg>
+            </div>
+            <h3>Automação e Suporte</h3>
+            <p>Ferramentas prontas, templates editáveis e acompanhamento próximo para você não travar em nenhuma etapa.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M12 3v18m-7-7l-2 2 2 2m14-4l2 2-2 2"/></svg>
+            </div>
+            <h3>Escala Sustentável</h3>
+            <p>Estratégias para ampliar faturamento mantendo margem, reputação e recorrência de vendas.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.75l3.09 6.26 6.91 1-5 4.88 1.18 6.9L12 17.77l-6.18 3.22L7 13.89 2 9.01l6.91-1z"/></svg>
+            </div>
+            <h3>Mentalidade Premium</h3>
+            <p>Rotina, metas e mindset dos afiliados que faturam múltiplos 5 dígitos com consistência e previsibilidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         COMO FUNCIONA
+    ========================================================= -->
+    <section id="method">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Jornada</span>
+          <h2>Como Funciona o Método Ultra Milionário</h2>
+          <p>Quatro passos claros para sair do zero e construir uma operação de afiliados lucrativa com suporte profissional.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card reveal" style="transition-delay: 0.05s;">
+            <span class="step-label">Passo 01</span>
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9a7 7 0 0114 0"/></svg>
+            </div>
+            <h3>Acesso imediato</h3>
+            <p>Cadastre-se em minutos, desbloqueie o portal e receba o plano de ação completo sem custos.</p>
+          </article>
+          <article class="step-card reveal" style="transition-delay: 0.1s;">
+            <span class="step-label">Passo 02</span>
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7"/></svg>
+            </div>
+            <h3>Estrutura pronta</h3>
+            <p>Receba links rastreados, páginas otimizadas, scripts e criativos atualizados para acelerar suas primeiras vendas.</p>
+          </article>
+          <article class="step-card reveal" style="transition-delay: 0.15s;">
+            <span class="step-label">Passo 03</span>
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5l8-2 8 2v14l-8 2z"/></svg>
+            </div>
+            <h3>Execução guiada</h3>
+            <p>Implemente estratégias diárias de conteúdo e tráfego orgânico com materiais de apoio e suporte especialista.</p>
+          </article>
+          <article class="step-card reveal" style="transition-delay: 0.2s;">
+            <span class="step-label">Passo 04</span>
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l8-12 8 12H4z"/></svg>
+            </div>
+            <h3>Escala dos ganhos</h3>
+            <p>Otimize campanhas, expanda canais e mantenha acompanhamento semanal para multiplicar resultados.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PROVA SOCIAL
+    ========================================================= -->
+    <section id="social-proof">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Prova Social</span>
+          <h2>Veja quem já está lucrando</h2>
+          <p>Histórias reais de afiliados que aplicaram o método e transformaram a renda com consistência.</p>
+        </div>
+        <div class="testimonials-grid">
+          <article class="testimonial-card reveal">
+            <div class="testimonial-author">
+              <img src="./fotomaria.jpg" alt="Foto de Maria Silva">
+              <div>
+                <strong>Maria Silva</strong>
+                <p class="tagline">R$ 8.500/mês</p>
+              </div>
+            </div>
+            <p class="testimonial-text">“Comecei do zero absoluto. Em três meses aplicando as aulas e os materiais prontos, bati meus primeiros 5 dígitos. O suporte diário faz toda a diferença.”</p>
+          </article>
+          <article class="testimonial-card reveal">
+            <div class="testimonial-author">
+              <img src="./fotojoao.jpg" alt="Foto de João Santos">
+              <div>
+                <strong>João Santos</strong>
+                <p class="tagline">R$ 12.300/mês</p>
+              </div>
+            </div>
+            <p class="testimonial-text">“Troquei meu emprego tradicional pelo marketing de afiliados em cinco meses. O método é direto, com tudo pronto, sem enrolação. Resultados previsíveis toda semana.”</p>
+          </article>
+          <article class="testimonial-card reveal">
+            <div class="testimonial-author">
+              <img src="./fotoana.jpg" alt="Foto de Ana Costa">
+              <div>
+                <strong>Ana Costa</strong>
+                <p class="tagline">R$ 6.800/mês</p>
+              </div>
+            </div>
+            <p class="testimonial-text">“Utilizei os roteiros de conteúdo e a comunidade para ajustar minha comunicação. Hoje vendo todos os dias sem aparecer nas câmeras e com total segurança.”</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         DIFERENCIAIS
+    ========================================================= -->
+    <section id="differentials">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Diferenciais</span>
+          <h2>Por que a Ultra Creators é Diferente</h2>
+          <p>Mais do que um curso, você entra em um ecossistema completo pensado para o sucesso dos afiliados.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11V7a3 3 0 013-3h10a3 3 0 013 3v4M4 11l8 4 8-4m-5 3l5 2m-11 0l-5 2m5-2v5m6-5v5"/></svg>
+            </div>
+            <h3>Pagamentos semanais</h3>
+            <p>Comissões via Pix toda segunda-feira com total transparência e painel em tempo real.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 4.5-9 4.5-9-4.5zm0 9l9 4.5-9 4.5-9-4.5"/></svg>
+            </div>
+            <h3>Materiais ilimitados</h3>
+            <p>Biblioteca com centenas de criativos, scripts, páginas e funis atualizados toda semana.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 00-7 7v4h14v-4a7 7 0 00-7-7zm0 14a3 3 0 006 0"/></svg>
+            </div>
+            <h3>Suporte dedicado</h3>
+            <p>Time especialista disponível em tempo real para ajudar na execução e tirar dúvidas pontuais.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+            </div>
+            <h3>Comunidade premium</h3>
+            <p>Networking com milhares de afiliados, insights diários e parcerias para acelerar resultados.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h4l2 3h8l-3 11H8L5 5z"/></svg>
+            </div>
+            <h3>Estratégias testadas</h3>
+            <p>Planos de ação validados internamente pela Ultra Creators, com métricas e atualizações constantes.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h5"/></svg>
+            </div>
+            <h3>Sem taxa de adesão</h3>
+            <p>Participe gratuitamente, promova no seu ritmo e cresça com liberdade total.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PRODUTOS / OFERTA
+    ========================================================= -->
+    <section id="offer">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Oferta</span>
+          <h2>O que você recebe como afiliado</h2>
+          <p>Um ecossistema completo de produtos, recursos e mentorias para você vender todos os dias.</p>
+        </div>
+        <div class="offer-grid">
+          <article class="offer-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M5 11h14m-9 4h9m-7 4h7"/></svg>
+            </div>
+            <h3>Catálogo premium</h3>
+            <p>Produtos digitais e físicos com alta demanda, comissões elevadas e páginas otimizadas para conversão.</p>
+          </article>
+          <article class="offer-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 9h16M9 4v16"/></svg>
+            </div>
+            <h3>Funis prontos</h3>
+            <p>Sequências de mensagens, emails e scripts validados para acelerar as primeiras vendas.</p>
+          </article>
+          <article class="offer-card reveal">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4m0 10v4m9-9h-4M7 12H3m15.36-6.36l-2.83 2.83M8.47 15.53l-2.83 2.83m0-11.66l2.83 2.83m8.46 8.46l2.83 2.83"/></svg>
+            </div>
+            <h3>Mentorias ao vivo</h3>
+            <p>Encontros semanais com especialistas para destravar desafios e acompanhar seu progresso.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         BÔNUS
+    ========================================================= -->
+    <section id="bonuses">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>Bônus</span>
+          <h2>Bônus Exclusivos</h2>
+          <p>Benefícios adicionais liberados para quem inicia hoje e implementa as estratégias imediatamente.</p>
+        </div>
+        <div class="bonus-grid">
+          <article class="bonus-card reveal">
+            <span>Bônus 01</span>
+            <h3>Guia Nichos Premium</h3>
+            <p>Mapeamento dos nichos mais rentáveis para 2025 com sugestões de copy, âncoras e avatar ideal.</p>
+          </article>
+          <article class="bonus-card reveal">
+            <span>Bônus 02</span>
+            <h3>Templates de Stories</h3>
+            <p>Pacote editável para Instagram e TikTok com design premium e roteiros prontos para vender.</p>
+          </article>
+          <article class="bonus-card reveal">
+            <span>Bônus 03</span>
+            <h3>Scripts de Conversão</h3>
+            <p>Sequências de mensagens para WhatsApp, Direct e Email testadas com altas taxas de fechamento.</p>
+          </article>
+          <article class="bonus-card reveal">
+            <span>Bônus 04</span>
+            <h3>Mentoria em grupo</h3>
+            <p>Encontros mensais focados em otimização, análise de métricas e escalabilidade da operação.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         FAQ
+    ========================================================= -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-header reveal">
+          <span>FAQ</span>
+          <h2>Perguntas Frequentes</h2>
+          <p>Os pontos principais que respondem tudo o que você precisa antes de dar o próximo passo.</p>
+        </div>
+        <div class="faq-list">
+          <article class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">
+              <span>Preciso investir dinheiro para começar?</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              <p>Não. O acesso ao método é 100% gratuito e você já recebe materiais e estrutura completa para iniciar as divulgações imediatamente.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">
+              <span>Quanto tempo leva para ter resultados?</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              <p>Nossos afiliados costumam gerar as primeiras comissões entre 7 e 21 dias, variando de acordo com a consistência de execução.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">
+              <span>Preciso aparecer nas redes sociais?</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              <p>Não é obrigatório. Você recebe estratégias para vender sem mostrar o rosto, utilizando conteúdos prontos e automações.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">
+              <span>Como recebo as comissões?</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              <p>Pagamentos semanais via Pix direto na sua conta cadastrada, com relatório detalhado disponível no dashboard.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">
+              <span>Tem suporte para iniciantes?</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              <p>Sim. Você conta com suporte humanizado, comunidade ativa e mentorias coletivas para destravar cada etapa.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA FINAL
+    ========================================================= -->
+    <section id="cta" class="final-cta">
+      <div class="container reveal">
+        <h2>Pronto para transformar sua renda?</h2>
+        <p>Entre para o Método Ultra Milionário, libere acesso imediato ao ecossistema Ultra Creators e tenha orientação premium para lucrar como afiliado sem complicações.</p>
+        <a class="cta-button" href="https://ramostech.site">Quero Acesso Gratuito Agora</a>
+        <div class="details">
+          <span>Cadastro em menos de 2 minutos</span>
+          <span>Sem cartão de crédito</span>
+          <span>Conteúdo atualizado semanalmente</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>Ultra Creators</h4>
+          <p>A maior plataforma de afiliados premium do Brasil. Mais de 1.500 profissionais lucrando com estrutura, suporte e estratégia de elite.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/creatorsultra" target="_blank" rel="noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"/></svg>
+            </a>
+            <a href="#" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1016.62 5.21L21 21l-4.79-1.38A9 9 0 103 11zm5.64-.5l.9-.14a1 1 0 01.9.28l.64.65a.6.6 0 010 .85l-.43.43a4.8 4.8 0 002.55 2.55l.43-.43a.6.6 0 01.85 0l.65.64a1 1 0 01.28.9l-.14.9a1 1 0 01-1 .84 6.6 6.6 0 01-6.16-6.16 1 1 0 01.83-1.01z"/></svg>
+            </a>
+            <a href="#" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5L2.5 11l5.2 2 2 6 4-3.5 5.5 4z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#method">Como Funciona</a></li>
+            <li><a href="#offer">Produtos</a></li>
+            <li><a href="#cta">Cadastro</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Recursos</h4>
+          <ul>
+            <li><a href="#training">Treinamento</a></li>
+            <li><a href="#social-proof">Depoimentos</a></li>
+            <li><a href="#differentials">Diferenciais</a></li>
+            <li><a href="#bonuses">Bônus</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Contato</h4>
+          <p>contato@ultracreators.com.br</p>
+          <p>+55 (11) 99999-9999</p>
+          <p>Seg a Sex · 9h às 18h</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Ultra Creators. Todos os direitos reservados.</span>
+        <div>
+          <a href="#">Termos de Uso</a> ·
+          <a href="#">Política de Privacidade</a> ·
+          <a href="#">Suporte</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- =========================================================
+       SCRIPTS
+  ========================================================= -->
+  <script>
+    (function() {
+      const body = document.body;
+      const burger = document.querySelector('.burger');
+      const mobileNav = document.querySelector('.mobile-nav');
+      const backToTop = document.querySelector('.back-to-top');
+      const navLinks = document.querySelectorAll('a[href^="#"]');
+      const revealItems = document.querySelectorAll('.reveal');
+      const counters = document.querySelectorAll('.counter');
+      const faqItems = document.querySelectorAll('.faq-item');
+
+      const toggleMobileNav = (open) => {
+        if (!burger || !mobileNav) return;
+        const isOpen = open !== undefined ? open : !mobileNav.classList.contains('active');
+        mobileNav.classList.toggle('active', isOpen);
+        burger.setAttribute('aria-expanded', String(isOpen));
+        burger.setAttribute('aria-label', isOpen ? 'Fechar menu mobile' : 'Abrir menu mobile');
+        burger.classList.toggle('is-active', isOpen);
+        body.classList.toggle('nav-open', isOpen);
+        mobileNav.setAttribute('aria-hidden', String(!isOpen));
+        if (isOpen) {
+          mobileNav.scrollTop = 0;
+        }
+      };
+
+      if (burger) {
+        burger.addEventListener('click', () => toggleMobileNav());
+      }
+
+      if (mobileNav) {
+        mobileNav.addEventListener('click', (event) => {
+          if (event.target.matches('a')) {
+            toggleMobileNav(false);
+          }
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            toggleMobileNav(false);
+          }
+        });
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 1023) {
+            toggleMobileNav(false);
+          }
+        });
+      }
+
+      if (navLinks.length) {
+        navLinks.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            const targetId = link.getAttribute('href');
+            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+              const target = document.querySelector(targetId);
+              if (target) {
+                event.preventDefault();
+                const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 80;
+                const offset = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                window.scrollTo({ top: offset, behavior: 'smooth' });
+              }
+            }
+          });
+        });
+      }
+
+      const onScroll = () => {
+        if (!backToTop) return;
+        if (window.scrollY > 400) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      };
+
+      if (backToTop) {
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', onScroll, { passive: true });
+      }
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      if (revealItems.length) {
+        revealItems.forEach((item) => revealObserver.observe(item));
+      }
+
+      const animateCounter = (el) => {
+        const targetValue = Number(el.dataset.target || 0);
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1600;
+        const startTime = performance.now();
+
+        const formatValue = (value) => {
+          if (decimals > 0) {
+            const normalized = Number(value.toFixed(decimals));
+            return normalized.toLocaleString('pt-BR', {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals,
+            });
+          }
+
+          return Math.round(value).toLocaleString('pt-BR');
+        };
+
+        const step = (currentTime) => {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const currentValue = targetValue * eased;
+          el.textContent = `${prefix}${formatValue(currentValue)}${suffix}`;
+
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = `${prefix}${formatValue(targetValue)}${suffix}`;
+          }
+        };
+
+        requestAnimationFrame(step);
+      };
+
+      if (counters.length) {
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counter = entry.target;
+              if (!counter.dataset.animated) {
+                animateCounter(counter);
+                counter.dataset.animated = 'true';
+              }
+              observer.unobserve(counter);
+            }
+          });
+        }, { threshold: 0.4 });
+
+        counters.forEach((counter) => counterObserver.observe(counter));
+      }
+
+      if (faqItems.length) {
+        faqItems.forEach((item) => {
+          const question = item.querySelector('.faq-question');
+          const answer = item.querySelector('.faq-answer');
+          if (!question || !answer) return;
+
+          question.addEventListener('click', () => {
+            const isExpanded = question.getAttribute('aria-expanded') === 'true';
+            faqItems.forEach((otherItem) => {
+              const otherQuestion = otherItem.querySelector('.faq-question');
+              const otherAnswer = otherItem.querySelector('.faq-answer');
+              if (otherQuestion && otherAnswer && otherQuestion !== question) {
+                otherQuestion.setAttribute('aria-expanded', 'false');
+                otherAnswer.style.maxHeight = null;
+                otherAnswer.setAttribute('aria-hidden', 'true');
+              }
+            });
+
+            if (!isExpanded) {
+              question.setAttribute('aria-expanded', 'true');
+              answer.style.maxHeight = answer.scrollHeight + 'px';
+              answer.setAttribute('aria-hidden', 'false');
+            } else {
+              question.setAttribute('aria-expanded', 'false');
+              answer.style.maxHeight = null;
+              answer.setAttribute('aria-hidden', 'true');
+            }
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
