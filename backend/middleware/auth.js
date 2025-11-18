@@ -48,6 +48,25 @@ exports.protect = async (req, res, next) => {
   }
 };
 
+// Admin only middleware
+exports.adminOnly = async (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: 'Não autorizado. Por favor, faça login.'
+    });
+  }
+
+  if (!req.user.isAdmin) {
+    return res.status(403).json({
+      success: false,
+      message: 'Acesso negado. Apenas administradores podem acessar este recurso.'
+    });
+  }
+
+  next();
+};
+
 // Generate JWT token
 exports.generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

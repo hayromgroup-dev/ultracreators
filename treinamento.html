@@ -100,6 +100,153 @@
       padding-bottom: 3rem;
     }
 
+    /* Page Layout with Sidebars */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 280px 1fr 280px;
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-wrapper.no-left {
+      grid-template-columns: 1fr 280px;
+    }
+
+    .page-wrapper.no-right {
+      grid-template-columns: 280px 1fr;
+    }
+
+    .page-wrapper.no-sidebars {
+      grid-template-columns: 1fr;
+    }
+
+    .main-content-area {
+      min-width: 0;
+    }
+
+    /* Ad Sidebars */
+    .ad-sidebar {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      height: calc(100vh - var(--header-height) - 4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: transparent;
+      border: none;
+    }
+
+    /* Ad Position Slots */
+    .ad-slot {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      background: transparent;
+    }
+
+    .ad-slot-top {
+      align-items: flex-start;
+    }
+
+    .ad-slot-middle {
+      align-items: center;
+    }
+
+    .ad-slot-bottom {
+      align-items: flex-end;
+    }
+
+    .ad-card {
+      background: linear-gradient(145deg, var(--color-black-alt), #0b0b0b);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .ad-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ad-content {
+      padding: 1.25rem;
+    }
+
+    .ad-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin: 0 0 0.5rem;
+      line-height: 1.3;
+    }
+
+    .ad-description {
+      font-size: 0.9rem;
+      color: var(--color-gray);
+      margin: 0 0 1rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .ad-button {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .ad-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    @media (max-width: 1200px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .page-wrapper.no-left,
+      .page-wrapper.no-right,
+      .page-wrapper.no-sidebars {
+        grid-template-columns: 1fr;
+      }
+
+      .ad-sidebar {
+        position: static;
+        max-height: none;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .ad-card {
+        min-width: 280px;
+      }
+    }
+
     .page-header {
       text-align: center;
       margin-bottom: 3rem;
@@ -166,11 +313,42 @@
       box-shadow: 0 12px 32px rgba(212, 175, 55, 0.15);
     }
 
+    .completed-course {
+      opacity: 0.7;
+      filter: grayscale(20%);
+    }
+
+    .completed-course:hover {
+      opacity: 0.85;
+      filter: grayscale(10%);
+    }
+
+    .completed-overlay {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(74, 222, 128, 0.9);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
+    }
+
+    .completed-icon {
+      color: white;
+      font-size: 1.75rem;
+      font-weight: bold;
+    }
+
     .course-thumbnail {
       width: 100%;
       height: 200px;
       background: linear-gradient(135deg, #181818, #0b0b0b);
       display: flex;
+      position: relative;
       align-items: center;
       justify-content: center;
       position: relative;
@@ -256,6 +434,116 @@
       color: var(--color-gray);
     }
 
+    /* Advertisement Styles */
+    .ad-banner {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-banner:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .ad-hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-hero:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+
+    .ad-footer {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-top: 3rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-footer:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .ad-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ad-content {
+      padding: 1.5rem;
+    }
+
+    .ad-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin: 0 0 0.75rem;
+    }
+
+    .ad-description {
+      color: var(--color-gray);
+      line-height: 1.6;
+      margin: 0 0 1.5rem;
+    }
+
+    .ad-button {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: all var(--transition-base);
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .ad-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .content-with-sidebar {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1023px) {
+      .content-with-sidebar {
+        grid-template-columns: 1fr;
+      }
+      .ad-sidebar {
+        position: static;
+      }
+    }
+
     @media (max-width: 767px) {
       .courses-grid { grid-template-columns: 1fr; }
       .user-name { display: none; }
@@ -274,13 +562,18 @@
   </header>
 
   <main>
-    <div class="container">
-      <div class="page-header">
-        <h1>Treinamentos</h1>
-        <p>Acesse o Método Ultra Milionário e todos os conteúdos exclusivos</p>
-      </div>
+    <div class="page-wrapper" id="pageWrapper">
+      <!-- Left Sidebar for Ads -->
+      <aside class="ad-sidebar" id="leftSidebar" style="display: none;"></aside>
 
-      <div class="stats-bar">
+      <!-- Main Content Area -->
+      <div class="main-content-area">
+        <div class="page-header">
+          <h1>Treinamentos</h1>
+          <p>Acesse o Método Ultra Milionário e todos os conteúdos exclusivos</p>
+        </div>
+
+        <div class="stats-bar">
         <div class="stat-card">
           <div class="stat-value">0</div>
           <div class="stat-label">Cursos</div>
@@ -290,8 +583,8 @@
           <div class="stat-label">Aulas</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">0h</div>
-          <div class="stat-label">Conteúdo</div>
+          <div class="stat-value">0</div>
+          <div class="stat-label">Cursos Concluídos</div>
         </div>
         <div class="stat-card">
           <div class="stat-value">0%</div>
@@ -299,117 +592,32 @@
         </div>
       </div>
 
-      <div class="courses-grid">
-        <div class="course-card">
-          <div class="course-thumbnail">
-            <div class="play-icon"></div>
-          </div>
-          <div class="course-content">
-            <span class="course-badge">Em breve</span>
-            <h3 class="course-title">Fundamentos do Marketing Digital</h3>
-            <p class="course-description">Aprenda os conceitos essenciais do marketing digital e como aplicá-los.</p>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="course-meta">
-              <span>⏱ 0h</span>
-              <span>📚 0 aulas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumbnail">
-            <div class="play-icon"></div>
-          </div>
-          <div class="course-content">
-            <span class="course-badge">Em breve</span>
-            <h3 class="course-title">Tráfego Pago para Iniciantes</h3>
-            <p class="course-description">Domine estratégias de Facebook Ads, Google Ads e TikTok Ads.</p>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="course-meta">
-              <span>⏱ 0h</span>
-              <span>📚 0 aulas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumbnail">
-            <div class="play-icon"></div>
-          </div>
-          <div class="course-content">
-            <span class="course-badge">Em breve</span>
-            <h3 class="course-title">Copywriting Persuasivo</h3>
-            <p class="course-description">Escreva textos que convertem com técnicas dos melhores copywriters.</p>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="course-meta">
-              <span>⏱ 0h</span>
-              <span>📚 0 aulas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumbnail">
-            <div class="play-icon"></div>
-          </div>
-          <div class="course-content">
-            <span class="course-badge">Em breve</span>
-            <h3 class="course-title">Funis de Vendas de Alta Conversão</h3>
-            <p class="course-description">Construa funis que geram vendas no automático e escale resultados.</p>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="course-meta">
-              <span>⏱ 0h</span>
-              <span>📚 0 aulas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumbnail">
-            <div class="play-icon"></div>
-          </div>
-          <div class="course-content">
-            <span class="course-badge">Em breve</span>
-            <h3 class="course-title">Email Marketing Avançado</h3>
-            <p class="course-description">Crie sequências de email que engajam e vendem todos os dias.</p>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="course-meta">
-              <span>⏱ 0h</span>
-              <span>📚 0 aulas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumbnail">
-            <div class="play-icon"></div>
-          </div>
-          <div class="course-content">
-            <span class="course-badge">Em breve</span>
-            <h3 class="course-title">Automação de Marketing</h3>
-            <p class="course-description">Automatize processos e escale seu negócio com ferramentas.</p>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="course-meta">
-              <span>⏱ 0h</span>
-              <span>📚 0 aulas</span>
-            </div>
+        <div class="courses-grid" id="coursesGrid">
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+            <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(212,175,55,0.3); border-top-color: #d4af37; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <p style="margin-top: 1rem; color: #9a9a9a;">Carregando cursos...</p>
           </div>
         </div>
       </div>
+
+      <!-- Right Sidebar for Ads -->
+      <aside class="ad-sidebar" id="rightSidebar" style="display: none;"></aside>
     </div>
   </main>
+
+  <!-- Video Player Modal -->
+  <div id="videoModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
+    <div style="max-width: 1200px; width: 100%; position: relative;">
+      <button id="closeVideoModal" style="position: absolute; top: -40px; right: 0; background: transparent; border: 2px solid #d4af37; color: #d4af37; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;">&times;</button>
+      <div id="videoContainer" style="position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 12px; overflow: hidden;">
+        <!-- Video iframe will be inserted here -->
+      </div>
+      <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(17,17,17,0.8); border-radius: 12px; border: 1px solid rgba(212,175,55,0.2);">
+        <h2 id="videoTitle" style="color: #d4af37; margin: 0 0 0.5rem; font-size: 1.5rem;"></h2>
+        <p id="videoDescription" style="color: #c7c7c7; margin: 0;"></p>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Check authentication
@@ -446,8 +654,335 @@
     // Event listeners
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
+    // API Configuration
+    const API_URL = 'http://localhost:5000/api';
+
+    // Load courses from database
+    async function loadCourses() {
+      try {
+        const response = await fetch(`${API_URL}/public/courses`);
+        const result = await response.json();
+
+        if (!result.success || result.data.length === 0) {
+          document.getElementById('coursesGrid').innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+              <p style="color: #9a9a9a; font-size: 1.1rem;">Nenhum curso disponível no momento.</p>
+              <p style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">Novos cursos serão adicionados em breve!</p>
+            </div>
+          `;
+          return;
+        }
+
+        const courses = result.data;
+
+        // Fetch user progress
+        let userProgress = [];
+        try {
+          const progressResponse = await fetch(`${API_URL}/public/user/progress`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+          });
+          if (progressResponse.ok) {
+            const progressData = await progressResponse.json();
+            userProgress = progressData.success ? progressData.data : [];
+          }
+        } catch (progressError) {
+          console.error('Erro ao carregar progresso do usuário:', progressError);
+          // Continue with empty progress if fetch fails
+        }
+
+        // Calculate stats
+        const totalLessons = courses.reduce((sum, course) => sum + (course.lessons?.length || 0), 0);
+
+        // Calculate total duration in seconds first, then convert
+        const totalSeconds = courses.reduce((sum, course) => {
+          return sum + (course.lessons || []).reduce((lessonSum, lesson) => {
+            const duration = lesson.duration || '0';
+            const parts = duration.split(':').map(Number);
+
+            // Handle different formats: "mm:ss" or "hh:mm:ss"
+            let seconds = 0;
+            if (parts.length === 2) {
+              // Format: "mm:ss"
+              seconds = parts[0] * 60 + parts[1];
+            } else if (parts.length === 3) {
+              // Format: "hh:mm:ss"
+              seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+            }
+
+            return lessonSum + seconds;
+          }, 0);
+        }, 0);
+
+        // Convert to minutes (round up if there are remaining seconds)
+        const totalMinutes = Math.ceil(totalSeconds / 60);
+        const totalHours = Math.floor(totalMinutes / 60);
+        const remainingMinutes = totalMinutes % 60;
+        const totalDurationText = totalMinutes >= 60
+          ? `${totalHours}h${remainingMinutes > 0 ? remainingMinutes + 'm' : ''}`
+          : `${totalMinutes}m`;
+
+        // Calculate overall progress (only count progress for courses that exist)
+        let totalCompletedLessons = 0;
+        const courseIds = courses.map(c => c._id);
+
+        userProgress.forEach(progress => {
+          // Only count progress if the course still exists
+          if (courseIds.includes(progress.courseId)) {
+            // Use Set to remove duplicate lesson IDs
+            const uniqueCompleted = [...new Set(progress.completedLessons || [])];
+            totalCompletedLessons += uniqueCompleted.length;
+          }
+        });
+
+        const overallProgress = totalLessons > 0 ? Math.round((totalCompletedLessons / totalLessons) * 100) : 0;
+
+        // Calculate completed courses count
+        let completedCoursesCount = 0;
+        courses.forEach(course => {
+          const courseProgress = userProgress.find(p => p.courseId === course._id);
+          const completedLessons = courseProgress?.completedLessons?.length || 0;
+          const totalCourseLessons = course.lessons?.length || 0;
+          if (totalCourseLessons > 0 && completedLessons >= totalCourseLessons) {
+            completedCoursesCount++;
+          }
+        });
+
+        console.log('Debug - Total Lessons:', totalLessons, 'Completed:', totalCompletedLessons, 'Progress:', overallProgress + '%');
+
+        // Update stats
+        document.querySelector('.stat-value').textContent = courses.length;
+        document.querySelectorAll('.stat-value')[1].textContent = totalLessons;
+        document.querySelectorAll('.stat-value')[2].textContent = completedCoursesCount;
+        document.querySelectorAll('.stat-value')[3].textContent = `${overallProgress}%`;
+
+        // Debug: Log progress data
+        console.log('User Progress Data:', userProgress);
+        console.log('Courses:', courses.map(c => ({ id: c._id, title: c.title, lessons: c.lessons?.length })));
+
+        // Render courses
+        document.getElementById('coursesGrid').innerHTML = courses.map(course => {
+          // Calculate progress for this course
+          const courseProgress = userProgress.find(p => p.courseId === course._id);
+          const completedLessons = courseProgress?.completedLessons?.length || 0;
+          const totalLessons = course.lessons?.length || 0;
+          const progressPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+          // Debug: Log each course progress
+          console.log(`Course: ${course.title}, Progress: ${completedLessons}/${totalLessons} = ${progressPercentage}%`);
+
+          const isCompleted = progressPercentage === 100;
+
+          return `
+            <div class="course-card ${isCompleted ? 'completed-course' : ''}" onclick="window.location.href='curso.html?id=${course._id}'">
+              <div class="course-thumbnail" style="${course.thumbnail ? `background-image: url('${course.thumbnail}'); background-size: cover; background-position: center;` : ''}">
+                <div class="play-icon"></div>
+                ${isCompleted ? '<div class="completed-overlay"><span class="completed-icon">✓</span></div>' : ''}
+              </div>
+              <div class="course-content">
+                <span class="course-badge">${course.category || 'Curso'}</span>
+                <h3 class="course-title">${course.title}</h3>
+                <p class="course-description">${course.description}</p>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${progressPercentage}%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem;">
+                  <div class="course-meta">
+                    <span>⏱ ${course.totalDuration || '00:00'}</span>
+                    <span>📚 ${course.lessons?.length || 0} aulas</span>
+                  </div>
+                  ${isCompleted ? '<span style="color: #4ade80; font-size: 0.85rem; font-weight: 600;">✓ Concluído</span>' : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
+        document.getElementById('coursesGrid').innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+            <p style="color: #ff4444;">Erro ao carregar cursos. Tente novamente mais tarde.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Convert video URL to embed URL
+    function getEmbedUrl(url) {
+      // YouTube
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1];
+        if (videoId) {
+          return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
+        }
+      }
+
+      // Vimeo
+      if (url.includes('vimeo.com')) {
+        const videoId = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)?.[1];
+        if (videoId) {
+          return `https://player.vimeo.com/video/${videoId}`;
+        }
+      }
+
+      // Already an embed URL
+      if (url.includes('embed') || url.includes('player')) {
+        return url;
+      }
+
+      return url;
+    }
+
+    // Open video player modal
+    window.openVideo = function(id, title, description, videoUrl) {
+      const embedUrl = getEmbedUrl(videoUrl);
+
+      document.getElementById('videoTitle').textContent = title;
+      document.getElementById('videoDescription').textContent = description;
+      document.getElementById('videoContainer').innerHTML = `
+        <iframe
+          src="${embedUrl}"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+          allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        ></iframe>
+      `;
+
+      const modal = document.getElementById('videoModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    };
+
+    // Close video player modal
+    function closeVideo() {
+      const modal = document.getElementById('videoModal');
+      modal.style.display = 'none';
+      document.getElementById('videoContainer').innerHTML = '';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeVideoModal').addEventListener('click', closeVideo);
+    document.getElementById('videoModal').addEventListener('click', (e) => {
+      if (e.target.id === 'videoModal') closeVideo();
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeVideo();
+    });
+
+    // Load and display advertisements
+    async function loadAds() {
+      try {
+        const response = await fetch(`${API_URL}/public/ads`);
+        const result = await response.json();
+
+        if (!result.success || result.data.length === 0) {
+          document.getElementById('pageWrapper').classList.add('no-sidebars');
+          return;
+        }
+
+        const ads = result.data;
+
+        // Separate ads by placement
+        const leftAds = ads.filter(ad => ad.placement === 'left');
+        const rightAds = ads.filter(ad => ad.placement === 'right');
+
+        const pageWrapper = document.getElementById('pageWrapper');
+        const leftSidebar = document.getElementById('leftSidebar');
+        const rightSidebar = document.getElementById('rightSidebar');
+
+        // Determine layout class
+        if (leftAds.length > 0 && rightAds.length > 0) {
+          pageWrapper.classList.remove('no-left', 'no-right', 'no-sidebars');
+        } else if (leftAds.length > 0) {
+          pageWrapper.classList.add('no-right');
+          pageWrapper.classList.remove('no-left', 'no-sidebars');
+        } else if (rightAds.length > 0) {
+          pageWrapper.classList.add('no-left');
+          pageWrapper.classList.remove('no-right', 'no-sidebars');
+        } else {
+          pageWrapper.classList.add('no-sidebars');
+        }
+
+        // Create position slots (0=top, 1=middle, 2=bottom)
+        const renderSidebarWithSlots = (ads) => {
+          const slots = [null, null, null]; // 3 positions
+          ads.forEach(ad => {
+            if (ad.order >= 0 && ad.order <= 2) {
+              slots[ad.order] = ad;
+            }
+          });
+
+          return `
+            <div class="ad-slot ad-slot-top">${slots[0] ? renderSidebarAd(slots[0]) : ''}</div>
+            <div class="ad-slot ad-slot-middle">${slots[1] ? renderSidebarAd(slots[1]) : ''}</div>
+            <div class="ad-slot ad-slot-bottom">${slots[2] ? renderSidebarAd(slots[2]) : ''}</div>
+          `;
+        };
+
+        // Render left sidebar ads
+        if (leftAds.length > 0) {
+          leftSidebar.style.display = 'flex';
+          leftSidebar.innerHTML = renderSidebarWithSlots(leftAds);
+        }
+
+        // Render right sidebar ads
+        if (rightAds.length > 0) {
+          rightSidebar.style.display = 'flex';
+          rightSidebar.innerHTML = renderSidebarWithSlots(rightAds);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar anúncios:', error);
+        document.getElementById('pageWrapper').classList.add('no-sidebars');
+      }
+    }
+
+    // Render sidebar ad card
+    function renderSidebarAd(ad) {
+      return `
+        <div class="ad-card" onclick="trackAdClick('${ad._id}', '${ad.productLink}')">
+          <img src="${ad.imageUrl}" alt="${ad.title}" class="ad-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22200%22><rect fill=%22%23333%22 width=%22280%22 height=%22200%22/><text fill=%22%23999%22 font-family=%22Arial%22 font-size=%2216%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22>Imagem indisponível</text></svg>'">
+          <div class="ad-content">
+            <h3 class="ad-title">${ad.title}</h3>
+            ${ad.description ? `<p class="ad-description">${ad.description}</p>` : ''}
+            <a href="${ad.productLink}" class="ad-button" target="_blank" onclick="event.stopPropagation();">
+              ${ad.buttonText || 'Comprar Agora'}
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    // Track ad click
+    async function trackAdClick(adId, productLink) {
+      try {
+        await fetch(`${API_URL}/public/ads/${adId}/click`, {
+          method: 'POST'
+        });
+        window.open(productLink, '_blank');
+      } catch (error) {
+        console.error('Erro ao registrar click:', error);
+        window.open(productLink, '_blank');
+      }
+    }
+
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', loadUserData);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserData();
+      loadAds().then(() => {
+        // Load courses after ads to ensure sidebar layout is set up
+        loadCourses();
+      });
+    });
   </script>
 </body>
 </html>

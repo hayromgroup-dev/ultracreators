@@ -256,7 +256,20 @@
 
     .modal-content select option {
       background: var(--preto-card);
-      color: var(--branco);
+      color: var(--cinza-claro);
+    }
+
+    .modal-content select option:disabled {
+      color: var(--cinza-medio);
+      font-style: italic;
+    }
+
+    .modal-content select {
+      color: var(--cinza-claro);
+    }
+
+    .modal-content select:invalid {
+      color: var(--cinza-medio);
     }
 
     .modal-content input:focus,
@@ -315,18 +328,114 @@
     }
 
     .success-message {
-      background: rgba(52, 199, 89, 0.1);
-      border: 1px solid rgba(52, 199, 89, 0.3);
-      color: #34c759;
-      padding: 1rem;
+      background: rgba(52, 199, 89, 0.15);
+      border: 1px solid rgba(52, 199, 89, 0.4);
+      color: #4cd964;
+      padding: 1.25rem;
       border-radius: 12px;
       margin-bottom: 1rem;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       display: none;
+      line-height: 1.6;
     }
 
     .success-message.active {
       display: block;
+    }
+
+    .success-message strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+      color: #34c759;
+    }
+
+    /* Global Success Message (appears over page, not in modal) */
+    .success-message-global {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .success-message-global.active {
+      display: flex;
+    }
+
+    .success-message-global-content {
+      background: linear-gradient(145deg, rgba(17, 17, 17, 0.95), rgba(26, 26, 26, 0.95));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(52, 199, 89, 0.4);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(52, 199, 89, 0.2);
+      animation: slideUp 0.4s ease;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-message-global-content strong {
+      display: block;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #34c759;
+      font-weight: 700;
+    }
+
+    .success-message-global-content span {
+      display: block;
+      color: var(--cinza-claro);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .success-message-close {
+      padding: 0.875rem 2.5rem;
+      background: linear-gradient(135deg, #34c759, #28a745);
+      border: none;
+      border-radius: var(--radius-pill);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: 0 10px 30px rgba(52, 199, 89, 0.3);
+    }
+
+    .success-message-close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(52, 199, 89, 0.4);
     }
 
     /* =========================================================
@@ -1349,27 +1458,36 @@
         <input type="tel" name="celular" placeholder="Celular *" required>
 
         <select name="comOQueTrabalha">
-          <option value="">Com o que trabalha? (opcional)</option>
-          <option value="Afiliado">Afiliado</option>
-          <option value="Produtor">Produtor Digital</option>
-          <option value="Empresário">Empresário</option>
-          <option value="Freelancer">Freelancer</option>
+          <option value="" disabled selected>Com o que trabalha? (opcional)</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Tecnologia">Tecnologia</option>
+          <option value="Empreendedor(a)">Empreendedor(a)</option>
+          <option value="Autônomo(a)">Autônomo(a)</option>
+          <option value="Comércio">Comércio</option>
           <option value="Estudante">Estudante</option>
+          <option value="Desempregado(a)">Desempregado(a)</option>
+          <option value="Design">Design</option>
+          <option value="Comunicação">Comunicação</option>
+          <option value="Educação">Educação</option>
+          <option value="Saúde">Saúde</option>
           <option value="Outro">Outro</option>
         </select>
 
         <select name="estadoCivil">
-          <option value="">Estado Civil (opcional)</option>
+          <option value="" disabled selected>Estado Civil (opcional)</option>
           <option value="Solteiro(a)">Solteiro(a)</option>
           <option value="Casado(a)">Casado(a)</option>
           <option value="Divorciado(a)">Divorciado(a)</option>
           <option value="Viúvo(a)">Viúvo(a)</option>
+          <option value="União Estável">União Estável</option>
         </select>
 
         <select name="sexo">
-          <option value="">Gênero (opcional)</option>
+          <option value="" disabled selected>Gênero (opcional)</option>
           <option value="Masculino">Masculino</option>
           <option value="Feminino">Feminino</option>
+          <option value="Não-binário">Não-binário</option>
+          <option value="Prefiro não informar">Prefiro não informar</option>
           <option value="Outro">Outro</option>
         </select>
 
@@ -1408,8 +1526,52 @@
           Entrar Agora
         </button>
 
+        <p class="modal-link">
+          <a id="btnEsqueciSenha" style="cursor: pointer;">Esqueci minha senha</a>
+        </p>
+
         <p class="modal-link">Não tem conta? <a id="btnAbrirRegistro">Criar conta grátis</a></p>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL DE RECUPERAÇÃO DE SENHA -->
+  <div id="modalRecuperarSenha" class="modal">
+    <div class="modal-content glass-card">
+      <button class="modal-close" aria-label="Fechar">&times;</button>
+      <h2>Recuperar Senha</h2>
+      <p>Enviaremos um link para redefinir sua senha</p>
+
+      <div class="error-message" id="errorRecuperar"></div>
+      <div class="success-message" id="successRecuperar">
+        <strong>✓ Email enviado!</strong>
+        <span id="successRecuperarText"></span>
+      </div>
+
+      <form id="formRecuperarSenha">
+        <input type="email" name="email" placeholder="Digite seu email *" required>
+
+        <button type="submit" class="cta-premium">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Enviar Link de Recuperação
+        </button>
+
+        <p class="modal-link">Lembrou a senha? <a id="btnVoltarLogin">Fazer login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       SUCCESS MESSAGE (GLOBAL)
+  ========================================================= -->
+  <div class="success-message-global" id="successRegistro">
+    <div class="success-message-global-content">
+      <button class="success-message-close" type="button" aria-label="Fechar">&times;</button>
+      <strong>✓ Conta criada com sucesso!</strong>
+      <span id="successRegistroText"></span>
     </div>
   </div>
 
@@ -1425,6 +1587,7 @@
           <a href="#metodo">Método</a>
           <a href="#depoimentos">Depoimentos</a>
           <a href="#faq">FAQ</a>
+          <a href="#" data-modal="login" style="color: var(--dourado-principal); font-weight: 600;">Entrar</a>
         </div>
         <button data-modal="registro" class="header-cta">Começar Agora</button>
       </nav>
@@ -1440,6 +1603,7 @@
         <li><a href="#metodo">Método</a></li>
         <li><a href="#depoimentos">Depoimentos</a></li>
         <li><a href="#faq">FAQ</a></li>
+        <li><a href="#" data-modal="login" style="color: var(--dourado-principal); font-weight: 700;">Entrar</a></li>
       </ul>
       <button data-modal="registro" class="header-cta">Começar Agora</button>
     </div>
@@ -1901,7 +2065,7 @@
     // =========================================================
     // CONFIGURAÇÃO DA API
     // =========================================================
-    const API_URL = 'http://localhost:3000/api/auth';
+    const API_URL = 'http://localhost:5000/api/auth';
 
     // =========================================================
     // ELEMENTOS DOS MODAIS
@@ -1910,8 +2074,15 @@
     const modalLogin = document.getElementById('modalLogin');
     const formRegistro = document.getElementById('formRegistro');
     const formLogin = document.getElementById('formLogin');
+    const formRecuperarSenha = document.getElementById('formRecuperarSenha');
     const errorRegistro = document.getElementById('errorRegistro');
     const errorLogin = document.getElementById('errorLogin');
+    const errorRecuperar = document.getElementById('errorRecuperar');
+    const successRegistro = document.getElementById('successRegistro');
+    const successRegistroText = document.getElementById('successRegistroText');
+    const successRecuperar = document.getElementById('successRecuperar');
+    const successRecuperarText = document.getElementById('successRecuperarText');
+    const modalRecuperarSenha = document.getElementById('modalRecuperarSenha');
 
     // =========================================================
     // FUNÇÕES DE MODAL
@@ -1932,6 +2103,21 @@
       setTimeout(() => {
         elemento.classList.remove('active');
       }, 5000);
+    }
+
+    function mostrarSucesso(mensagem) {
+      // Close modal first
+      fecharModal(modalRegistro);
+
+      // Then show success message
+      successRegistroText.textContent = mensagem;
+      successRegistro.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function fecharSucesso() {
+      successRegistro.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
     }
 
     // =========================================================
@@ -1958,11 +2144,12 @@
       btn.addEventListener('click', () => {
         fecharModal(modalRegistro);
         fecharModal(modalLogin);
+        fecharModal(modalRecuperarSenha);
       });
     });
 
     // Fechar ao clicar fora
-    [modalRegistro, modalLogin].forEach(modal => {
+    [modalRegistro, modalLogin, modalRecuperarSenha].forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           fecharModal(modal);
@@ -1975,6 +2162,17 @@
       if (e.key === 'Escape') {
         fecharModal(modalRegistro);
         fecharModal(modalLogin);
+        fecharModal(modalRecuperarSenha);
+      }
+    });
+
+    // Fechar mensagem de sucesso
+    document.querySelector('.success-message-close').addEventListener('click', fecharSucesso);
+
+    // Also close on ESC when success message is showing
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && successRegistro.classList.contains('active')) {
+        fecharSucesso();
       }
     });
 
@@ -1990,7 +2188,20 @@
     document.getElementById('btnAbrirRegistro').addEventListener('click', (e) => {
       e.preventDefault();
       fecharModal(modalLogin);
+      fecharModal(modalRecuperarSenha);
       abrirModal(modalRegistro);
+    });
+
+    document.getElementById('btnEsqueciSenha').addEventListener('click', (e) => {
+      e.preventDefault();
+      fecharModal(modalLogin);
+      abrirModal(modalRecuperarSenha);
+    });
+
+    document.getElementById('btnVoltarLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      fecharModal(modalRecuperarSenha);
+      abrirModal(modalLogin);
     });
 
     // =========================================================
@@ -2031,7 +2242,7 @@
             window.location.href = 'users.html';
           } else {
             // Mostrar mensagem de verificação
-            mostrarErro(errorRegistro, result.message || 'Conta criada! Verifique seu email para ativar.');
+            mostrarSucesso('Enviamos um link de verificação para seu email. Por favor, verifique sua caixa de entrada (e spam) para ativar sua conta.');
             formRegistro.reset();
           }
         } else {
@@ -2039,7 +2250,7 @@
         }
       } catch (error) {
         console.error('Erro:', error);
-        mostrarErro(errorRegistro, 'Erro ao conectar com o servidor. Verifique se o backend está rodando em http://localhost:3000');
+        mostrarErro(errorRegistro, 'Erro ao conectar com o servidor. Verifique se o backend está rodando em http://localhost:5000');
       } finally {
         // Restaurar botão
         submitBtn.disabled = false;
@@ -2075,13 +2286,66 @@
         if (result.success) {
           localStorage.setItem('authToken', result.token);
           localStorage.setItem('userData', JSON.stringify(result.data));
-          window.location.href = 'users.html';
+
+          // Redirect based on admin status
+          if (result.data.isAdmin) {
+            window.location.href = 'admin.html';
+          } else {
+            window.location.href = 'users.html';
+          }
         } else {
           mostrarErro(errorLogin, result.message || 'Email ou senha incorretos.');
         }
       } catch (error) {
         console.error('Erro:', error);
-        mostrarErro(errorLogin, 'Erro ao conectar com o servidor. Verifique se o backend está rodando em http://localhost:3000');
+        mostrarErro(errorLogin, 'Erro ao conectar com o servidor. Verifique se o backend está rodando em http://localhost:5000');
+      } finally {
+        // Restaurar botão
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    });
+
+    // =========================================================
+    // RECUPERAR SENHA
+    // =========================================================
+    formRecuperarSenha.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = formRecuperarSenha.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      // Desabilitar botão e mostrar loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span style="font-size: 1rem;">Enviando...</span>';
+
+      const formData = new FormData(formRecuperarSenha);
+      const data = Object.fromEntries(formData);
+
+      // Esconder mensagens anteriores
+      errorRecuperar.classList.remove('active');
+      successRecuperar.classList.remove('active');
+
+      try {
+        const response = await fetch(`${API_URL}/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Mostrar mensagem de sucesso
+          successRecuperarText.textContent = 'Enviamos um link para redefinir sua senha. Verifique sua caixa de entrada (e spam).';
+          successRecuperar.classList.add('active');
+          formRecuperarSenha.reset();
+        } else {
+          mostrarErro(errorRecuperar, result.message || 'Erro ao enviar email de recuperação.');
+        }
+      } catch (error) {
+        console.error('Erro:', error);
+        mostrarErro(errorRecuperar, 'Erro ao conectar com o servidor. Verifique se o backend está rodando em http://localhost:5000');
       } finally {
         // Restaurar botão
         submitBtn.disabled = false;
@@ -2216,8 +2480,15 @@
     // =========================================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+
+        // Ignore empty hashes or just '#'
+        if (!href || href === '#' || href.length <= 1) {
+          return;
+        }
+
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
 
         if (target) {
           const headerHeight = 80;
@@ -2250,6 +2521,54 @@
 
       lastScroll = currentScroll;
     });
+
+    // =========================================================
+    // EMAIL VERIFICATION HANDLER
+    // =========================================================
+    // Check if there's a verification token in the URL
+    (async function checkEmailVerification() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verificationToken = urlParams.get('token');
+
+      if (verificationToken) {
+        // Show loading state
+        document.body.style.cursor = 'wait';
+
+        try {
+          const response = await fetch(`${API_URL}/verify-email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: verificationToken })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            // Store token and user data
+            localStorage.setItem('authToken', result.token);
+            localStorage.setItem('userData', JSON.stringify(result.data));
+
+            // Remove token from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            // Show success and redirect
+            alert('✅ Email verificado com sucesso! Bem-vindo(a) à Ultra Creators!\n\nRedirecionando para sua conta...');
+            window.location.href = 'users.html';
+          } else {
+            // Show error
+            alert(`❌ Erro na verificação:\n\n${result.message}\n\nPor favor, tente solicitar um novo email de verificação.`);
+            // Remove token from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
+        } catch (error) {
+          console.error('Erro na verificação:', error);
+          alert('❌ Erro ao conectar com o servidor.\n\nPor favor, verifique se o backend está rodando e tente novamente.');
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } finally {
+          document.body.style.cursor = 'default';
+        }
+      }
+    })();
   </script>
 
 </body>

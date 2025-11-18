@@ -101,11 +101,157 @@
       transform: translateY(-1px);
     }
 
-    /* Main Content */
+    /* Page Layout with Sidebars */
     main {
       padding-top: calc(var(--header-height) + 3rem);
       min-height: 100vh;
       padding-bottom: 3rem;
+    }
+
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 280px 1fr 280px;
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-wrapper.no-left {
+      grid-template-columns: 1fr 280px;
+    }
+
+    .page-wrapper.no-right {
+      grid-template-columns: 280px 1fr;
+    }
+
+    .page-wrapper.no-sidebars {
+      grid-template-columns: 1fr;
+    }
+
+    .main-content-area {
+      min-width: 0;
+    }
+
+    /* Ad Sidebars */
+    .ad-sidebar {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      height: calc(100vh - var(--header-height) - 4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: transparent;
+      border: none;
+    }
+
+    /* Ad Position Slots */
+    .ad-slot {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      background: transparent;
+    }
+
+    .ad-slot-top {
+      align-items: flex-start;
+    }
+
+    .ad-slot-middle {
+      align-items: center;
+    }
+
+    .ad-slot-bottom {
+      align-items: flex-end;
+    }
+
+    .ad-card {
+      background: linear-gradient(145deg, var(--color-black-alt), var(--color-black-muted));
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .ad-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ad-content {
+      padding: 1.25rem;
+    }
+
+    .ad-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin: 0 0 0.5rem;
+      line-height: 1.3;
+    }
+
+    .ad-description {
+      font-size: 0.9rem;
+      color: var(--color-gray);
+      margin: 0 0 1rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .ad-button {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .ad-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    @media (max-width: 1200px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .page-wrapper.no-left,
+      .page-wrapper.no-right,
+      .page-wrapper.no-sidebars {
+        grid-template-columns: 1fr;
+      }
+
+      .ad-sidebar {
+        position: static;
+        max-height: none;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .ad-card {
+        min-width: 280px;
+      }
     }
 
     .welcome {
@@ -236,6 +382,116 @@
       font-weight: 500;
     }
 
+    /* Advertisement Styles */
+    .ad-banner {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-banner:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .ad-hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-hero:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+
+    .ad-footer {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-top: 3rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ad-footer:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .ad-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ad-content {
+      padding: 1.5rem;
+    }
+
+    .ad-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin: 0 0 0.75rem;
+    }
+
+    .ad-description {
+      color: var(--color-gray);
+      line-height: 1.6;
+      margin: 0 0 1.5rem;
+    }
+
+    .ad-button {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: var(--radius-pill);
+      transition: all var(--transition-base);
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .ad-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .content-with-sidebar {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1023px) {
+      .content-with-sidebar {
+        grid-template-columns: 1fr;
+      }
+      .ad-sidebar {
+        position: static;
+      }
+    }
+
     @media (max-width: 767px) {
       .dashboard-grid {
         grid-template-columns: 1fr;
@@ -269,79 +525,91 @@
 
   <!-- Main Content -->
   <main>
-    <div class="container">
-      <div class="welcome">
-        <h1 id="welcomeMessage">Bem-vindo(a)!</h1>
-        <p>Sua área exclusiva de afiliado Ultra Creators</p>
+    <div class="page-wrapper" id="pageWrapper">
+      <!-- Left Sidebar for Ads -->
+      <aside class="ad-sidebar" id="leftSidebar" style="display: none;"></aside>
+
+      <!-- Main Content Area -->
+      <div class="main-content-area">
+        <div class="welcome">
+          <h1 id="welcomeMessage">Bem-vindo(a)!</h1>
+          <p>Sua área exclusiva de afiliado Ultra Creators</p>
+        </div>
+
+        <div id="mainContent">
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <h3>Treinamentos</h3>
+              <p>Acesse o conteúdo completo do Método Ultra Milionário e comece a aprender estratégias vencedoras.</p>
+              <a href="treinamento.html" class="card-btn">Acessar Cursos</a>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <h3>Materiais</h3>
+              <p>Baixe criativos, scripts, páginas e todos os recursos necessários para suas campanhas.</p>
+              <a href="materiais.html" class="card-btn">Ver Materiais</a>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              </div>
+              <h3>Links de Afiliado</h3>
+              <p>Gere seus links rastreados e comece a promover os produtos Ultra Creators hoje mesmo.</p>
+              <a href="afiliados.html" class="card-btn">Gerar Links</a>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM21 9H3M9 21V9"/></svg>
+              </div>
+              <h3>Dashboard</h3>
+              <p>Acompanhe suas vendas, comissões e performance em tempo real com métricas detalhadas.</p>
+              <a href="dashboard.html" class="card-btn">Ver Dashboard</a>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </div>
+              <h3>Suporte</h3>
+              <p>Entre em contato com nossa equipe especializada para tirar dúvidas e receber orientações.</p>
+              <a href="suporte.html" class="card-btn">Falar com Suporte</a>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <h3>Comunidade</h3>
+              <p>Conecte-se com outros afiliados, troque experiências e participe de mentorias coletivas.</p>
+              <a href="comunidade.html" class="card-btn">Acessar Comunidade</a>
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h2>Meus Dados</h2>
+            <div class="profile-info" id="profileInfo">
+              <!-- Profile data will be loaded here -->
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <h3>Treinamentos</h3>
-          <p>Acesse o conteúdo completo do Método Ultra Milionário e comece a aprender estratégias vencedoras.</p>
-          <a href="treinamento.html" class="card-btn">Acessar Cursos</a>
-        </div>
-
-        <div class="dashboard-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-          </div>
-          <h3>Materiais</h3>
-          <p>Baixe criativos, scripts, páginas e todos os recursos necessários para suas campanhas.</p>
-          <a href="materiais.html" class="card-btn">Ver Materiais</a>
-        </div>
-
-        <div class="dashboard-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-          </div>
-          <h3>Links de Afiliado</h3>
-          <p>Gere seus links rastreados e comece a promover os produtos Ultra Creators hoje mesmo.</p>
-          <a href="afiliados.html" class="card-btn">Gerar Links</a>
-        </div>
-
-        <div class="dashboard-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM21 9H3M9 21V9"/></svg>
-          </div>
-          <h3>Dashboard</h3>
-          <p>Acompanhe suas vendas, comissões e performance em tempo real com métricas detalhadas.</p>
-          <a href="dashboard.html" class="card-btn">Ver Dashboard</a>
-        </div>
-
-        <div class="dashboard-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          </div>
-          <h3>Suporte</h3>
-          <p>Entre em contato com nossa equipe especializada para tirar dúvidas e receber orientações.</p>
-          <a href="suporte.html" class="card-btn">Falar com Suporte</a>
-        </div>
-
-        <div class="dashboard-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          </div>
-          <h3>Comunidade</h3>
-          <p>Conecte-se com outros afiliados, troque experiências e participe de mentorias coletivas.</p>
-          <a href="comunidade.html" class="card-btn">Acessar Comunidade</a>
-        </div>
-      </div>
-
-      <div class="profile-section">
-        <h2>Meus Dados</h2>
-        <div class="profile-info" id="profileInfo">
-          <!-- Profile data will be loaded here -->
-        </div>
-      </div>
+      <!-- Right Sidebar for Ads -->
+      <aside class="ad-sidebar" id="rightSidebar" style="display: none;"></aside>
     </div>
   </main>
 
   <script>
-    const API_URL = 'http://localhost:3000/api/auth';
+    const API_URL = 'http://localhost:5000/api/auth';
+    const API_BASE_URL = 'http://localhost:5000/api';
 
     // Check if user is authenticated
     function checkAuth() {
@@ -411,11 +679,149 @@
       }
     }
 
+    // Load and display advertisements
+    async function loadAds() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/public/ads`);
+        const result = await response.json();
+
+        if (!result.success || result.data.length === 0) {
+          document.getElementById('pageWrapper').classList.add('no-sidebars');
+          return;
+        }
+
+        const ads = result.data;
+
+        // Separate ads by placement
+        const leftAds = ads.filter(ad => ad.placement === 'left');
+        const rightAds = ads.filter(ad => ad.placement === 'right');
+
+        const pageWrapper = document.getElementById('pageWrapper');
+        const leftSidebar = document.getElementById('leftSidebar');
+        const rightSidebar = document.getElementById('rightSidebar');
+
+        // Determine layout class
+        if (leftAds.length > 0 && rightAds.length > 0) {
+          pageWrapper.classList.remove('no-left', 'no-right', 'no-sidebars');
+        } else if (leftAds.length > 0) {
+          pageWrapper.classList.add('no-right');
+          pageWrapper.classList.remove('no-left', 'no-sidebars');
+        } else if (rightAds.length > 0) {
+          pageWrapper.classList.add('no-left');
+          pageWrapper.classList.remove('no-right', 'no-sidebars');
+        } else {
+          pageWrapper.classList.add('no-sidebars');
+        }
+
+        // Create position slots (0=top, 1=middle, 2=bottom)
+        const renderSidebarWithSlots = (ads) => {
+          const slots = [null, null, null]; // 3 positions
+          ads.forEach(ad => {
+            if (ad.order >= 0 && ad.order <= 2) {
+              slots[ad.order] = ad;
+            }
+          });
+
+          return `
+            <div class="ad-slot ad-slot-top">${slots[0] ? renderSidebarAd(slots[0]) : ''}</div>
+            <div class="ad-slot ad-slot-middle">${slots[1] ? renderSidebarAd(slots[1]) : ''}</div>
+            <div class="ad-slot ad-slot-bottom">${slots[2] ? renderSidebarAd(slots[2]) : ''}</div>
+          `;
+        };
+
+        // Render left sidebar ads
+        if (leftAds.length > 0) {
+          leftSidebar.style.display = 'flex';
+          leftSidebar.innerHTML = renderSidebarWithSlots(leftAds);
+        }
+
+        // Render right sidebar ads
+        if (rightAds.length > 0) {
+          rightSidebar.style.display = 'flex';
+          rightSidebar.innerHTML = renderSidebarWithSlots(rightAds);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar anúncios:', error);
+        document.getElementById('pageWrapper').classList.add('no-sidebars');
+      }
+    }
+
+    // Render sidebar ad card
+    function renderSidebarAd(ad) {
+      return `
+        <div class="ad-card" onclick="trackAdClick('${ad._id}', '${ad.productLink}')">
+          <img src="${ad.imageUrl}" alt="${ad.title}" class="ad-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22200%22><rect fill=%22%23333%22 width=%22280%22 height=%22200%22/><text fill=%22%23999%22 font-family=%22Arial%22 font-size=%2216%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22>Imagem indisponível</text></svg>'">
+          <div class="ad-content">
+            <h3 class="ad-title">${ad.title}</h3>
+            ${ad.description ? `<p class="ad-description">${ad.description}</p>` : ''}
+            <a href="${ad.productLink}" class="ad-button" target="_blank" onclick="event.stopPropagation();">
+              ${ad.buttonText || 'Comprar Agora'}
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    // Track ad click
+    async function trackAdClick(adId, productLink) {
+      try {
+        await fetch(`${API_BASE_URL}/public/ads/${adId}/click`, {
+          method: 'POST'
+        });
+        window.open(productLink, '_blank');
+      } catch (error) {
+        console.error('Erro ao registrar click:', error);
+        window.open(productLink, '_blank');
+      }
+    }
+
+    // Render ad HTML
+    function renderAd(ad, placement) {
+      return `
+        <div class="ad-${placement}" onclick="handleAdClick('${ad._id}', '${ad.productLink}')">
+          <img src="${ad.imageUrl}" alt="${escapeHtml(ad.title)}" class="ad-image"
+               onerror="this.style.display='none'">
+          <div class="ad-content">
+            <h3 class="ad-title">${escapeHtml(ad.title)}</h3>
+            ${ad.description ? `<p class="ad-description">${escapeHtml(ad.description)}</p>` : ''}
+            <button class="ad-button">${escapeHtml(ad.buttonText || 'Comprar Agora')}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Handle ad click
+    async function handleAdClick(adId, productLink) {
+      try {
+        // Track the click
+        await fetch(`${API_BASE_URL}/public/ads/${adId}/click`, {
+          method: 'POST'
+        });
+
+        // Open the product link
+        window.open(productLink, '_blank');
+      } catch (error) {
+        console.error('Erro ao registrar click:', error);
+        // Still open the link even if tracking fails
+        window.open(productLink, '_blank');
+      }
+    }
+
     // Event listeners
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
     // Load user data on page load
-    document.addEventListener('DOMContentLoaded', loadUserData);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserData();
+      loadAds();
+    });
   </script>
 </body>
 </html>

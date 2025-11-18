@@ -106,6 +106,35 @@ const userSchema = new mongoose.Schema({
     default: true
   },
 
+  // Admin privileges
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
+  // Course Progress Tracking
+  courseProgress: [{
+    courseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Course',
+      required: true
+    },
+    completedLessons: [{
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    }],
+    lastAccessedLesson: {
+      type: mongoose.Schema.Types.ObjectId
+    },
+    lastAccessed: {
+      type: Date,
+      default: Date.now
+    },
+    completedAt: {
+      type: Date
+    }
+  }],
+
   // Timestamps
   createdAt: {
     type: Date,

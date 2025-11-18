@@ -341,7 +341,8 @@ router.post('/login', async (req, res) => {
         celular: user.celular,
         comOQueTrabalha: user.comOQueTrabalha,
         estadoCivil: user.estadoCivil,
-        sexo: user.sexo
+        sexo: user.sexo,
+        isAdmin: user.isAdmin || false
       }
     });
   } catch (error) {
@@ -405,6 +406,14 @@ router.post('/forgot-password', async (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'Não existe conta com este email'
+      });
+    }
+
+    // Protect master admin account
+    if (user.email === 'admin@ultracreators.com') {
+      return res.status(403).json({
+        success: false,
+        message: 'A senha do master admin não pode ser redefinida por este método. Entre em contato com o suporte.'
       });
     }
 
