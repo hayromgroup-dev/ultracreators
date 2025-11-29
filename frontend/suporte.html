@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./ultracreators.PNG" />
+  <title>Suporte · Ultra Creators</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-cyan: #00F0FF;
+      --neon-purple: #8B5CF6;
+      --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+    }
+    
+    @keyframes scanLine {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { border-color: rgba(0, 240, 255, 0.5); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
+      33% { border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
+      66% { border-color: rgba(255, 215, 0, 0.5); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+    }
+
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+      opacity: 0.3;
+      animation: scanLine 8s linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    :root {
+      --color-black: #000000;
+      --color-black-alt: #111111;
+      --color-gold: #d4af37;
+      --color-white: #ffffff;
+      --color-gray: #c7c7c7;
+      --max-width: 1180px;
+      --radius-card: 18px;
+      --header-height: 84px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--color-black);
+      color: var(--color-white);
+      line-height: 1.7;
+    }
+    .container {
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+    .brand {
+      font-size: 1.25rem;
+      letter-spacing: 0.28em;
+      font-weight: 600;
+      color: var(--color-gold);
+      text-decoration: none;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .user-name {
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+    .logout-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      background: transparent;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-1px);
+    }
+    main {
+      padding-top: calc(var(--header-height) + 3rem);
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--color-gold);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .page-header p {
+      color: var(--color-gray);
+      font-size: 1.1rem;
+    }
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .support-card {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .support-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.15);
+    }
+    .support-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+    .support-card h3 {
+      color: var(--color-gold);
+      margin-bottom: 0.75rem;
+      font-size: 1.3rem;
+    }
+    .support-card p {
+      color: var(--color-gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .support-btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, var(--color-gold), #b89418);
+      color: var(--color-black);
+      font-weight: 600;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.3s;
+      border: none;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+    }
+    .support-btn:hover {
+      transform: translateY(-2px);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      color: var(--color-gray);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-black);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      color: var(--color-white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+    }
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--color-gold);
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--color-gold), #b89418);
+      color: var(--color-black);
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+    }
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .faq-section {
+      margin-top: 4rem;
+    }
+    .faq-section h2 {
+      color: var(--color-gold);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .faq-item {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1rem;
+    }
+    .faq-question {
+      color: var(--color-gold);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .faq-answer {
+      color: var(--color-gray);
+      line-height: 1.7;
+    }
+
+    /* Email Modal Styles */
+    .email-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .email-modal.active {
+      display: flex;
+    }
+    .email-modal-content {
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: slideUp 0.4s;
+    }
+    .email-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .email-modal-header h2 {
+      color: var(--color-gold);
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .email-modal-close {
+      background: none;
+      border: none;
+      color: var(--color-gray);
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+      line-height: 1;
+    }
+    .email-modal-close:hover {
+      color: var(--color-gold);
+    }
+    .email-info {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .email-info p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+    }
+    .email-info strong {
+      color: var(--color-gold);
+    }
+    .success-message {
+      background: rgba(76, 217, 100, 0.1);
+      border: 1px solid rgba(76, 217, 100, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    .success-message.show {
+      display: block;
+    }
+    .success-message h3 {
+      color: #4cd964;
+      margin-bottom: 0.5rem;
+    }
+    .success-message p {
+      color: var(--color-gray);
+      margin: 0;
+    }
+
+    @media (max-width: 767px) {
+      .support-grid { grid-template-columns: 1fr; }
+      .contact-form { padding: 2rem 1.5rem; }
+      .user-name { display: none; }
+      .email-modal-content { padding: 1.5rem; }
+    }
+
+    .logout-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:9999;animation:fadeIn 0.3s}
+    .logout-modal-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#1a1a1a,#2d2d2d);border:2px solid rgba(255,215,0,0.3);border-radius:24px;padding:3rem;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:slideUp 0.4s}
+    .logout-icon{font-size:4rem;text-align:center;margin-bottom:1rem}
+    .logout-title{color:#FFD700;font-size:1.8rem;margin:0 0 1rem;font-weight:700;text-align:center}
+    .logout-message{color:#c7c7c7;font-size:1.1rem;margin:0 0 2rem;line-height:1.6;text-align:center}
+    .logout-buttons{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .btn-cancel{padding:1rem 2rem;background:transparent;border:2px solid rgba(255,215,0,0.5);color:#FFD700;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif}
+    .btn-cancel:hover{background:rgba(255,215,0,0.1);border-color:#FFD700;transform:translateY(-2px)}
+    .btn-confirm{padding:1rem 2rem;background:linear-gradient(135deg,#FFD700,#FFA500);border:none;color:#000;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
+    .btn-confirm:hover{box-shadow:0 6px 20px rgba(255,215,0,0.4);transform:translateY(-2px)}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{transform:translate(-50%,-20%);opacity:0}to{transform:translate(-50%,-50%);opacity:1}}
+  </style>
+</head>
+<body>
+  <div class="scan-line"></div>
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="users"><img src="/assets/images/Ultralogo.png" alt="Ultra Creators" style="height: 50px; margin-right: 12px; vertical-align: middle;">ULTRA CREATORS</a>
+      <div class="user-menu">
+        <span class="user-name" id="headerUserName"></span>
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Central de Suporte</h1>
+        <p>Estamos aqui para ajudar voce a ter sucesso</p>
+      </div>
+
+      <div class="support-grid">
+        <div class="support-card">
+          <div class="support-icon">💬</div>
+          <h3>WhatsApp</h3>
+          <p>Fale diretamente com nossa equipe pelo WhatsApp e receba atendimento rapido.</p>
+          <a href="https://wa.me/5571981942506" class="support-btn" target="_blank">Abrir WhatsApp</a>
+        </div>
+
+        <div class="support-card">
+          <div class="support-icon">📧</div>
+          <h3>E-mail</h3>
+          <p>Envie sua duvida por e-mail e nossa equipe respondera em ate 24 horas.</p>
+          <button class="support-btn" onclick="openEmailModal()">Enviar E-mail</button>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h2>Perguntas Frequentes</h2>
+
+        <div class="faq-item">
+          <div class="faq-question">Como gero meu link de afiliado?</div>
+          <div class="faq-answer">
+            Acesse a pagina "Links de Afiliado" no menu principal. La voce encontrara seus links exclusivos para cada produto, ja com seu ID de afiliado rastreado.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Quando recebo minhas comissoes?</div>
+          <div class="faq-answer">
+            As comissoes sao pagas mensalmente, no dia 15 de cada mes, referente as vendas do mes anterior. O valor minimo para saque e de R$ 100,00.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Como acompanho minhas vendas?</div>
+          <div class="faq-answer">
+            No Dashboard voce tem acesso a todas as suas metricas em tempo real: cliques, conversoes, comissoes e muito mais.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Qual a taxa de comissao?</div>
+          <div class="faq-answer">
+            Nossas comissoes variam de 40% a 50% dependendo do produto. Voce pode ver a taxa especifica de cada produto na pagina de Links de Afiliado.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Posso usar os materiais de marketing?</div>
+          <div class="faq-answer">
+            Sim! Todos os materiais da secao "Materiais" estao disponiveis para download e uso em suas campanhas. Isso inclui banners, videos, scripts e paginas prontas.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Email Modal -->
+  <div id="emailModal" class="email-modal">
+    <div class="email-modal-content">
+      <div class="email-modal-header">
+        <h2>Enviar E-mail para Suporte</h2>
+        <button class="email-modal-close" onclick="closeEmailModal()">&times;</button>
+      </div>
+
+      <div class="email-info">
+        <p><strong>De:</strong> <span id="emailFrom"></span></p>
+        <p><strong>Para:</strong> suporte@ultracreators.com.br</p>
+      </div>
+
+      <div id="emailSuccessMessage" class="success-message">
+        <h3>Email Enviado com Sucesso!</h3>
+        <p>Nossa equipe respondera em ate 24 horas.</p>
+      </div>
+
+      <form id="emailForm">
+        <div class="form-group">
+          <label for="emailSubject">Assunto</label>
+          <select id="emailSubject" required>
+            <option value="">Selecione um assunto</option>
+            <option value="Problema Tecnico">Problema Tecnico</option>
+            <option value="Duvida sobre Pagamentos">Duvida sobre Pagamentos</option>
+            <option value="Links de Afiliado">Links de Afiliado</option>
+            <option value="Acesso aos Treinamentos">Acesso aos Treinamentos</option>
+            <option value="Outro Assunto">Outro Assunto</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="emailMessage">Mensagem</label>
+          <textarea id="emailMessage" placeholder="Escreva sua mensagem aqui..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="emailSendBtn">Enviar E-mail</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Logout Modal -->
+  <div id="logoutModal" class="logout-modal">
+    <div class="logout-modal-content">
+      <div class="logout-icon">👋</div>
+      <h2 class="logout-title">Ate logo!</h2>
+      <p class="logout-message">Tem certeza que deseja sair?<br>Sua jornada esta apenas comecando!</p>
+      <div class="logout-buttons">
+        <button onclick="closeLogoutModal()" class="btn-cancel">Cancelar</button>
+        <button onclick="confirmLogout()" class="btn-confirm">Sim, Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/auth';
+    let currentUser = null;
+
+    // Check authentication
+    function checkAuth() {
+      const token = localStorage.getItem('authToken');
+      const userData = localStorage.getItem('userData');
+
+      if (!token || !userData) {
+        window.location.href = 'home';
+        return null;
+      }
+
+      return JSON.parse(userData);
+    }
+
+    // Load user data
+    function loadUserData() {
+      const user = checkAuth();
+      if (!user) return;
+
+      currentUser = user;
+      document.getElementById('headerUserName').textContent = user.nome + ' ' + user.sobrenome;
+      document.getElementById('emailFrom').textContent = user.email;
+    }
+
+    // Logout functions
+    function logout() {
+      document.getElementById('logoutModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLogoutModal() {
+      document.getElementById('logoutModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function confirmLogout() {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
+      window.location.href = 'home';
+    }
+
+    // Email Modal functions
+    function openEmailModal() {
+      document.getElementById('emailModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('emailSuccessMessage').classList.remove('show');
+      document.getElementById('emailForm').style.display = 'block';
+      document.getElementById('emailForm').reset();
+    }
+
+    function closeEmailModal() {
+      document.getElementById('emailModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Send support email
+    async function sendSupportEmail(e) {
+      e.preventDefault();
+
+      const subject = document.getElementById('emailSubject').value;
+      const message = document.getElementById('emailMessage').value;
+      const sendBtn = document.getElementById('emailSendBtn');
+
+      if (!subject || !message) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Enviando...';
+
+      try {
+        const token = localStorage.getItem('authToken');
+        const response = await fetch('/api/auth/send-support-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            subject: subject,
+            message: message,
+            userEmail: currentUser.email,
+            userName: currentUser.nome + ' ' + currentUser.sobrenome
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById('emailForm').style.display = 'none';
+          document.getElementById('emailSuccessMessage').classList.add('show');
+          setTimeout(function() {
+            closeEmailModal();
+          }, 3000);
+        } else {
+          alert('Erro ao enviar email: ' + (result.message || 'Tente novamente.'));
+        }
+      } catch (error) {
+        console.error('Erro ao enviar email:', error);
+        alert('Erro ao enviar email. Por favor, tente novamente ou entre em contato pelo WhatsApp.');
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Enviar E-mail';
+      }
+    }
+
+    // Event listeners
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('emailForm').addEventListener('submit', sendSupportEmail);
+
+    // Close modals on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (document.getElementById('logoutModal').style.display === 'block') {
+          closeLogoutModal();
+        }
+        if (document.getElementById('emailModal').classList.contains('active')) {
+          closeEmailModal();
+        }
+      }
+    });
+
+    // Close email modal on overlay click
+    document.getElementById('emailModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeEmailModal();
+      }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', loadUserData);
+  </script>
+</body>
+</html>

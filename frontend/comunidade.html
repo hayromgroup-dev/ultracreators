@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./ultracreators.PNG" />
+  <title>Comunidade · Ultra Creators</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-cyan: #00F0FF;
+      --neon-purple: #8B5CF6;
+      --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+    }
+    
+    @keyframes scanLine {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { border-color: rgba(0, 240, 255, 0.5); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
+      33% { border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
+      66% { border-color: rgba(255, 215, 0, 0.5); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00F0FF, transparent);
+      opacity: 0.3;
+      animation: scanLine 8s linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    :root {
+      --color-black: #000000;
+      --color-black-alt: #111111;
+      --color-gold: #d4af37;
+      --color-white: #ffffff;
+      --color-gray: #c7c7c7;
+      --max-width: 1180px;
+      --radius-card: 18px;
+      --header-height: 84px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--color-black);
+      color: var(--color-white);
+      line-height: 1.7;
+    }
+    .container {
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+    .brand {
+      font-size: 1.25rem;
+      letter-spacing: 0.28em;
+      font-weight: 600;
+      color: var(--color-gold);
+      text-decoration: none;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .user-name {
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+    .logout-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      background: transparent;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-1px);
+    }
+    main {
+      padding-top: calc(var(--header-height) + 3rem);
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--color-gold);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .page-header p {
+      color: var(--color-gray);
+      font-size: 1.1rem;
+    }
+    .community-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .stat-card {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      color: var(--color-gray);
+      font-size: 0.9rem;
+    }
+    .community-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .community-card {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    .community-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.15);
+    }
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .community-card h3 {
+      color: var(--color-gold);
+      margin-bottom: 0.75rem;
+      font-size: 1.3rem;
+    }
+    .community-card p {
+      color: var(--color-gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .join-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, var(--color-gold), #b89418);
+      color: var(--color-black);
+      font-weight: 600;
+      text-align: center;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .join-btn:hover {
+      transform: translateY(-2px);
+    }
+    .events-section {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+    .events-section h2 {
+      color: var(--color-gold);
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+    .event-card {
+      background: var(--color-black);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 2rem;
+    }
+    .event-date {
+      flex-shrink: 0;
+      width: 80px;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+    }
+    .event-day {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      line-height: 1;
+    }
+    .event-month {
+      font-size: 0.9rem;
+      color: var(--color-gray);
+      text-transform: uppercase;
+    }
+    .event-details {
+      flex: 1;
+    }
+    .event-details h4 {
+      color: var(--color-gold);
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+    .event-details p {
+      color: var(--color-gray);
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+    .event-meta {
+      display: flex;
+      gap: 1.5rem;
+      color: var(--color-gray);
+      font-size: 0.85rem;
+    }
+    .leaderboard {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+    }
+    .leaderboard h2 {
+      color: var(--color-gold);
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+    .leader-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem;
+      background: var(--color-black);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+    .leader-rank {
+      width: 40px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--color-gold);
+    }
+    .leader-info {
+      flex: 1;
+    }
+    .leader-name {
+      color: var(--color-white);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .leader-stats {
+      color: var(--color-gray);
+      font-size: 0.85rem;
+    }
+    .leader-sales {
+      color: var(--color-gold);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    @media (max-width: 767px) {
+      .community-grid { grid-template-columns: 1fr; }
+      .event-card { flex-direction: column; }
+      .event-date { width: 100%; }
+      .user-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scan-line"></div>
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="users"><img src="/assets/images/Ultralogo.png" alt="Ultra Creators" style="height: 50px; margin-right: 12px; vertical-align: middle;">ULTRA CREATORS</a>
+      <div class="user-menu">
+        <span class="user-name" id="headerUserName"></span>
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Comunidade Ultra Creators</h1>
+        <p>Conecte-se, aprenda e cresça com outros afiliados de sucesso</p>
+      </div>
+
+      <div class="community-stats">
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Membros Ativos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Mentorias Semanais</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">R$ 0</div>
+          <div class="stat-label">Faturamento Coletivo</div>
+        </div>
+      </div>
+
+      <div class="community-grid">
+        <div class="community-card">
+          <div class="card-icon">💬</div>
+          <h3>Grupo no Telegram</h3>
+          <p>Networking diário, dicas rápidas e suporte da comunidade 24/7.</p>
+          <a href="#" class="join-btn">Entrar no Grupo</a>
+        </div>
+
+        <div class="community-card">
+          <div class="card-icon">🎥</div>
+          <h3>Lives Semanais</h3>
+          <p>Transmissões ao vivo com especialistas, análises de campanhas e Q&A.</p>
+          <a href="#" class="join-btn">Ver Próximas Lives</a>
+        </div>
+
+        <div class="community-card">
+          <div class="card-icon">👥</div>
+          <h3>Mentorias em Grupo</h3>
+          <p>Sessões exclusivas com mentores para otimizar suas estratégias.</p>
+          <a href="#" class="join-btn">Agendar Mentoria</a>
+        </div>
+
+        <div class="community-card">
+          <div class="card-icon">🏆</div>
+          <h3>Desafios Mensais</h3>
+          <p>Participe de desafios e ganhe prêmios exclusivos e reconhecimento.</p>
+          <a href="#" class="join-btn">Ver Desafios</a>
+        </div>
+
+        <div class="community-card">
+          <div class="card-icon">📚</div>
+          <h3>Biblioteca de Casos</h3>
+          <p>Acesse estudos de caso reais de afiliados que alcançaram 6 dígitos.</p>
+          <a href="#" class="join-btn">Ver Casos</a>
+        </div>
+
+        <div class="community-card">
+          <div class="card-icon">🎓</div>
+          <h3>Workshops Mensais</h3>
+          <p>Workshops práticos sobre tráfego, conversão e escala de resultados.</p>
+          <a href="#" class="join-btn">Inscrever-se</a>
+        </div>
+      </div>
+
+      <div class="events-section">
+        <h2>Próximos Eventos</h2>
+
+        <div style="text-align: center; color: var(--color-gray); padding: 3rem;">
+          Em breve! Aguarde nossos próximos eventos e workshops.
+        </div>
+      </div>
+
+      <div class="leaderboard">
+        <h2>Top Afiliados do Mês</h2>
+
+        <div style="text-align: center; color: var(--color-gray); padding: 3rem;">
+          Nenhum ranking ainda. Comece a vender e apareça aqui!
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Check authentication
+    function checkAuth() {
+      const token = localStorage.getItem('authToken');
+      const userData = localStorage.getItem('userData');
+
+      if (!token || !userData) {
+        window.location.href = 'home';
+        return null;
+      }
+
+      return JSON.parse(userData);
+    }
+
+    // Load user data
+    function loadUserData() {
+      const user = checkAuth();
+      if (!user) return;
+
+      // Update header with user name
+      document.getElementById('headerUserName').textContent = `${user.nome} ${user.sobrenome}`;
+    }
+
+    // Logout function
+    
+function logout(){document.getElementById('logoutModal').style.display='block';document.body.style.overflow='hidden'}
+function closeLogoutModal(){document.getElementById('logoutModal').style.display='none';document.body.style.overflow='auto'}
+function confirmLogout(){localStorage.removeItem('authToken');localStorage.removeItem('userData');window.location.href='home'}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('logoutModal').style.display==='block'){closeLogoutModal()}});
+
+    }
+
+    // Event listeners
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    // Event listeners para os botões da comunidade
+    document.querySelectorAll('.join-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Em breve! Aguarde novidades da comunidade.');
+      });
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', loadUserData);
+  </script>
+
+  <!-- Logout Modal -->
+  <div id="logoutModal" class="logout-modal">
+    <div class="logout-modal-content">
+      <div class="logout-icon">👋</div>
+      <h2 class="logout-title">Até logo!</h2>
+      <p class="logout-message">Tem certeza que deseja sair?<br>Sua jornada está apenas começando!</p>
+      <div class="logout-buttons">
+        <button onclick="closeLogoutModal()" class="btn-cancel">Cancelar</button>
+        <button onclick="confirmLogout()" class="btn-confirm">Sim, Sair</button>
+      </div>
+    </div>
+  </div>
+
+<style>
+.logout-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:9999;animation:fadeIn 0.3s}
+.logout-modal-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#1a1a1a,#2d2d2d);border:2px solid rgba(255,215,0,0.3);border-radius:24px;padding:3rem;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:slideUp 0.4s}
+.logout-icon{font-size:4rem;text-align:center;margin-bottom:1rem}
+.logout-title{color:#FFD700;font-size:1.8rem;margin:0 0 1rem;font-weight:700;text-align:center}
+.logout-message{color:#c7c7c7;font-size:1.1rem;margin:0 0 2rem;line-height:1.6;text-align:center}
+.logout-buttons{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-cancel{padding:1rem 2rem;background:transparent;border:2px solid rgba(255,215,0,0.5);color:#FFD700;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif}
+.btn-cancel:hover{background:rgba(255,215,0,0.1);border-color:#FFD700;transform:translateY(-2px)}
+.btn-confirm{padding:1rem 2rem;background:linear-gradient(135deg,#FFD700,#FFA500);border:none;color:#000;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
+.btn-confirm:hover{box-shadow:0 6px 20px rgba(255,215,0,0.4);transform:translateY(-2px)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translate(-50%,-20%);opacity:0}to{transform:translate(-50%,-50%);opacity:1}}
+</style>
+
+</body>
+</html>

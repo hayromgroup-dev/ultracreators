@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./ultracreators.PNG" />
+  <title>Ultra Creators · Em Manutenção</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #030303;
+      --color-panel: #0c0c0c;
+      --color-panel-alt: #111111;
+      --color-gold: #d4af37;
+      --color-gold-soft: #f0d88d;
+      --color-white: #ffffff;
+      --color-gray: #c2c2c2;
+      --color-gray-dark: #7f7f7f;
+      --max-width: 1180px;
+      --radius: 20px;
+      --transition: 0.28s ease;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--color-white);
+      background: var(--color-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 40% 20%, rgba(212, 175, 55, 0.18), transparent 55%),
+                  radial-gradient(circle at 70% 60%, rgba(212, 175, 55, 0.1), transparent 60%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      backdrop-filter: blur(14px);
+      z-index: 10;
+    }
+
+    .header-inner {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+      padding: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 1rem;
+      letter-spacing: 0.5rem;
+      color: var(--color-gold);
+      font-weight: 600;
+    }
+
+    .header-line {
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7), transparent);
+    }
+
+    main {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 0 3rem;
+      gap: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      background: linear-gradient(145deg, var(--color-panel), var(--color-panel-alt));
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius);
+      padding: clamp(2rem, 4vw, 3.5rem);
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.12), transparent 55%);
+      pointer-events: none;
+    }
+
+    .tagline {
+      text-transform: uppercase;
+      letter-spacing: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--color-gold);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 0 0 1.5rem;
+      color: var(--color-gray);
+      max-width: 60ch;
+    }
+
+    .status-card {
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      background: rgba(3, 3, 3, 0.6);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .status-item {
+      flex: 1 1 120px;
+      text-align: center;
+    }
+
+    .status-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-gold);
+      margin-bottom: 0.35rem;
+    }
+
+    .status-label {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.25rem;
+      color: var(--color-gray-dark);
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.85rem 1.8rem;
+      border: 1px solid var(--color-gold);
+      background: transparent;
+      color: var(--color-white);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--color-gold), #b88a16);
+      color: #050505;
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.35);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(212, 175, 55, 0.25);
+      filter: brightness(1.05);
+    }
+
+    .contact-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      background: rgba(4, 4, 4, 0.75);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+    }
+
+    .card h3 {
+      margin: 0 0 0.8rem;
+      font-size: 1rem;
+      letter-spacing: 0.25rem;
+      text-transform: uppercase;
+      color: var(--color-gold);
+    }
+
+    .card p, .card a, .card span {
+      color: var(--color-gray);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .card strong {
+      color: var(--color-white);
+      font-weight: 600;
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .socials a {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: var(--transition);
+    }
+
+    .socials a:hover {
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-3px);
+    }
+
+    footer {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      color: var(--color-gray-dark);
+      text-align: center;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+      }
+
+      .brand {
+        letter-spacing: 0.4rem;
+      }
+
+      .status-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .cta-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      main {
+        padding: 2rem 0 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="brand">ULTRA CREATORS</span>
+    </div>
+    <div class="header-line"></div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <span class="tagline">Atualização em andamento</span>
+      <h1 id="hero-title">Estamos preparando uma nova experiência para você</h1>
+      <p>O site oficial da Ultra Creators está passando por um processo de manutenção programada. Em breve, voltaremos com uma plataforma ainda mais estável, segura e surpreendente.</p>
+
+      <div class="status-card" aria-live="polite">
+        <div class="status-item">
+          <div class="status-value" id="days">00</div>
+          <div class="status-label">Dias</div>
+        </div>
+        <div class="status-item">
+          <div class="status-value" id="hours">00</div>
+          <div class="status-label">Horas</div>
+        </div>
+        <div class="status-item">
+          <div class="status-value" id="minutes">00</div>
+          <div class="status-label">Min</div>
+        </div>
+        <div class="status-item">
+          <div class="status-value" id="seconds">00</div>
+          <div class="status-label">Seg</div>
+        </div>
+      </div>
+
+      <div class="cta-group">
+        <a class="btn primary" href="mailto:contato@ultracreators.com">Fale com nossa equipe</a>
+        <a class="btn" href="https://wa.me/5577981621007" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </section>
+
+    <section class="contact-section" aria-label="Informações de contato">
+      <article class="card">
+        <h3>Suporte</h3>
+        <p>Estamos prontos para ajudar durante todo o período de manutenção.</p>
+        <strong>Email</strong>
+        <a href="mailto:suporte@ultracreators.com">suporte@ultracreators.com</a>
+        <strong>Horário</strong>
+        <span>Seg a Sex · 9h às 18h (BRT)</span>
+      </article>
+
+      <article class="card">
+        <h3>Comunicação</h3>
+        <p>Fique conectado com a Ultra Creators e acompanhe as novidades.</p>
+        <div class="socials" aria-label="Redes sociais">
+          <a href="https://www.instagram.com/creatorsultra" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://wa.me/5577981621007" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+          <a href="https://t.me" target="_blank" rel="noopener" aria-label="Telegram">TG</a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    Ultra Creators © <span id="year"></span> · Excelência em experiências digitais
+  </footer>
+
+  <script>
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 7);
+
+    const updateCounter = () => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+
+      if (difference <= 0) {
+        document.querySelectorAll('.status-value').forEach(el => el.textContent = '00');
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
+
+      const format = (value) => String(value).padStart(2, '0');
+
+      document.getElementById('days').textContent = format(days);
+      document.getElementById('hours').textContent = format(hours);
+      document.getElementById('minutes').textContent = format(minutes);
+      document.getElementById('seconds').textContent = format(seconds);
+    };
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

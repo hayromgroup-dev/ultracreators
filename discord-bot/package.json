@@ -1,0 +1,30 @@
+{
+  "name": "ultracreators-discord-bot",
+  "version": "2.0.0",
+  "description": "Multi-team Discord ticketing system for UltraCreators with MongoDB integration",
+  "main": "multi-team-ticketing-bot.js",
+  "scripts": {
+    "start": "node multi-team-ticketing-bot.js",
+    "dev": "nodemon multi-team-ticketing-bot.js",
+    "setup": "node scripts/setup-server.js",
+    "cleanup": "node scripts/cleanup.js",
+    "cleanup:tickets": "node scripts/cleanup-tickets-abertos.js",
+    "fix:permissions": "node scripts/fix-permissions.js",
+    "test:db": "node scripts/test-db.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ticketing"
+  ],
+  "author": "UltraCreators",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "mongoose": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

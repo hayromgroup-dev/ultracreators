@@ -1,0 +1,222 @@
+/* =========================================================
+   ULTRA CREATORS - FUTURISTIC COMMON STYLES
+   Include this in all pages for consistent futuristic look
+========================================================= */
+
+/* Futuristic Color Variables - Add to :root */
+:root {
+  --neon-cyan: #00F0FF;
+  --neon-purple: #8B5CF6;
+  --neon-blue: #0066FF;
+  --neon-pink: #FF006E;
+  --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+  --glow-purple: 0 0 30px rgba(139, 92, 246, 0.5);
+  --gradient-futuristic: linear-gradient(135deg, #FFD700, #00F0FF, #8B5CF6);
+  --gradient-cyber: linear-gradient(90deg, #00F0FF, #8B5CF6, #FF006E);
+}
+
+/* Futuristic Animations */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes borderGlow {
+  0%, 100% { 
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  }
+  33% { 
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+  66% { 
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+}
+
+@keyframes pulseNeon {
+  0%, 100% { 
+    text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  }
+  50% { 
+    text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
+  }
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+/* Scan Line Effect */
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  opacity: 0.3;
+  animation: scanLine 8s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Live Notification Popup */
+.live-notification {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: linear-gradient(135deg, rgba(17, 17, 17, 0.95), rgba(26, 26, 26, 0.95));
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 350px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.2);
+  z-index: 9999;
+  transform: translateX(-120%);
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(10px);
+}
+
+.live-notification.show {
+  transform: translateX(0);
+}
+
+.live-notification-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.live-notification-content {
+  flex: 1;
+}
+
+.live-notification-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  margin-bottom: 0.25rem;
+}
+
+.live-notification-text {
+  font-size: 0.8rem;
+  color: #c7c7c7;
+  line-height: 1.4;
+}
+
+.live-notification-time {
+  font-size: 0.7rem;
+  color: #9a9a9a;
+  margin-top: 0.25rem;
+}
+
+/* Mobile Sticky CTA */
+.mobile-sticky-cta {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(17, 17, 17, 0.98));
+  border-top: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 1rem;
+  z-index: 9998;
+  backdrop-filter: blur(20px);
+}
+
+.mobile-sticky-cta button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.mobile-sticky-cta .viewers-count {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--neon-cyan);
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.mobile-sticky-cta .pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  animation: borderGlow 1.5s infinite;
+}
+
+@media (max-width: 768px) {
+  .mobile-sticky-cta {
+    display: block;
+  }
+  .live-notification {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    bottom: 80px;
+  }
+}
+
+/* Futuristic Card Hover Effect */
+.futuristic-card {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.futuristic-card::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), #FFD700, var(--neon-cyan));
+  background-size: 400% 400%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: gradientFlow 6s ease infinite;
+}
+
+.futuristic-card:hover::after {
+  opacity: 1;
+}
+
+.futuristic-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 240, 255, 0.2);
+}

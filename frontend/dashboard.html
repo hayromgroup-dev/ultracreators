@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./ultracreators.PNG" />
+  <title>Dashboard · Ultra Creators</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-cyan: #00F0FF;
+      --neon-purple: #8B5CF6;
+      --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+    }
+    
+    @keyframes scanLine {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { border-color: rgba(0, 240, 255, 0.5); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
+      33% { border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
+      66% { border-color: rgba(255, 215, 0, 0.5); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00F0FF, transparent);
+      opacity: 0.3;
+      animation: scanLine 8s linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    :root {
+      --color-black: #000000;
+      --color-black-alt: #111111;
+      --color-gold: #FFD700;
+      --color-white: #ffffff;
+      --color-gray: #c7c7c7;
+      --color-green: #00ff88;
+      --color-red: #ff4444;
+      --max-width: 1180px;
+      --radius-card: 18px;
+      --header-height: 84px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--color-black);
+      color: var(--color-white);
+      line-height: 1.7;
+    }
+    .container {
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin: 0 auto;
+    }
+    .brand {
+      font-size: 1.25rem;
+      letter-spacing: 0.28em;
+      font-weight: 600;
+      color: var(--color-gold);
+      text-decoration: none;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .user-name {
+      color: var(--color-gray);
+      font-size: 0.95rem;
+    }
+    .logout-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      background: transparent;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-1px);
+    }
+    main {
+      padding-top: calc(var(--header-height) + 3rem);
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--color-gold);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .page-header p {
+      color: var(--color-gray);
+      font-size: 1.1rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .stat-card {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.15);
+    }
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .stat-trend {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .stat-trend.up {
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--color-green);
+    }
+    .stat-trend.down {
+      background: rgba(255, 68, 68, 0.15);
+      color: var(--color-red);
+    }
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      color: var(--color-gray);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .chart-section {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .chart-section h2 {
+      color: var(--color-gold);
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+    }
+    .chart-placeholder {
+      height: 300px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray);
+      font-size: 1.1rem;
+    }
+    .transactions-table {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+    }
+    .transactions-table h2 {
+      color: var(--color-gold);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      text-align: left;
+      padding: 1rem;
+      color: var(--color-gray);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .status-badge.paid {
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--color-green);
+    }
+    .status-badge.pending {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--color-gold);
+    }
+    @media (max-width: 767px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      table { font-size: 0.85rem; }
+      th, td { padding: 0.75rem 0.5rem; }
+      .user-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scan-line"></div>
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="users"><img src="/assets/images/Ultralogo.png" alt="Ultra Creators" style="height: 50px; margin-right: 12px; vertical-align: middle;">ULTRA CREATORS</a>
+      <div class="user-menu">
+        <span class="user-name" id="headerUserName"></span>
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Dashboard de Performance</h1>
+        <p>Acompanhe suas métricas e comissões em tempo real</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">💰</div>
+          </div>
+          <div class="stat-value">R$ 0</div>
+          <div class="stat-label">Faturamento Total</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">🎯</div>
+          </div>
+          <div class="stat-value">R$ 0</div>
+          <div class="stat-label">Comissões</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">📊</div>
+          </div>
+          <div class="stat-value">0</div>
+          <div class="stat-label">Vendas</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">👥</div>
+          </div>
+          <div class="stat-value">0</div>
+          <div class="stat-label">Cliques</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">📈</div>
+          </div>
+          <div class="stat-value">0%</div>
+          <div class="stat-label">Taxa de Conversão</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">💳</div>
+          </div>
+          <div class="stat-value">R$ 0</div>
+          <div class="stat-label">Ticket Médio</div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <h2>Faturamento dos Últimos 30 Dias</h2>
+        <div class="chart-placeholder">
+          📊 Em breve: Gráfico de desempenho
+        </div>
+      </div>
+
+      <div class="transactions-table">
+        <h2>Últimas Transações</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Produto</th>
+              <th>Cliente</th>
+              <th>Valor</th>
+              <th>Comissão</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--color-gray); padding: 2rem;">
+                Nenhuma transação ainda. Comece a divulgar seus links de afiliado!
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <div style="background:rgba(17,17,17,0.6);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:2rem;margin:3rem 0;text-align:center;"><div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2rem;"><div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:50px;height:50px;border-radius:50%;background:rgba(76,217,100,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🔒</div><div style="text-align:left;"><div style="color:#FFD700;font-weight:700;font-size:0.95rem;">100% Seguro</div><div style="color:#c7c7c7;font-size:0.85rem;">Dados Protegidos</div></div></div><div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:50px;height:50px;border-radius:50%;background:rgba(76,217,100,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">✓</div><div style="text-align:left;"><div style="color:#FFD700;font-weight:700;font-size:0.95rem;">+50.000 Alunos</div><div style="color:#c7c7c7;font-size:0.85rem;">Confiam em Nós</div></div></div><div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:50px;height:50px;border-radius:50%;background:rgba(76,217,100,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">⚡</div><div style="text-align:left;"><div style="color:#FFD700;font-weight:700;font-size:0.95rem;">Acesso Imediato</div><div style="color:#c7c7c7;font-size:0.85rem;">24/7 Disponível</div></div></div></div></div>
+  </main>
+
+  <script>
+    // Check authentication
+    function checkAuth() {
+      const token = localStorage.getItem('authToken');
+      const userData = localStorage.getItem('userData');
+
+      if (!token || !userData) {
+        window.location.href = 'home';
+        return null;
+      }
+
+      return JSON.parse(userData);
+    }
+
+    // Load user data
+    function loadUserData() {
+      const user = checkAuth();
+      if (!user) return;
+
+      // Update header with user name
+      document.getElementById('headerUserName').textContent = `${user.nome} ${user.sobrenome}`;
+    }
+
+    // Logout function
+    
+function logout(){document.getElementById('logoutModal').style.display='block';document.body.style.overflow='hidden'}
+function closeLogoutModal(){document.getElementById('logoutModal').style.display='none';document.body.style.overflow='auto'}
+function confirmLogout(){localStorage.removeItem('authToken');localStorage.removeItem('userData');window.location.href='home'}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('logoutModal').style.display==='block'){closeLogoutModal()}});
+
+    }
+
+    // Event listeners
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', loadUserData);
+  </script>
+
+  <!-- Logout Modal -->
+  <div id="logoutModal" class="logout-modal">
+    <div class="logout-modal-content">
+      <div class="logout-icon">👋</div>
+      <h2 class="logout-title">Até logo!</h2>
+      <p class="logout-message">Tem certeza que deseja sair?<br>Sua jornada está apenas começando!</p>
+      <div class="logout-buttons">
+        <button onclick="closeLogoutModal()" class="btn-cancel">Cancelar</button>
+        <button onclick="confirmLogout()" class="btn-confirm">Sim, Sair</button>
+      </div>
+    </div>
+  </div>
+
+<style>
+.logout-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:9999;animation:fadeIn 0.3s}
+.logout-modal-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#1a1a1a,#2d2d2d);border:2px solid rgba(255,215,0,0.3);border-radius:24px;padding:3rem;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:slideUp 0.4s}
+.logout-icon{font-size:4rem;text-align:center;margin-bottom:1rem}
+.logout-title{color:#FFD700;font-size:1.8rem;margin:0 0 1rem;font-weight:700;text-align:center}
+.logout-message{color:#c7c7c7;font-size:1.1rem;margin:0 0 2rem;line-height:1.6;text-align:center}
+.logout-buttons{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-cancel{padding:1rem 2rem;background:transparent;border:2px solid rgba(255,215,0,0.5);color:#FFD700;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif}
+.btn-cancel:hover{background:rgba(255,215,0,0.1);border-color:#FFD700;transform:translateY(-2px)}
+.btn-confirm{padding:1rem 2rem;background:linear-gradient(135deg,#FFD700,#FFA500);border:none;color:#000;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
+.btn-confirm:hover{box-shadow:0 6px 20px rgba(255,215,0,0.4);transform:translateY(-2px)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translate(-50%,-20%);opacity:0}to{transform:translate(-50%,-50%);opacity:1}}
+</style>
+
+</body>
+</html>

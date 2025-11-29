@@ -1,0 +1,4307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="icon" type="image/png" href="./ultracreators.PNG" />
+  <title>Admin Panel · Ultra Creators</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-cyan: #00F0FF;
+      --neon-purple: #8B5CF6;
+      --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.5);
+    }
+    
+    @keyframes scanLine {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { border-color: rgba(0, 240, 255, 0.5); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
+      33% { border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
+      66% { border-color: rgba(255, 215, 0, 0.5); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00F0FF, transparent);
+      opacity: 0.3;
+      animation: scanLine 8s linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    :root {
+      --color-black: #000000;
+      --color-black-soft: #0b0b0b;
+      --color-black-alt: #111111;
+      --color-gold: #d4af37;
+      --color-gold-dark: #b89418;
+      --color-white: #ffffff;
+      --color-gray: #c7c7c7;
+      --color-gray-soft: #9a9a9a;
+      --color-gray-dark: #666666;
+      --color-red: #ff4444;
+      --color-green: #4cd964;
+      --radius-card: 16px;
+      --sidebar-width: 280px;
+      --header-height: 70px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--color-black);
+      color: var(--color-white);
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--color-black-alt);
+      border-right: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 2rem 0;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
+      padding: 0 2rem 2rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-brand h1 {
+      font-size: 1.5rem;
+      color: var(--color-gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .sidebar-brand p {
+      font-size: 0.85rem;
+      color: var(--color-gray-soft);
+      margin-top: 0.25rem;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.875rem 2rem;
+      color: var(--color-gray);
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: var(--color-gold);
+      background: rgba(212, 175, 55, 0.1);
+      border-left-color: var(--color-gold);
+    }
+
+    .sidebar-nav svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      height: var(--header-height);
+      background: var(--color-black-soft);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--color-black);
+    }
+
+    .logout-btn {
+      padding: 0.5rem 1.25rem;
+      background: transparent;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: var(--color-gold);
+      color: var(--color-black);
+    }
+
+    /* Content Area */
+    .content {
+      padding: 2rem;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-card);
+      padding: 1.5rem;
+    }
+
+    .stat-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .stat-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(212, 175, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-card-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--color-gold);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .stat-card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card-label {
+      font-size: 0.875rem;
+      color: var(--color-gray-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--color-gray-dark);
+      color: var(--color-gray);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold);
+    }
+
+    .btn-danger {
+      background: var(--color-red);
+      color: var(--color-white);
+    }
+
+    .btn-danger:hover {
+      background: #cc0000;
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Table */
+    .table-container {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    th {
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--color-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    tbody tr:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-success {
+      background: rgba(76, 217, 100, 0.2);
+      color: var(--color-green);
+    }
+
+    .badge-warning {
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--color-gold);
+    }
+
+    .badge-danger {
+      background: rgba(255, 68, 68, 0.2);
+      color: var(--color-red);
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: none;
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--color-gold);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+    }
+
+    .icon-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-card);
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 2rem 1rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      flex-shrink: 0;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .modal-footer {
+      flex-shrink: 0;
+      padding: 1.5rem 2rem 2rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      background: var(--color-black-alt);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: rgba(255, 68, 68, 0.1);
+      color: var(--color-red);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--color-gray);
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-black);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      color: var(--color-white);
+      font-family: inherit;
+      font-size: 0.9375rem;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-gold);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--color-gray-soft);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--color-gray-dark);
+      fill: none;
+      stroke-width: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-gold);
+      cursor: pointer;
+      padding: 0.5rem;
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        box-shadow: none;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      :root {
+        --sidebar-width: 280px;
+      }
+
+      .header {
+        gap: 1rem;
+      }
+
+      .header-title {
+        font-size: 1.25rem;
+      }
+
+      .btn {
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      .icon-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.75rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding: 1rem;
+      }
+
+      .header {
+        padding: 0 1rem;
+      }
+
+      .header-title {
+        font-size: 1.1rem;
+      }
+
+      .user-info span {
+        display: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Make tables horizontally scrollable */
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        font-size: 0.875rem;
+        min-width: 600px;
+      }
+
+      th, td {
+        padding: 0.75rem 0.5rem;
+      }
+
+      /* Improve modal sizing on mobile */
+      .modal-content {
+        width: calc(100% - 2rem);
+        max-width: none;
+        margin: 1rem;
+        max-height: calc(100vh - 2rem);
+      }
+
+      .modal-header,
+      .modal-body,
+      .modal-footer {
+        padding: 1rem;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .modal-actions .btn {
+        width: 100%;
+      }
+
+      /* Better form inputs on mobile */
+      .form-input,
+      .form-textarea,
+      .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+
+      .table-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .table-header .btn {
+        width: 100%;
+      }
+    }
+
+    /* Loading State */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(212, 175, 55, 0.2);
+      border-top-color: var(--color-gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Skeleton Loaders */
+    .skeleton {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s ease-in-out infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-stat-card {
+      background: var(--color-black-alt);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-card);
+      padding: 1.5rem;
+      height: 150px;
+    }
+
+    .skeleton-stat-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1rem;
+    }
+
+    .skeleton-stat-value {
+      width: 60%;
+      height: 32px;
+      margin-bottom: 0.5rem;
+    }
+
+    .skeleton-stat-label {
+      width: 80%;
+      height: 14px;
+    }
+
+    /* Success/Error Notifications */
+    .notification {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      min-width: 300px;
+      max-width: 500px;
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.3s ease;
+      cursor: pointer;
+    }
+
+    .notification-success {
+      background: linear-gradient(135deg, #4cd964, #3db84d);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .notification-error {
+      background: linear-gradient(135deg, #ff4444, #cc0000);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .notification-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .notification-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: white;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .notification-message {
+      flex: 1;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      line-height: 1.4;
+    }
+
+    .notification-close {
+      width: 20px;
+      height: 20px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.8;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .notification-close:hover {
+      opacity: 1;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+
+    .notification.hiding {
+      animation: slideOut 0.3s ease forwards;
+    }
+
+    /* Lesson Card Styles */
+    .lesson-card {
+      background: rgba(212, 175, 55, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .lesson-card-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      color: var(--color-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    #upsellPreview * { color: #000 !important; }
+    .lesson-card-content {
+
+    /* Admin Logout Modal */
+    .admin-logout-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      animation: fadeIn 0.3s;
+    }
+
+    .admin-logout-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-logout-modal-content {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+      border: 3px solid;
+      border-image: linear-gradient(135deg, rgba(212, 175, 55, 0.6), rgba(212, 175, 55, 0.2)) 1;
+      border-radius: 28px;
+      padding: 3.5rem 3rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.1);
+      animation: modalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .admin-logout-modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
+    }
+
+    .admin-logout-icon {
+      font-size: 5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      animation: iconBounce 0.6s ease-out;
+      filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.3));
+    }
+
+    .admin-logout-title {
+      background: linear-gradient(135deg, #d4af37, #f4d03f, #d4af37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.2rem;
+      margin: 0 0 1.2rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
+
+    .admin-logout-message {
+      color: #c0c0c0;
+      font-size: 1.15rem;
+      margin: 0 0 2.5rem;
+      line-height: 1.7;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    .admin-logout-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .admin-btn-cancel {
+      padding: 1.1rem 2rem;
+      background: transparent;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      color: #d4af37;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: Montserrat, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .admin-btn-cancel::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.1);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .admin-btn-cancel:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .admin-btn-cancel:hover {
+      border-color: #d4af37;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .admin-btn-cancel:active {
+      transform: translateY(-1px);
+    }
+
+    .admin-btn-confirm {
+      padding: 1.1rem 2rem;
+      background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+      background-size: 200% 100%;
+      border: none;
+      color: #000;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: Montserrat, sans-serif;
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .admin-btn-confirm:hover {
+      background-position: 100% 0;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+      transform: translateY(-3px);
+    }
+
+    .admin-btn-confirm:active {
+      transform: translateY(-1px);
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+      border: none;
+      color: #000;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: Montserrat, sans-serif;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .admin-btn-confirm:hover {
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+      flex: 1;
+      min-width: 0;
+    }
+
+    .lesson-card-title {
+      font-weight: 600;
+      color: var(--color-white);
+      margin: 0 0 0.25rem;
+      font-size: 0.95rem;
+    }
+
+    .lesson-card-meta {
+      font-size: 0.85rem;
+      color: var(--color-gray-soft);
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .lesson-card-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+  
+    /* ===== BEAUTIFUL NOTIFICATION SYSTEM ===== */
+    .ultra-notification-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .ultra-notification-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ultra-notification {
+      background: linear-gradient(180deg, rgba(25, 25, 25, 0.98) 0%, rgba(15, 15, 15, 0.99) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.8) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.1);
+    }
+
+    .ultra-notification-overlay.show .ultra-notification {
+      transform: scale(1) translateY(0);
+    }
+
+    .ultra-notification-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      animation: notifyPopIn 0.5s ease 0.2s both;
+    }
+
+    .ultra-notification-icon.success {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
+      border: 2px solid rgba(76, 175, 80, 0.5);
+      box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
+      color: #4CAF50;
+    }
+
+    .ultra-notification-icon.error {
+      background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(244, 67, 54, 0.1));
+      border: 2px solid rgba(244, 67, 54, 0.5);
+      box-shadow: 0 0 30px rgba(244, 67, 54, 0.3);
+      color: #f44336;
+    }
+
+    .ultra-notification-icon.warning {
+      background: linear-gradient(135deg, rgba(255, 152, 0, 0.2), rgba(255, 152, 0, 0.1));
+      border: 2px solid rgba(255, 152, 0, 0.5);
+      box-shadow: 0 0 30px rgba(255, 152, 0, 0.3);
+      color: #FF9800;
+    }
+
+    .ultra-notification-icon.info {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+      border: 2px solid rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+      color: #d4af37;
+    }
+
+    @keyframes notifyPopIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .ultra-notification-title {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .ultra-notification-message {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .ultra-notification-btn {
+      background: linear-gradient(135deg, #d4af37, #b89418);
+      color: #000;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ultra-notification-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Toast notifications */
+    .ultra-toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10001;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ultra-toast {
+      background: linear-gradient(180deg, rgba(25, 25, 25, 0.98) 0%, rgba(15, 15, 15, 0.99) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 300px;
+      max-width: 450px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      transform: translateX(120%);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .ultra-toast.show { transform: translateX(0); }
+    .ultra-toast.hiding { transform: translateX(120%); }
+    .ultra-toast-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .ultra-toast-content { flex: 1; }
+    .ultra-toast-title { color: #fff; font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; }
+    .ultra-toast-message { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
+    .ultra-toast-close { background: none; border: none; color: rgba(255, 255, 255, 0.4); cursor: pointer; padding: 5px; font-size: 1.2rem; }
+    .ultra-toast-close:hover { color: #fff; }
+    .ultra-toast.success { border-left: 4px solid #4CAF50; }
+    .ultra-toast.success .ultra-toast-icon { color: #4CAF50; }
+    .ultra-toast.error { border-left: 4px solid #f44336; }
+    .ultra-toast.error .ultra-toast-icon { color: #f44336; }
+    .ultra-toast.warning { border-left: 4px solid #FF9800; }
+    .ultra-toast.warning .ultra-toast-icon { color: #FF9800; }
+    .ultra-toast.info { border-left: 4px solid #d4af37; }
+    .ultra-toast.info .ultra-toast-icon { color: #d4af37; }
+
+  </style>
+</head>
+<body>
+  <div class="scan-line"></div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand"><img src="/assets/images/Ultralogo.png" alt="Ultra Creators" style="height: 50px; margin-bottom: 10px;">
+      <h1>ADMIN PANEL</h1>
+      <p>Ultra Creators</p>
+    </div>
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="#" data-section="dashboard" class="active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="courses">
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Cursos
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="ads">
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            Anúncios
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="videos">
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            Vídeos
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="conquistas">
+            <svg viewBox="0 0 24 24"><path d="M12 2L9.5 8.5L2 9.27L7 14L5.5 21.5L12 18L18.5 21.5L17 14L22 9.27L14.5 8.5L12 2Z"/></svg>
+            Conquistas
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="upsell">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            Product Upsell
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="users">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Usuários
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <h2 class="header-title" id="pageTitle">Dashboard</h2>
+      <div class="header-actions">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span id="userName">Admin</span>
+        </div>
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="section active">
+        <div class="stats-grid" id="statsGrid">
+          <!-- Skeleton loaders shown while loading -->
+          <div class="skeleton-stat-card">
+            <div class="skeleton skeleton-stat-icon"></div>
+            <div class="skeleton skeleton-stat-value"></div>
+            <div class="skeleton skeleton-stat-label"></div>
+          </div>
+          <div class="skeleton-stat-card">
+            <div class="skeleton skeleton-stat-icon"></div>
+            <div class="skeleton skeleton-stat-value"></div>
+            <div class="skeleton skeleton-stat-label"></div>
+          </div>
+          <div class="skeleton-stat-card">
+            <div class="skeleton skeleton-stat-icon"></div>
+            <div class="skeleton skeleton-stat-value"></div>
+            <div class="skeleton skeleton-stat-label"></div>
+          </div>
+          <div class="skeleton-stat-card">
+            <div class="skeleton skeleton-stat-icon"></div>
+            <div class="skeleton skeleton-stat-value"></div>
+            <div class="skeleton skeleton-stat-label"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Courses Section -->
+      <section id="courses" class="section">
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Gerenciar Cursos</h3>
+            <button class="btn btn-primary" id="addCourseBtn">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Adicionar Curso
+            </button>
+          </div>
+          <div id="coursesTable">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </section>
+
+
+    <!-- Videos Section -->
+    <section id="videos" class="section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h3 class="table-title">Gerenciar Vídeos</h3>
+        <button class="btn btn-primary" onclick="showUploadModal()" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Fazer Upload
+        </button>
+      </div>
+
+      <!-- Videos List -->
+      <div id="videosList" style="display: grid; gap: 1.5rem;">
+        <div style="text-align: center; padding: 3rem; background: #2a2a2a; border: 3px solid #FFD700; border-radius: 12px;">
+          <h2 style="color: #FFD700; margin: 0 0 1rem;">🔄 Carregando vídeos...</h2>
+          <p style="color: #999; margin: 0;">Se esta mensagem persistir, abra o Console (F12) para ver mensagens de debug</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center;">
+      <div style="background: #1a1a1a; border-radius: 18px; padding: 2.5rem; max-width: 600px; width: 90%; border: 2px solid rgba(255, 215, 0, 0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h3 style="color: #FFD700; margin: 0; font-size: 1.5rem;">Upload de Vídeo</h3>
+          <button onclick="closeUploadModal()" style="background: none; border: none; color: #999; font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">&times;</button>
+        </div>
+        
+        <form id="uploadForm" onsubmit="uploadVideo(event)">
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: #FFD700; font-weight: 600;">Título do Vídeo</label>
+            <input type="text" id="videoTitle" required style="width: 100%; padding: 0.875rem; background: #0a0a0a; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 8px; color: white; font-size: 1rem;">
+          </div>
+          
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: #FFD700; font-weight: 600;">Descrição (opcional)</label>
+            <textarea id="videoDescription" rows="3" style="width: 100%; padding: 0.875rem; background: #0a0a0a; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 8px; color: white; font-size: 1rem; resize: vertical;"></textarea>
+          </div>
+          
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: #FFD700; font-weight: 600;">Pasta do Vídeo *</label>
+            <input type="text" id="videoFolder" list="folderSuggestions" placeholder="Digite ou selecione uma pasta" required style="width: 100%; padding: 0.875rem; background: #0a0a0a; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 8px; color: white; font-size: 1rem;">
+            <datalist id="folderSuggestions"></datalist>
+            <small style="color: #999; display: block; margin-top: 0.5rem;">Organize seus vídeos em pastas. Digite um nome novo para criar uma pasta.</small>
+          </div>
+          
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: #FFD700; font-weight: 600;">Arquivo de Vídeo</label>
+            <input type="file" id="videoFile" accept="video/*" required style="width: 100%; padding: 0.875rem; background: #0a0a0a; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 8px; color: white;">
+            <small style="color: #999; display: block; margin-top: 0.5rem;">Formatos aceitos: MP4, AVI, MOV, MKV, WEBM, FLV (máx 2GB)</small>
+          </div>
+          
+          <div id="uploadProgress" style="display: none; margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 0.5rem; display: flex; justify-content: space-between;">
+              <span style="color: #FFD700;">Fazendo upload...</span>
+              <span id="uploadPercent" style="color: #FFD700; font-weight: 700;">0%</span>
+            </div>
+            <div style="height: 8px; background: rgba(255, 215, 0, 0.2); border-radius: 999px; overflow: hidden;">
+              <div id="uploadBar" style="height: 100%; background: linear-gradient(90deg, #FFD700, #FFA500); width: 0%; transition: width 0.3s;"></div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button type="button" onclick="closeUploadModal()" class="btn" style="background: transparent; border: 1px solid #666; color: #999;">Cancelar</button>
+            <button type="submit" class="btn btn-primary" id="uploadBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Fazer Upload
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+      <!-- Product Upsell Section -->
+      <section id="upsell" class="section">
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Editar Product Upsell</h3>
+            <button class="btn btn-success" id="saveUpsellBtn">
+              <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg>
+              Salvar Upsell
+            </button>
+          </div>
+          
+          <div style="background: white; border-radius: 12px; padding: 2rem; margin-top: 1.5rem;">
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">HTML Personalizado:</label>
+              <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                Cole seu HTML customizado abaixo. Você pode usar qualquer HTML, CSS inline, e JavaScript.
+              </p>
+              <textarea id="upsellHtmlEditor" style="width: 100%; min-height: 400px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;" placeholder="Cole seu HTML aqui..."></textarea>
+            </div>
+            
+            <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+              <h4 style="margin: 0 0 1rem 0; color: #333;">📝 Exemplo de Template:</h4>
+              <pre style="background: white; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; color: #000;"><code>&lt;div style=&quot;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 18px; padding: 1.5rem 1.5rem; text-align: center; color: white;&quot;&gt;
+  &lt;div style=&quot;display: inline-block; padding: 0.5rem 1.5rem; background: rgba(255,255,255,0.2); border-radius: 999px; margin-bottom: 1.5rem;&quot;&gt;
+    &lt;span style=&quot;font-weight: 700; font-size: 0.9rem; text-transform: uppercase;&quot;&gt;🎁 OFERTA ESPECIAL&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;h2 style=&quot;font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;&quot;&gt;
+    Transforme Seu Negócio Hoje! 🚀
+  &lt;/h2&gt;
+  &lt;p style=&quot;font-size: 1.15rem; opacity: 0.95; margin-bottom: 2rem;&quot;&gt;
+    Acesso completo + Suporte VIP por apenas R$ 197
+  &lt;/p&gt;
+  &lt;a href=&quot;https://seulink.com&quot; style=&quot;display: inline-block; padding: 1.5rem 3rem; background: white; color: #667eea; border-radius: 999px; text-decoration: none; font-weight: 800; font-size: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);&quot;&gt;
+    QUERO COMEÇAR AGORA →
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+              <strong>💡 Dicas:</strong>
+              <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem;">
+                <li>Use gradientes para chamar atenção</li>
+                <li>Adicione CTAs com cores vibrantes</li>
+                <li>Inclua prova social (números, depoimentos)</li>
+                <li>Teste diferentes versões para ver qual converte mais</li>
+              </ul>
+            </div>
+            
+            <div id="upsellPreview" style="border: 2px dashed #e0e0e0; border-radius: 12px; padding: 2rem; min-height: 200px; background: #fafafa; color: #000; font-size: 16px;">
+              <p style="text-align: center; color: #999;">Preview aparecerá aqui...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Conquistas Section -->
+      <section id="conquistas" class="section">
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Gerenciar Conquistas</h3>
+            <button class="btn btn-primary" id="addAchievementBtn">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Criar Conquista
+            </button>
+          </div>
+
+          <div id="achievementsList" class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <!-- Achievements will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Achievement Modal -->
+      <div id="achievementModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+          <div class="modal-header">
+            <h3 class="modal-title" id="achievementModalTitle">Criar Conquista</h3>
+            <button class="modal-close" onclick="closeAchievementModal()">&times;</button>
+          </div>
+
+          <form id="achievementForm">
+            <input type="hidden" id="achievementId">
+            
+            <div class="form-group">
+              <label class="form-label">Nome da Conquista *</label>
+              <input type="text" class="form-input" id="achievementName" placeholder="Ex: Primeiro Passo" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Descrição *</label>
+              <textarea class="form-input" id="achievementDescription" rows="3" placeholder="Ex: Completou a primeira aula do curso" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ícone (Emoji)</label>
+              <input type="text" class="form-input" id="achievementIcon" placeholder="🏆" maxlength="2" value="🏆">
+              <small style="color: #999; font-size: 0.85rem;">Cole um emoji ou deixe o padrão</small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">CONDIÇÃO PARA GANHAR:</label>
+              <div style="background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 12px; padding: 1.5rem; margin-top: 0.5rem;">
+                
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label class="form-label" style="font-size: 0.9rem;">Quando o aluno:</label>
+                  <select class="form-select" id="achievementConditionType" required onchange="updateConditionValue()">
+                    <option value="">Selecione uma condição...</option>
+                    <option value="first_lesson">Completar a primeira aula</option>
+                    <option value="lessons_completed">Completar X aulas (total)</option>
+                    <option value="first_course">Completar o primeiro curso</option>
+                    <option value="course_completed">Completar X cursos (total)</option>
+                    <option value="specific_course">Completar um curso específico</option>
+                    <option value="streak_days">Acessar X dias seguidos</option>
+                  </select>
+                </div>
+
+                <div class="form-group" id="conditionValueGroup" style="display: none;">
+                  <label class="form-label" id="conditionValueLabel" style="font-size: 0.9rem;">Quantidade:</label>
+                  <input type="number" class="form-input" id="achievementConditionValue" min="1" placeholder="Ex: 5">
+                </div>
+
+                <div class="form-group" id="conditionCourseGroup" style="display: none;">
+                  <label class="form-label" style="font-size: 0.9rem;">Selecione o curso:</label>
+                  <select class="form-select" id="achievementConditionCourse">
+                    <option value="">Carregando cursos...</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ordem de Exibição</label>
+              <input type="number" class="form-input" id="achievementOrder" min="0" value="0" placeholder="0">
+              <small style="color: #999; font-size: 0.85rem;">Menor número aparece primeiro</small>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+              <button type="button" onclick="closeAchievementModal()" class="btn" style="background: transparent; border: 1px solid #666; color: #999;">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar Conquista</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Advertisements Section -->
+      <section id="ads" class="section">
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Gerenciar Anúncios</h3>
+            <button class="btn btn-primary" id="addAdBtn">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Adicionar Anúncio
+            </button>
+          </div>
+          <div id="adsTable">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Users Section -->
+      <section id="users" class="section">
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Gerenciar Usuários</h3>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <input
+                type="text"
+                id="userSearch"
+                placeholder="Buscar por nome ou email..."
+                class="form-input"
+                style="width: 300px; margin: 0;"
+              >
+            </div>
+          </div>
+          <div id="usersTable">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+          <div id="usersPagination"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Course Modal -->
+  <div id="courseModal" class="modal">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="courseModalTitle">Adicionar Curso</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="courseForm" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+        <input type="hidden" id="courseId">
+
+        <div class="modal-body">
+          <!-- Course Basic Info -->
+          <div style="border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+            <h4 style="color: var(--color-gold); margin: 0 0 1rem; font-size: 1.1rem;">Informações do Curso</h4>
+            <div class="form-group">
+              <label class="form-label">Título do Curso *</label>
+              <input type="text" class="form-input" id="courseTitle" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Descrição do Curso *</label>
+              <textarea class="form-textarea" id="courseDescription" required></textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Thumbnail (URL)</label>
+                <input type="url" class="form-input" id="courseThumbnail" placeholder="https://...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Categoria</label>
+                <select class="form-select" id="courseCategory">
+                  <option value="Marketing">Marketing</option>
+                  <option value="Vendas">Vendas</option>
+                  <option value="Tráfego">Tráfego</option>
+                  <option value="Copywriting">Copywriting</option>
+                  <option value="Design">Design</option>
+                  <option value="Automação">Automação</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="courseIsActive" style="width: 20px; height: 20px; cursor: pointer;">
+                <span>Publicar curso imediatamente (visível para usuários)</span>
+              </label>
+              <small style="color: #999; font-size: 0.85rem; margin-top: 0.25rem; display: block; margin-left: 28px;">
+                Se desmarcado, o curso será criado como "Inativo" e não aparecerá para os usuários
+              </small>
+            </div>
+          </div>
+
+          <!-- Lessons Section -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h4 style="color: var(--color-gold); margin: 0; font-size: 1.1rem;">
+                Aulas do Curso <span id="lessonsCount" style="font-size: 0.9rem; font-weight: normal; color: #666;">(0)</span>
+              </h4>
+              <button type="button" class="btn btn-primary" id="addLessonBtn" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Adicionar Aula
+              </button>
+            </div>
+            <div id="lessonsList" style="display: flex; flex-direction: column; gap: 1rem;">
+              <p style="text-align: center; color: #666; padding: 2rem;">Nenhuma aula adicionada. Clique em "Adicionar Aula" para começar.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Salvar Curso</button>
+            <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lesson Modal -->
+  <div id="lessonModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="lessonModalTitle">Adicionar Aula</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="lessonForm" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+        <input type="hidden" id="lessonIndex">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Título da Aula *</label>
+            <input type="text" class="form-input" id="lessonTitle" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descrição da Aula</label>
+            <textarea class="form-textarea" id="lessonDescription" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Thumbnail da Aula * <span style="color: #999; font-weight: 400;">(URL da imagem)</span></label>
+            <input type="url" class="form-input" id="lessonThumbnail" placeholder="https://exemplo.com/imagem.jpg" required>
+            <small style="color: #999; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
+              Cole a URL de uma imagem para a thumbnail desta aula. Recomendado: 16:9, mínimo 640x360px.
+            </small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Vídeos da Aula *</label>
+            <select id="lessonFolderFilter" onchange="populateVideoDropdown()" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+              <option value="">📁 Todas as Pastas</option>
+            </select>
+            <div id="lessonVideosContainer" style="max-height: 200px; overflow-y: auto; border: 2px solid #e0e0e0; border-radius: 8px; padding: 1rem;">
+              <p style="text-align: center; color: #999;">Carregando vídeos...</p>
+            </div>
+            <small style="color: #999; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
+              Selecione um ou mais vídeos para esta aula. Faça upload de vídeos na seção "Vídeos" primeiro.
+            </small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duração (HH:MM:SS ou MM:SS)</label>
+            <input type="text" class="form-input" id="lessonDuration" placeholder="15:30">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Salvar Aula</button>
+            <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ad Modal -->
+  <div id="adModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="adModalTitle">Adicionar Anúncio</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="adForm" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+        <input type="hidden" id="adId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Título *</label>
+            <input type="text" class="form-input" id="adTitle" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descrição</label>
+            <textarea class="form-textarea" id="adDescription"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL da Imagem *</label>
+            <input type="url" class="form-input" id="adImageUrl" placeholder="https://..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Link do Produto *</label>
+            <input type="url" class="form-input" id="adProductLink" placeholder="https://..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Texto do Botão</label>
+            <input type="text" class="form-input" id="adButtonText" value="Comprar Agora">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Posicionamento</label>
+            <select class="form-select" id="adPlacement">
+              <option value="left">Barra Lateral Esquerda</option>
+              <option value="right">Barra Lateral Direita</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Posição na Barra Lateral</label>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 0.75rem;">
+              <label class="position-option" data-position="0">
+                <input type="radio" name="adPosition" value="0" style="display: none;">
+                <div class="position-card">
+                  <div class="position-icon" style="background: linear-gradient(to bottom, #d4af37 0%, transparent 30%);">
+                    <div style="width: 100%; height: 8px; background: #d4af37; border-radius: 2px;"></div>
+                  </div>
+                  <span>Topo</span>
+                </div>
+              </label>
+              <label class="position-option" data-position="1">
+                <input type="radio" name="adPosition" value="1" style="display: none;">
+                <div class="position-card">
+                  <div class="position-icon" style="background: linear-gradient(to bottom, transparent 40%, #d4af37 50%, transparent 60%);">
+                    <div style="width: 100%; height: 8px; background: #d4af37; border-radius: 2px; margin-top: 50%;"></div>
+                  </div>
+                  <span>Meio</span>
+                </div>
+              </label>
+              <label class="position-option" data-position="2">
+                <input type="radio" name="adPosition" value="2" style="display: none;">
+                <div class="position-card">
+                  <div class="position-icon" style="background: linear-gradient(to bottom, transparent 70%, #d4af37 100%);">
+                    <div style="width: 100%; height: 8px; background: #d4af37; border-radius: 2px; margin-top: auto;"></div>
+                  </div>
+                  <span>Rodapé</span>
+                </div>
+              </label>
+            </div>
+            <input type="hidden" id="adOrder" value="0">
+            <small style="display: block; margin-top: 0.75rem; color: #9a9a9a; font-size: 0.85rem;">
+              Selecione onde o anúncio aparecerá na barra lateral
+            </small>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="adIsActive" style="width: 20px; height: 20px; cursor: pointer;">
+              <span>Publicar anúncio imediatamente (visível para usuários)</span>
+            </label>
+            <small style="color: #999; font-size: 0.85rem; margin-top: 0.25rem; display: block; margin-left: 28px;">
+              Se desmarcado, o anúncio será criado como "Inativo" e não aparecerá para os usuários
+            </small>
+          </div>
+
+          <style>
+            .position-option {
+              cursor: pointer;
+            }
+
+            .position-card {
+              background: rgba(212, 175, 55, 0.05);
+              border: 2px solid rgba(212, 175, 55, 0.2);
+              border-radius: 8px;
+              padding: 1rem;
+              text-align: center;
+              transition: all 0.3s ease;
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+            }
+
+            .position-card:hover {
+              background: rgba(212, 175, 55, 0.1);
+              border-color: rgba(212, 175, 55, 0.4);
+              transform: translateY(-2px);
+            }
+
+            .position-option input:checked + .position-card {
+              background: rgba(212, 175, 55, 0.2);
+              border-color: #d4af37;
+              box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            }
+
+            .position-icon {
+              width: 100%;
+              height: 60px;
+              border: 1px solid rgba(212, 175, 55, 0.3);
+              border-radius: 4px;
+              display: flex;
+              flex-direction: column;
+              padding: 0.5rem;
+            }
+
+            .position-card span {
+              font-size: 0.9rem;
+              font-weight: 600;
+              color: #d4af37;
+            }
+          </style>
+        </div>
+        <div class="modal-footer">
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Salvar Anúncio</button>
+            <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Course Preview Modal -->
+  <div id="coursePreviewModal" class="modal">
+    <div class="modal-content" style="max-width: 95vw; max-height: 90vh; overflow: hidden;">
+      <div class="modal-header">
+        <h3 class="modal-title">Visualização do Curso (Como aparece para o usuário)</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="coursePreviewContent" style="overflow-y: auto; max-height: calc(90vh - 80px);"></div>
+    </div>
+  </div>
+
+  <!-- Ad Preview Modal -->
+  <div id="adPreviewModal" class="modal">
+    <div class="modal-content" style="max-width: 1200px; max-height: 90vh; overflow: hidden;">
+      <div class="modal-header">
+        <h3 class="modal-title">Visualização do Anúncio (Como aparece para o usuário)</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="adPreviewContent" style="overflow-y: auto; max-height: calc(90vh - 80px);"></div>
+    </div>
+  </div>
+  <!-- Logout Modal -->
+  <!-- Logout Modal -->
+  <div id="adminLogoutModal" class="admin-logout-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10000;">
+    <div class="admin-logout-modal-content" style="background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%); border: 3px solid rgba(212, 175, 55, 0.6); border-radius: 28px; padding: 3.5rem 3rem; max-width: 500px; width: 90%; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(212, 175, 55, 0.2); position: relative;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);"></div>
+      <div class="admin-logout-icon" style="font-size: 5rem; text-align: center; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.3));">👋</div>
+      <h2 class="admin-logout-title" style="background: linear-gradient(135deg, #d4af37, #f4d03f, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.2rem; margin: 0 0 1.2rem; font-weight: 800; text-align: center; letter-spacing: -0.5px; font-family: Montserrat, sans-serif;">Até logo, Admin!</h2>
+      <p class="admin-logout-message" style="color: #c0c0c0; font-size: 1.15rem; margin: 0 0 2.5rem; line-height: 1.7; text-align: center; font-weight: 400; font-family: Montserrat, sans-serif;">Tem certeza que deseja sair do painel administrativo?</p>
+      <div class="admin-logout-buttons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
+        <button onclick="closeAdminLogoutModal()" class="admin-btn-cancel" style="padding: 1.1rem 2rem; background: transparent; border: 2px solid rgba(212, 175, 55, 0.6); color: #d4af37; border-radius: 14px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: Montserrat, sans-serif;">Cancelar</button>
+        <button onclick="confirmAdminLogout()" class="admin-btn-confirm" style="padding: 1.1rem 2rem; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%); border: none; color: #000; border-radius: 14px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s; font-family: Montserrat, sans-serif; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);">Sim, Sair</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const API_URL = '/api';
+
+    // Notification System
+    function showNotification(message, type = 'success') {
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+
+      const icon = type === 'success'
+        ? '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'
+        : '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+
+      notification.innerHTML = `
+        <div class="notification-icon">${icon}</div>
+        <div class="notification-message">${message}</div>
+        <button class="notification-close">&times;</button>
+      `;
+
+      document.body.appendChild(notification);
+
+      // Auto dismiss after 4 seconds
+      const timeout = setTimeout(() => {
+        hideNotification(notification);
+      }, 4000);
+
+      // Click to dismiss
+      notification.addEventListener('click', () => {
+        clearTimeout(timeout);
+        hideNotification(notification);
+      });
+    }
+
+    function hideNotification(notification) {
+      notification.classList.add('hiding');
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }
+
+    // Check authentication and admin status
+    function checkAuth() {
+      console.log('Checking authentication...');
+      const token = localStorage.getItem('authToken');
+      const userData = localStorage.getItem('userData');
+
+      console.log('Token exists:', !!token);
+      console.log('User data exists:', !!userData);
+
+      if (!token || !userData) {
+        console.error('Missing token or user data - redirecting to login');
+        ultraNotify({ type: 'warning', title: 'Sessao Expirada', message: 'Por favor, faca login novamente.', buttonText: 'LOGIN', onClose: function() { window.location.href = 'home'; } });
+        window.location.href = 'home';
+        return null;
+      }
+
+      try {
+        const user = JSON.parse(userData);
+        console.log('User:', user);
+        console.log('Is admin:', user.isAdmin);
+
+        if (!user.isAdmin) {
+          ultraNotify({ type: 'error', title: 'Acesso Negado', message: 'Apenas administradores podem acessar esta pagina.', buttonText: 'VOLTAR', onClose: function() { window.location.href = 'home'; } });
+          window.location.href = 'users';
+          return null;
+        }
+
+        return { token, user };
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        ultraNotify({ type: 'error', title: 'Erro de Autenticacao', message: 'Por favor, faca login novamente.', buttonText: 'LOGIN', onClose: function() { window.location.href = 'home'; } });
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        window.location.href = 'home';
+        return null;
+      }
+    }
+
+    console.log('Admin panel loading...');
+    const auth = checkAuth();
+
+    if (auth) {
+    
+    console.log("Auth check passed, setting up admin panel...");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const logoutModal = document.getElementById("adminLogoutModal");
+    
+    console.log("Logout button found:", !!logoutBtn);
+    console.log("Logout modal found:", !!logoutModal);
+    
+    if (logoutBtn && logoutModal) {
+      logoutBtn.addEventListener("click", () => {
+        logoutModal.style.display = "flex";
+        logoutModal.style.alignItems = "center";
+        logoutModal.style.justifyContent = "center";
+        console.log("Modal display set to flex. Display is now:", logoutModal.style.display);
+        console.log("Modal element:", logoutModal);
+        console.log("Modal computed style display:", window.getComputedStyle(logoutModal).display);
+        console.log("Modal z-index:", window.getComputedStyle(logoutModal).zIndex);
+        console.log("Modal position:", window.getComputedStyle(logoutModal).position);
+        console.log("Modal opacity:", window.getComputedStyle(logoutModal).opacity);
+        console.log("Modal visibility:", window.getComputedStyle(logoutModal).visibility);
+        console.log("Modal should be visible now");
+      });
+      console.log("Logout button listener attached successfully");
+    } else {
+      console.error("Missing logout button or modal!");
+    }
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('active');
+      });
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', (e) => {
+        const sidebar = document.querySelector('.sidebar');
+        if (window.innerWidth <= 1024 &&
+            sidebar.classList.contains('active') &&
+            !sidebar.contains(e.target) &&
+            !mobileMenuBtn.contains(e.target)) {
+          sidebar.classList.remove('active');
+        }
+      });
+    }
+
+    // Logout modal functions
+    window.closeAdminLogoutModal = () => {
+      document.getElementById("adminLogoutModal").style.display = "none";
+    };
+
+    window.confirmAdminLogout = () => {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
+      window.location.href = 'home';
+    };
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('adminLogoutModal');
+        if (modal && modal.classList.contains('active')) {
+          closeAdminLogoutModal();
+        }
+      }
+    });
+
+    // Navigation
+    document.querySelectorAll('[data-section]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.dataset.section;
+
+        // Update active states
+        document.querySelectorAll('[data-section]').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(section).classList.add('active');
+
+        // Update page title
+        const titles = {
+          dashboard: 'Dashboard',
+          courses: 'Gerenciar Cursos',
+          ads: 'Gerenciar Anúncios',
+          videos: 'Gerenciar Vídeos',
+          conquistas: 'Gerenciar Conquistas',
+          upsell: 'Product Upsell',
+          users: 'Gerenciar Usuários'
+        };
+        document.getElementById('pageTitle').textContent = titles[section] || 'Painel Administrativo';
+
+        // Load data based on section
+        if (section === 'dashboard') loadDashboard();
+        if (section === 'courses') loadCourses();
+        if (section === 'ads') loadAds();
+        if (section === 'videos') loadVideos();
+        if (section === 'conquistas') loadAchievements();
+        if (section === 'upsell') loadUpsell();
+        if (section === 'users') loadUsers();
+      });
+    });
+
+    // Initial dashboard load
+    setTimeout(() => { try { loadDashboard(); } catch(e) { console.error("Dashboard load error:", e); } }, 100);
+    // API Helper
+    window.apiCall = async function(endpoint, options = {}) {
+      const defaultOptions = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.token}`
+        }
+      };
+
+      const response = await fetch(`${API_URL}${endpoint}`, {
+        ...defaultOptions,
+        ...options,
+        headers: { ...defaultOptions.headers, ...options.headers }
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Erro na requisição');
+      return data;
+    }
+
+    // Load Dashboard Stats
+    async function loadDashboard() {
+      try {
+        console.log('Loading dashboard stats...');
+        const stats = await apiCall('/admin/stats');
+        console.log('Dashboard stats loaded:', stats);
+
+        document.getElementById('statsGrid').innerHTML = `
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div class="stat-card-value">${stats.data.totalUsers}</div>
+            <div class="stat-card-label">Total de Usuários</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </div>
+            </div>
+            <div class="stat-card-value">${stats.data.totalCourses}</div>
+            <div class="stat-card-label">Cursos Criados</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-icon">
+                <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/></svg>
+              </div>
+            </div>
+            <div class="stat-card-value">${stats.data.totalAds}</div>
+            <div class="stat-card-label">Anúncios Criados</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-icon">
+                <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+            </div>
+            <div class="stat-card-value">${stats.data.activeAds}</div>
+            <div class="stat-card-label">Anúncios Ativos</div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Erro ao carregar dashboard:', error);
+        document.getElementById('statsGrid').innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #ff4444;">
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">❌ Erro ao carregar estatísticas</p>
+            <p style="color: #999; font-size: 0.9rem;">${error.message || 'Verifique o console para mais detalhes'}</p>
+            <button onclick="loadDashboard()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--color-gold); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Tentar Novamente</button>
+          </div>
+        `;
+      }
+    }
+
+    // Load Courses
+    // Store courses globally for reordering
+    let allCourses = [];
+
+    async function loadCourses() {
+      try {
+        const courses = await apiCall('/admin/courses');
+        allCourses = courses.data;
+
+        if (allCourses.length === 0) {
+          document.getElementById('coursesTable').innerHTML = `
+            <div class="empty-state">
+              <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              <p>Nenhum curso cadastrado ainda</p>
+            </div>
+          `;
+          return;
+        }
+
+        renderCoursesTable();
+      } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
+        ultraToast({ type: 'error', message: 'Erro ao carregar cursos' });
+      }
+    }
+
+    function renderCoursesTable() {
+      document.getElementById('coursesTable').innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Categoria</th>
+              <th>Aulas</th>
+              <th>Duração</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${allCourses.map((course, index) => `
+              <tr>
+                <td><strong>${course.title}</strong></td>
+                <td>${course.category}</td>
+                <td>${course.lessonCount || (course.lessons ? course.lessons.length : 0)} aulas</td>
+                <td>${course.totalDuration || '00:00'}</td>
+                <td><span class="badge badge-${course.isActive ? 'success' : 'danger'}">${course.isActive ? 'Ativo' : 'Inativo'}</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="icon-btn" onclick="moveCourseUp(${index})" title="Mover para cima"
+                            ${index === 0 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
+                      <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><polyline points="18 15 12 9 6 15"/></svg>
+                    </button>
+                    <button class="icon-btn" onclick="moveCourseDown(${index})" title="Mover para baixo"
+                            ${index === allCourses.length - 1 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
+                      <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <button class="icon-btn" onclick="previewCourse('${course._id}')" title="Visualizar">
+                      <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <button class="icon-btn" onclick="toggleCourseStatus('${course._id}', ${!course.isActive})" title="${course.isActive ? 'Desativar' : 'Ativar'}">
+                      <svg viewBox="0 0 24 24">${course.isActive ? '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>' : '<polyline points="20 6 9 17 4 12"/>'}</svg>
+                    </button>
+                    <button class="icon-btn" onclick="editCourse('${course._id}')" title="Editar">
+                      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </button>
+                    <button class="icon-btn" onclick="deleteCourse('${course._id}', '${course.title}')" title="Deletar">
+                      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Load Ads
+    async function loadAds() {
+      try {
+        const ads = await apiCall('/admin/ads');
+
+        if (ads.data.length === 0) {
+          document.getElementById('adsTable').innerHTML = `
+            <div class="empty-state">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/></svg>
+              <p>Nenhum anúncio cadastrado ainda</p>
+            </div>
+          `;
+          return;
+        }
+
+        document.getElementById('adsTable').innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Barra Lateral</th>
+                <th>Posição</th>
+                <th>Cliques</th>
+                <th>Visualizações</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ads.data.map(ad => {
+                const positionNames = { 0: 'Topo', 1: 'Meio', 2: 'Rodapé' };
+                const positionName = positionNames[ad.order] || `Posição ${ad.order}`;
+                return `
+                <tr>
+                  <td><strong>${ad.title}</strong></td>
+                  <td>${ad.placement === 'left' ? 'Esquerda' : 'Direita'}</td>
+                  <td><span style="display: inline-block; background: rgba(212,175,55,0.15); color: #d4af37; padding: 0.25rem 0.75rem; border-radius: 12px; font-weight: 600;">${positionName}</span></td>
+                  <td>${ad.clicks}</td>
+                  <td>${ad.views}</td>
+                  <td><span class="badge badge-${ad.isActive ? 'success' : 'danger'}">${ad.isActive ? 'Ativo' : 'Inativo'}</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="icon-btn" onclick="previewAd('${ad._id}')" title="Visualizar">
+                        <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      </button>
+                      <button class="icon-btn" onclick="toggleAdStatus('${ad._id}', ${!ad.isActive})" title="${ad.isActive ? 'Desativar' : 'Ativar'}">
+                        <svg viewBox="0 0 24 24">${ad.isActive ? '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>' : '<polyline points="20 6 9 17 4 12"/>'}</svg>
+                      </button>
+                      <button class="icon-btn" onclick="editAd('${ad._id}')" title="Editar">
+                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                      </button>
+                      <button class="icon-btn" onclick="deleteAd('${ad._id}', '${ad.title}')" title="Deletar">
+                        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      } catch (error) {
+        console.error('Erro ao carregar anúncios:', error);
+        ultraToast({ type: 'error', message: 'Erro ao carregar anuncios' });
+      }
+    }
+
+    // Load Users
+    let allUsers = [];
+    // Pagination state
+    let currentPage = 1;
+    let totalPages = 1;
+
+    window.loadUsers = async function(page = 1) {
+      try {
+        const response = await window.apiCall(`/admin/users?page=${page}&limit=10`);
+        allUsers = response.data;
+        currentPage = response.page;
+        totalPages = response.pages;
+        
+        renderUsers(allUsers);
+        renderPagination(response.total);
+
+        // Add search listener (only once)
+        const searchInput = document.getElementById("userSearch");
+        if (searchInput && !searchInput.hasAttribute("data-listener-added")) {
+          searchInput.setAttribute("data-listener-added", "true");
+          searchInput.addEventListener("input", (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm === "") {
+              loadUsers(currentPage);
+            } else {
+              const filtered = allUsers.filter(user =>
+                user.nome.toLowerCase().includes(searchTerm) ||
+                user.sobrenome.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm)
+              );
+              renderUsers(filtered);
+              document.getElementById("usersPagination").style.display = "none";
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Erro ao carregar usuários:", error);
+        showNotification("Erro ao carregar usuários", "error");
+      }
+    }
+
+    function renderPagination(total) {
+      const container = document.getElementById("usersPagination");
+      if (!container) return;
+      
+      container.style.display = "flex";
+      
+      if (totalPages <= 1) {
+        container.innerHTML = "";
+        return;
+      }
+
+      let paginationHtml = `<div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; margin-top: 1.5rem;">`;
+      
+      // Previous button
+      paginationHtml += `<button onclick="loadUsers(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""} style="padding: 0.5rem 1rem; background: ${currentPage === 1 ? "#333" : "linear-gradient(135deg, #d4af37, #f4d03f)"}; border: none; color: ${currentPage === 1 ? "#666" : "#000"}; border-radius: 6px; cursor: ${currentPage === 1 ? "not-allowed" : "pointer"}; font-weight: 600;">← Anterior</button>`;
+      
+      // Page numbers
+      paginationHtml += `<div style="display: flex; gap: 0.25rem;">`;
+      
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+      
+      if (startPage > 1) {
+        paginationHtml += `<button onclick="loadUsers(1)" style="padding: 0.5rem 0.75rem; background: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer;">1</button>`;
+        if (startPage > 2) paginationHtml += `<span style="padding: 0.5rem;">...</span>`;
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        const isActive = i === currentPage;
+        paginationHtml += `<button onclick="loadUsers(${i})" style="padding: 0.5rem 0.75rem; background: ${isActive ? "linear-gradient(135deg, #d4af37, #f4d03f)" : "#2d2d2d"}; border: ${isActive ? "2px solid #d4af37" : "1px solid #444"}; color: ${isActive ? "#000" : "#fff"}; border-radius: 6px; cursor: pointer; font-weight: ${isActive ? "700" : "400"};">${i}</button>`;
+      }
+      
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) paginationHtml += `<span style="padding: 0.5rem;">...</span>`;
+        paginationHtml += `<button onclick="loadUsers(${totalPages})" style="padding: 0.5rem 0.75rem; background: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer;">${totalPages}</button>`;
+      }
+      
+      paginationHtml += `</div>`;
+      
+      // Next button
+      paginationHtml += `<button onclick="loadUsers(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""} style="padding: 0.5rem 1rem; background: ${currentPage === totalPages ? "#333" : "linear-gradient(135deg, #d4af37, #f4d03f)"}; border: none; color: ${currentPage === totalPages ? "#666" : "#000"}; border-radius: 6px; cursor: ${currentPage === totalPages ? "not-allowed" : "pointer"}; font-weight: 600;">Próximo →</button>`;
+      
+      paginationHtml += `<div style="margin-left: 1rem; color: #999; font-size: 0.9rem;">Total: ${total} usuários</div>`;
+      paginationHtml += `</div>`;
+      
+      container.innerHTML = paginationHtml;
+    }
+
+    // Load Achievements
+    async function loadAchievements() {
+      try {
+        const achievements = await apiCall('/admin/achievements');
+        renderAchievements(achievements.data);
+      } catch (error) {
+        console.error('Erro ao carregar conquistas:', error);
+        showNotification('Erro ao carregar conquistas', 'error');
+      }
+    }
+
+    // Load Upsell (alias for loadUpsellEditor)
+    async function loadUpsell() {
+      try {
+        await loadUpsellEditor();
+      } catch (error) {
+        console.error('Erro ao carregar upsell:', error);
+      }
+    }
+
+    // Render Achievements
+    function renderAchievements(achievements) {
+      const container = document.getElementById('achievementsList');
+      if (!achievements || achievements.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #999;">Nenhuma conquista cadastrada. Crie a primeira conquista clicando no botão acima.</div>';
+        return;
+      }
+
+      container.innerHTML = achievements.map(achievement => `
+        <div class="card" style="padding: 1.5rem; border: 1px solid rgba(255,215,0,0.2); background: rgba(255,215,0,0.03);">
+          <div style="display: flex; align-items: start; gap: 1rem;">
+            <div style="font-size: 3rem;">${achievement.imageUrl ? `<img src="${achievement.imageUrl}" style="width:3rem;height:3rem;object-fit:contain;">` : (achievement.icon || '🏆')}</div>
+            <div style="flex: 1;">
+              <h4 style="margin: 0 0 0.5rem 0; color: #ffd700;">${achievement.name}</h4>
+              <p style="margin: 0 0 0.5rem 0; color: #999; font-size: 0.9rem;">${achievement.description}</p>
+              <div style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">
+                <strong>Condição:</strong> ${formatCondition(achievement)}
+              </div>
+              <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                <span style="padding: 0.25rem 0.75rem; border-radius: 12px; background: ${achievement.isActive ? 'rgba(0,255,0,0.1)' : 'rgba(255,0,0,0.1)'}; color: ${achievement.isActive ? '#0f0' : '#f00'};">
+                  ${achievement.isActive ? '✓ Ativa' : '✗ Inativa'}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end;">
+            <button class="icon-btn" onclick="editAchievement('${achievement._id}')" title="Editar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="icon-btn" onclick="toggleAchievement('${achievement._id}', ${!achievement.isActive})" title="${achievement.isActive ? 'Desativar' : 'Ativar'}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <button class="icon-btn" onclick="deleteAchievement('${achievement._id}')" title="Deletar" style="color: #ff4444;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function formatCondition(achievement) {
+      const conditions = {
+        first_lesson: 'Completar a primeira aula',
+        lessons_completed: `Completar ${achievement.conditionValue} aulas`,
+        first_course: 'Completar o primeiro curso',
+        course_completed: `Completar ${achievement.conditionValue} cursos`,
+        specific_course: `Completar curso específico (ID: ${achievement.conditionValue})`,
+        streak_days: `Acessar ${achievement.conditionValue} dias seguidos`
+      };
+      return conditions[achievement.conditionType] || 'Condição desconhecida';
+    }
+
+
+    // Custom Confirmation Modal
+    window.showConfirmModal = function(title, message, onConfirm, confirmButtonText) {
+      const modal = document.getElementById("confirmModal");
+      const titleEl = document.getElementById("confirmTitle");
+      const messageEl = document.getElementById("confirmMessage");
+      const cancelBtn = document.getElementById("confirmCancel");
+      const okBtn = document.getElementById("confirmOk");
+      
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      okBtn.textContent = confirmButtonText || "Sim, Deletar";
+      modal.style.display = "flex";
+      
+      // Remove previous listeners
+      const newCancelBtn = cancelBtn.cloneNode(true);
+      const newOkBtn = okBtn.cloneNode(true);
+      cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+      okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+      
+      // Add new listeners
+      newCancelBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+      });
+      
+      newOkBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+        if (onConfirm) onConfirm();
+      });
+      
+      // Close on background click
+      modal.addEventListener("click", function(e) {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    };
+    function closeAchievementModal() {
+      document.getElementById('achievementModal').classList.remove('active');
+    }
+
+    window.toggleAchievement = async function(id, newStatus) {
+      try {
+        await apiCall(`/admin/achievements/${id}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ isActive: newStatus })
+        });
+        showNotification(`Conquista ${newStatus ? 'ativada' : 'desativada'} com sucesso!`, 'success');
+        loadAchievements();
+      } catch (error) {
+        console.error('Erro ao atualizar conquista:', error);
+        showNotification('Erro ao atualizar conquista', 'error');
+      }
+    }
+
+    window.deleteAchievement = function(id) {
+      showConfirmModal(
+        "Confirmar Exclusão",
+        "Tem certeza que deseja deletar esta conquista? Esta ação não pode ser desfeita.",
+        async function() {
+          try {
+            await apiCall("/admin/achievements/" + id, { method: "DELETE" });
+            showNotification("Conquista deletada com sucesso!", "success");
+            loadAchievements();
+          } catch (error) {
+            console.error("Erro ao deletar conquista:", error);
+            showNotification("Erro ao deletar conquista", "error");
+          }
+        }
+      , "Sim, Deletar");
+    };
+
+    window.editAchievement = function(id) {
+      // Find achievement and populate form
+      apiCall(`/admin/achievements`)
+        .then(result => {
+          const achievement = result.data.find(a => a._id === id);
+          if (!achievement) return;
+
+          document.getElementById('achievementModalTitle').textContent = 'Editar Conquista';
+          document.getElementById('achievementId').value = achievement._id;
+          document.getElementById('achievementName').value = achievement.name;
+          document.getElementById('achievementDescription').value = achievement.description;
+          document.getElementById('achievementIcon').value = achievement.icon || '🏆';
+          document.getElementById('achievementConditionType').value = achievement.conditionType;
+          document.getElementById('achievementOrder').value = achievement.order || 0;
+          
+          updateConditionValue();
+          
+          if (['lessons_completed', 'course_completed', 'streak_days'].includes(achievement.conditionType)) {
+            document.getElementById('achievementConditionValue').value = achievement.conditionValue;
+          } else if (achievement.conditionType === 'specific_course') {
+            document.getElementById('achievementConditionCourse').value = achievement.conditionValue;
+          }
+
+          document.getElementById('achievementModal').classList.add('active');
+        })
+        .catch(error => {
+          console.error('Erro ao carregar conquista:', error);
+          showNotification('Erro ao carregar conquista', 'error');
+        });
+    }
+
+    function updateConditionValue() {
+      const type = document.getElementById('achievementConditionType').value;
+      const valueGroup = document.getElementById('conditionValueGroup');
+      const courseGroup = document.getElementById('conditionCourseGroup');
+      const valueLabel = document.getElementById('conditionValueLabel');
+
+      valueGroup.style.display = 'none';
+      courseGroup.style.display = 'none';
+
+      if (type === 'lessons_completed') {
+        valueGroup.style.display = 'block';
+        valueLabel.textContent = 'Número de aulas:';
+      } else if (type === 'course_completed') {
+        valueGroup.style.display = 'block';
+        valueLabel.textContent = 'Número de cursos:';
+      } else if (type === 'streak_days') {
+        valueGroup.style.display = 'block';
+        valueLabel.textContent = 'Número de dias:';
+      } else if (type === 'specific_course') {
+        courseGroup.style.display = 'block';
+      }
+    }
+
+    function renderUsers(users) {
+      const isMasterAdmin = (email) => email === 'admin@ultracreators.com';
+
+      // Get logged-in user's email to check if they are master admin
+      const loggedInUserData = JSON.parse(localStorage.getItem('userData') || '{}');
+      const loggedInUserEmail = loggedInUserData.email || '';
+      const isLoggedInUserMaster = isMasterAdmin(loggedInUserEmail);
+
+      document.getElementById('usersTable').innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Cadastro</th>
+              <th>Status</th>
+              <th>Tipo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(user => `
+              <tr>
+                <td><strong>${user.nome} ${user.sobrenome}</strong></td>
+                <td>${user.email}${isMasterAdmin(user.email) ? ' <span class="badge badge-warning" style="font-size: 0.7rem;">MASTER</span>' : ''}</td>
+                <td>${new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
+                <td><span class="badge badge-${user.isActive ? 'success' : 'danger'}">${user.isActive ? 'Ativo' : 'Inativo'}</span></td>
+                <td><span class="badge badge-${user.isAdmin ? 'warning' : ''}">${user.isAdmin ? 'Admin' : 'Usuário'}</span></td>
+                <td>
+                  <div class="table-actions">
+                    ${!isMasterAdmin(user.email) ? `
+                      ${!(user.isAdmin && !isLoggedInUserMaster) ? `
+                        <button class="icon-btn" onclick="toggleUserActive('${user._id}', ${!user.isActive})" title="${user.isActive ? 'Desativar' : 'Ativar'} usuário">
+                          <svg viewBox="0 0 24 24">${user.isActive ? '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>' : '<polyline points="20 6 9 17 4 12"/>'}</svg>
+                        </button>
+                      ` : ''}
+                      ${!user.isAdmin ? `
+                        <button class="icon-btn" onclick="toggleAdmin('${user._id}', true)" title="Tornar administrador">
+                          <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        </button>
+                      ` : (isLoggedInUserMaster ? `
+                        <button class="icon-btn" onclick="toggleAdmin('${user._id}', false)" title="Remover administrador" style="color: #ff9800;">
+                          <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/></svg>
+                        </button>
+                      ` : '')}
+                      <button class="icon-btn" onclick="sendPasswordResetLink('${user._id}', '${user.email}', '${user.nome}')" title="Enviar link de redefinicao de senha" style="color: #4a9eff;">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      </button>
+                      <button class="icon-btn" onclick="deleteUser('${user._id}', '${user.nome}')" title="Deletar usuário" style="color: #ff4444;">
+                        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      </button>
+                    ` : '<span style="color: #666; font-size: 0.85rem;">Conta protegida</span>'}
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Course Modal Functions
+    window.currentLessons = [];
+
+    document.getElementById('addCourseBtn').addEventListener('click', () => {
+      document.getElementById('courseModalTitle').textContent = 'Adicionar Curso';
+      document.getElementById('courseForm').reset();
+      document.getElementById('courseId').value = '';
+      window.currentLessons = [];
+      renderLessons();
+      // Default to inactive for safety
+      document.getElementById('courseIsActive').checked = false;
+      document.getElementById('courseModal').classList.add('active');
+    });
+
+    function renderLessons() {
+      const container = document.getElementById('lessonsList');
+      const countSpan = document.getElementById('lessonsCount');
+
+      // Update counter
+      if (countSpan) {
+        countSpan.textContent = `(${window.currentLessons.length})`;
+      }
+
+      if (window.currentLessons.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Nenhuma aula adicionada. Clique em "Adicionar Aula" para começar.</p>';
+        return;
+      }
+
+      container.innerHTML = window.currentLessons
+        .map((lesson, index) => `
+          <div class="lesson-card">
+            <div class="lesson-card-number">${index + 1}</div>
+            <div class="lesson-card-content">
+              <h4 class="lesson-card-title">${lesson.title}</h4>
+              <div class="lesson-card-meta">
+                <span>⏱️ ${lesson.duration || 'N/A'}</span>
+                <span>🎥 ${(() => {
+                  const videoIds = lesson.videoIds || (lesson.videoId ? [lesson.videoId] : []);
+                  const count = videoIds.length;
+                  return count > 0 ? count + " vídeo" + (count > 1 ? "s" : "") : "Sem vídeo";
+                })()}</span>
+              </div>
+            </div>
+            <div class="lesson-card-actions">
+              <button type="button" class="icon-btn" onclick="moveLessonUp(${index})"
+                      title="Mover para cima" ${index === 0 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
+                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button type="button" class="icon-btn" onclick="moveLessonDown(${index})"
+                      title="Mover para baixo" ${index === window.currentLessons.length - 1 ? 'disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>
+                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button type="button" class="icon-btn" onclick="editLesson(${index})" title="Editar aula">
+                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button type="button" class="icon-btn" onclick="deleteLesson(${index})" title="Deletar aula" style="color: #ff4444;">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        `).join('');
+    }
+    // Populate video dropdown when opening lesson modal
+    window.populateVideoDropdown = async function() {
+      try {
+        console.log('[DEBUG] populateVideoDropdown called');
+        const token = localStorage.getItem('authToken');
+        const response = await fetch(API_URL.replace("/auth", "") + "/admin/videos", {
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        const result = await response.json();
+        console.log('[DEBUG] Videos API result:', result);
+
+        const container = document.getElementById("lessonVideosContainer");
+        const folderFilter = document.getElementById("lessonFolderFilter");
+        const selectedFolder = folderFilter ? folderFilter.value : "";
+        console.log('[DEBUG] Selected folder:', selectedFolder);
+
+        if (result.success && result.data && result.data.length > 0) {
+          console.log('[DEBUG] Total videos:', result.data.length);
+          // Populate folder filter dropdown
+          if (folderFilter) {
+            const folders = [...new Set(result.data.map(v => v.folder || "Sem Pasta"))];
+            const currentSelection = folderFilter.value;
+            folderFilter.innerHTML = '<option value="">📁 Todas as Pastas</option>' + 
+              folders.map(f => `<option value="${f}" ${f === currentSelection ? "selected" : ""}>${f}</option>`).join('');
+          }
+          
+          // Filter videos
+          let videos = result.data.filter(video => video.status === "ready");
+          console.log('[DEBUG] Ready videos:', videos.length);
+          if (selectedFolder) {
+            videos = videos.filter(video => (video.folder || "Sem Pasta") === selectedFolder);
+            console.log('[DEBUG] Filtered videos for folder:', videos.length);
+          }
+
+          if (videos.length === 0) {
+            console.log('[DEBUG] No videos to show');
+            container.innerHTML = '<p style="text-align: center; color: #999;">Nenhum vídeo disponível nesta pasta.</p>';
+            return;
+          }
+
+          console.log('[DEBUG] Rendering', videos.length, 'videos');
+          container.innerHTML = videos.map(video => `
+            <div style="margin-bottom: 0.75rem; padding: 0.75rem; border: 1px solid #e0e0e0; border-radius: 6px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: all 0.2s;" 
+                 onmouseover="this.style.background='#f5f5f5'" 
+                 onmouseout="this.style.background='transparent'"
+                 onclick="this.querySelector('input').click()">
+              <input type="checkbox" class="lesson-video-checkbox" value="${video._id}" 
+                     style="cursor: pointer; width: 18px; height: 18px;"
+                     onclick="event.stopPropagation()">
+              <div style="flex: 1;">
+                <div style="font-weight: 600; color: #333; margin-bottom: 0.25rem;">${video.title}</div>
+                <div style="font-size: 0.85rem; color: #666;">
+                  📁 ${video.folder || 'Sem Pasta'} • ${video.duration ? Math.round(video.duration) + 's' : 'Duração desconhecida'}
+                </div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = '<p style="text-align: center; color: #999;">Nenhum vídeo disponível.</p>';
+        }
+      } catch (error) {
+        console.error('Error loading videos:', error);
+        document.getElementById("lessonVideosContainer").innerHTML = '<p style="text-align: center; color: #e74c3c;">Erro ao carregar vídeos</p>';
+      }
+    }
+
+
+    // Add Lesson Button
+    document.getElementById('addLessonBtn').addEventListener('click', () => {
+      document.getElementById('lessonModalTitle').textContent = 'Adicionar Aula';
+      document.getElementById('lessonForm').reset();
+      document.getElementById('lessonIndex').value = '';
+      populateVideoDropdown();
+      document.getElementById('lessonModal').classList.add('active');
+    });
+
+    // Lesson Form Submit
+    document.getElementById('lessonForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const index = document.getElementById('lessonIndex').value;
+      const thumbnail = document.getElementById('lessonThumbnail').value;
+      if (!thumbnail) {
+        showNotification('Por favor, informe a URL da thumbnail da aula!', 'error');
+        return;
+      }
+      
+      const lessonData = {
+        title: document.getElementById('lessonTitle').value,
+        description: document.getElementById('lessonDescription').value,
+        thumbnail: thumbnail,
+        videoIds: Array.from(document.querySelectorAll('.lesson-video-checkbox:checked')).map(cb => cb.value),
+        duration: document.getElementById('lessonDuration').value,
+        order: 0, // Will be updated when saving
+        isActive: true
+      };
+
+      console.log('[DEBUG] Lesson data:', lessonData);
+
+      if (index === '') {
+        window.currentLessons.push(lessonData);
+        console.log('[DEBUG] Lesson added. New count:', window.currentLessons.length);
+        showNotification('Aula adicionada!');
+      } else {
+        window.currentLessons[parseInt(index)] = lessonData;
+        console.log('[DEBUG] Lesson updated at index:', index);
+        showNotification('Aula atualizada!');
+      }
+
+      // Update order based on array position
+      updateLessonOrders();
+
+      console.log('[DEBUG] Current lessons array:', window.currentLessons);
+      renderLessons();
+      document.getElementById('lessonModal').classList.remove('active');
+    });
+
+    window.editLesson = async (index) => {
+      const lesson = window.currentLessons[index];
+      document.getElementById('lessonModalTitle').textContent = 'Editar Aula';
+      document.getElementById('lessonIndex').value = index;
+      document.getElementById('lessonTitle').value = lesson.title;
+      document.getElementById('lessonDescription').value = lesson.description || '';
+      document.getElementById('lessonThumbnail').value = lesson.thumbnail || '';
+      document.getElementById('lessonDuration').value = lesson.duration || '';
+      
+      // Populate video dropdown first
+      await populateVideoDropdown();
+      
+      // Then check the selected videos if they exist
+      // Handle both old videoId (single) and new videoIds (array)
+      const videoIds = lesson.videoIds || (lesson.videoId ? [lesson.videoId] : []);
+      if (videoIds.length > 0) {
+        document.querySelectorAll('.lesson-video-checkbox').forEach(checkbox => {
+          if (videoIds.includes(checkbox.value)) {
+            checkbox.checked = true;
+          }
+        });
+      }
+      
+      document.getElementById('lessonModal').classList.add('active');
+    };
+    };
+
+    window.deleteLesson = (index) => {
+      if (confirm(`Tem certeza que deseja deletar a aula "${window.currentLessons[index].title}"?`)) {
+        window.currentLessons.splice(index, 1);
+        updateLessonOrders();
+        renderLessons();
+        showNotification('Aula deletada!');
+      }
+    };
+
+    // Move lesson up in order
+    window.moveLessonUp = (index) => {
+      if (index === 0) return; // Already at top
+
+      // Swap with previous lesson
+      const temp = window.currentLessons[index];
+      window.currentLessons[index] = window.currentLessons[index - 1];
+      window.currentLessons[index - 1] = temp;
+
+      updateLessonOrders();
+      renderLessons();
+      showNotification('Ordem da aula atualizada!');
+    };
+
+    // Move lesson down in order
+    window.moveLessonDown = (index) => {
+      if (index === window.currentLessons.length - 1) return; // Already at bottom
+
+      // Swap with next lesson
+      const temp = window.currentLessons[index];
+      window.currentLessons[index] = window.currentLessons[index + 1];
+      window.currentLessons[index + 1] = temp;
+
+      updateLessonOrders();
+      renderLessons();
+      showNotification('Ordem da aula atualizada!');
+    };
+
+    // Update order values based on array position
+    window.updateLessonOrders = function() {
+      window.currentLessons.forEach((lesson, index) => {
+        lesson.order = index;
+      });
+    }
+
+    // Course Form Submit
+    document.getElementById('courseForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      console.log('[DEBUG] Form submission started');
+      console.log('[DEBUG] Current lessons count:', window.currentLessons.length);
+      console.log('[DEBUG] Current lessons:', window.currentLessons);
+
+      if (window.currentLessons.length === 0) {
+        console.log('[DEBUG] Validation failed: No lessons');
+        showNotification('Adicione pelo menos uma aula ao curso', 'error');
+        return;
+      }
+
+      // Ensure lesson orders are correct before saving
+      updateLessonOrders();
+
+      const id = document.getElementById('courseId').value;
+      const courseData = {
+        title: document.getElementById('courseTitle').value,
+        description: document.getElementById('courseDescription').value,
+        thumbnail: document.getElementById('courseThumbnail').value,
+        category: document.getElementById('courseCategory').value,
+        order: 0, // Will be set by reordering in courses table
+        isActive: document.getElementById('courseIsActive').checked,
+        lessons: window.currentLessons
+      };
+
+      console.log('[DEBUG] Course data to save:', courseData);
+
+      try {
+        if (id) {
+          console.log('[DEBUG] Updating course:', id);
+          await apiCall(`/admin/courses/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(courseData)
+          });
+        } else {
+          console.log('[DEBUG] Creating new course');
+          await apiCall('/admin/courses', {
+            method: 'POST',
+            body: JSON.stringify(courseData)
+          });
+        }
+
+        console.log('[DEBUG] Course saved successfully');
+        document.getElementById('courseModal').classList.remove('active');
+        loadCourses();
+        showNotification('Curso salvo com sucesso!');
+      } catch (error) {
+        console.error('[DEBUG] Error saving course:', error);
+        showNotification(error.message || 'Erro ao salvar curso', 'error');
+      }
+    });
+
+    // Achievement Modal Event Listeners
+    document.getElementById('addAchievementBtn').addEventListener('click', () => {
+      document.getElementById('achievementModalTitle').textContent = 'Criar Conquista';
+      document.getElementById('achievementForm').reset();
+      document.getElementById('achievementId').value = '';
+      document.getElementById('achievementIcon').value = '🏆';
+      document.getElementById('achievementOrder').value = '0';
+      updateConditionValue();
+      document.getElementById('achievementModal').classList.add('active');
+    });
+
+    document.getElementById('achievementForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('achievementId').value;
+      const conditionType = document.getElementById('achievementConditionType').value;
+      
+      let conditionValue;
+      if (['lessons_completed', 'course_completed', 'streak_days'].includes(conditionType)) {
+        conditionValue = parseInt(document.getElementById('achievementConditionValue').value);
+      } else if (conditionType === 'specific_course') {
+        conditionValue = document.getElementById('achievementConditionCourse').value;
+      } else {
+        conditionValue = true; // For first_lesson and first_course
+      }
+
+      const achievementData = {
+        name: document.getElementById('achievementName').value,
+        description: document.getElementById('achievementDescription').value,
+        icon: document.getElementById('achievementIcon').value || '🏆',
+        conditionType: conditionType,
+        conditionValue: conditionValue,
+        order: parseInt(document.getElementById('achievementOrder').value) || 0,
+        isActive: true
+      };
+
+      try {
+        if (id) {
+          await apiCall(`/admin/achievements/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(achievementData)
+          });
+          showNotification('Conquista atualizada com sucesso!', 'success');
+        } else {
+          await apiCall('/admin/achievements', {
+            method: 'POST',
+            body: JSON.stringify(achievementData)
+          });
+          showNotification('Conquista criada com sucesso!', 'success');
+        }
+
+        closeAchievementModal();
+        loadAchievements();
+      } catch (error) {
+        console.error('Erro ao salvar conquista:', error);
+        showNotification(error.message || 'Erro ao salvar conquista', 'error');
+      }
+    });
+
+    window.editCourse = async (id) => {
+      try {
+        const courses = await apiCall('/admin/courses');
+        const course = courses.data.find(c => c._id === id);
+
+        if (!course) return;
+
+        document.getElementById('courseModalTitle').textContent = 'Editar Curso';
+        document.getElementById('courseId').value = course._id;
+        document.getElementById('courseTitle').value = course.title;
+        document.getElementById('courseDescription').value = course.description;
+        document.getElementById('courseThumbnail').value = course.thumbnail || '';
+        document.getElementById('courseCategory').value = course.category;
+        document.getElementById('courseIsActive').checked = course.isActive !== false; // Default to true if undefined
+
+        // Load existing lessons
+        window.currentLessons = course.lessons || [];
+        renderLessons();
+
+        document.getElementById('courseModal').classList.add('active');
+      } catch (error) {
+        console.error('Erro ao carregar curso:', error);
+        showNotification('Erro ao carregar curso', 'error');
+      }
+    };
+
+    window.deleteCourse = async (id, title) => {
+      if (!confirm(`Tem certeza que deseja deletar o curso "${title}"?`)) return;
+
+      try {
+        await apiCall(`/admin/courses/${id}`, { method: 'DELETE' });
+        loadCourses();
+        showNotification('Curso deletado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao deletar curso:', error);
+        ultraToast({ type: 'error', message: 'Erro: ' + error.message });
+      }
+    };
+
+    // Move course up in order
+    window.moveCourseUp = async (index) => {
+      if (index === 0) return; // Already at top
+
+      // Swap with previous course
+      const temp = allCourses[index];
+      allCourses[index] = allCourses[index - 1];
+      allCourses[index - 1] = temp;
+
+      await updateCourseOrders();
+      renderCoursesTable();
+      showNotification('Ordem do curso atualizada!');
+    };
+
+    // Move course down in order
+    window.moveCourseDown = async (index) => {
+      if (index === allCourses.length - 1) return; // Already at bottom
+
+      // Swap with next course
+      const temp = allCourses[index];
+      allCourses[index] = allCourses[index + 1];
+      allCourses[index + 1] = temp;
+
+      await updateCourseOrders();
+      renderCoursesTable();
+      showNotification('Ordem do curso atualizada!');
+    };
+
+    // Update order values in database
+    async function updateCourseOrders() {
+      try {
+        // Update order for each course based on array position
+        for (let i = 0; i < allCourses.length; i++) {
+          const course = allCourses[i];
+          await apiCall(`/admin/courses/${course._id}`, {
+            method: 'PUT',
+            body: JSON.stringify({ ...course, order: i })
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar ordem dos cursos:', error);
+        showNotification('Erro ao atualizar ordem', 'error');
+      }
+    }
+
+    // Position Selector Handler
+    document.querySelectorAll('input[name="adPosition"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        document.getElementById('adOrder').value = e.target.value;
+      });
+    });
+
+    // Ad Modal Functions
+    document.getElementById('addAdBtn').addEventListener('click', () => {
+      document.getElementById('adModalTitle').textContent = 'Adicionar Anúncio';
+      document.getElementById('adForm').reset();
+      document.getElementById('adId').value = '';
+      // Select first position by default
+      document.querySelector('input[name="adPosition"][value="0"]').checked = true;
+      document.getElementById('adOrder').value = '0';
+      // Default to inactive for safety
+      document.getElementById('adIsActive').checked = false;
+      document.getElementById('adModal').classList.add('active');
+    });
+
+    document.getElementById('adForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('adId').value;
+      const adData = {
+        title: document.getElementById('adTitle').value,
+        description: document.getElementById('adDescription').value,
+        imageUrl: document.getElementById('adImageUrl').value,
+        productLink: document.getElementById('adProductLink').value,
+        buttonText: document.getElementById('adButtonText').value,
+        placement: document.getElementById('adPlacement').value,
+        order: parseInt(document.getElementById('adOrder').value),
+        isActive: document.getElementById('adIsActive').checked
+      };
+
+      try {
+        if (id) {
+          await apiCall(`/admin/ads/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(adData)
+          });
+        } else {
+          await apiCall('/admin/ads', {
+            method: 'POST',
+            body: JSON.stringify(adData)
+          });
+        }
+
+        document.getElementById('adModal').classList.remove('active');
+        loadAds();
+        showNotification('Anúncio salvo com sucesso!');
+      } catch (error) {
+        console.error('Erro ao salvar anúncio:', error);
+        ultraToast({ type: 'error', message: 'Erro: ' + error.message });
+      }
+    });
+
+    window.editAd = async (id) => {
+      try {
+        const ads = await apiCall('/admin/ads');
+        const ad = ads.data.find(a => a._id === id);
+
+        if (!ad) return;
+
+        document.getElementById('adModalTitle').textContent = 'Editar Anúncio';
+        document.getElementById('adId').value = ad._id;
+        document.getElementById('adTitle').value = ad.title;
+        document.getElementById('adDescription').value = ad.description;
+        document.getElementById('adImageUrl').value = ad.imageUrl;
+        document.getElementById('adProductLink').value = ad.productLink;
+        document.getElementById('adButtonText').value = ad.buttonText;
+        document.getElementById('adPlacement').value = ad.placement;
+        document.getElementById('adOrder').value = ad.order;
+        document.getElementById('adIsActive').checked = ad.isActive !== false; // Default to true if undefined
+
+        // Select the correct position radio button
+        const positionRadio = document.querySelector(`input[name="adPosition"][value="${ad.order}"]`);
+        if (positionRadio) {
+          positionRadio.checked = true;
+        }
+
+        document.getElementById('adModal').classList.add('active');
+      } catch (error) {
+        console.error('Erro ao carregar anúncio:', error);
+        ultraToast({ type: 'error', message: 'Erro ao carregar anuncio' });
+      }
+    };
+
+    window.deleteAd = async (id, title) => {
+      if (!confirm(`Tem certeza que deseja deletar o anúncio "${title}"?`)) return;
+
+      try {
+        await apiCall(`/admin/ads/${id}`, { method: 'DELETE' });
+        loadAds();
+        showNotification('Anúncio deletado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao deletar anúncio:', error);
+        ultraToast({ type: 'error', message: 'Erro: ' + error.message });
+      }
+    };
+
+    // User Functions
+    window.toggleAdmin = (id, makeAdmin) => {
+      showConfirmModal(
+        "Tornar Administrador",
+        "Tem certeza que deseja promover este usuário a administrador? Ele terá acesso total ao painel administrativo.",
+        async function() {
+          try {
+            await window.apiCall("/admin/users/" + id, {
+              method: "PUT",
+              body: JSON.stringify({ isAdmin: makeAdmin })
+            });
+            loadUsers();
+            showNotification("Usuário promovido a administrador com sucesso\!");
+          } catch (error) {
+            console.error("Erro ao atualizar usuário:", error);
+            showNotification(error.message || "Erro ao atualizar usuário", "error");
+          }
+        },
+        "Sim, Promover"
+      );
+    };
+
+    window.toggleUserActive = async (id, isActive) => {
+      try {
+        await apiCall(`/admin/users/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ isActive })
+        });
+        loadUsers();
+        showNotification(`Usuário ${isActive ? 'ativado' : 'desativado'} com sucesso!`);
+      } catch (error) {
+        console.error('Erro ao atualizar usuário:', error);
+        showNotification(error.message || 'Erro ao atualizar usuário', 'error');
+      }
+    };
+
+    window.deleteUser = (id, nome) => {
+      showConfirmModal(
+        "Deletar Usuário",
+        "Tem certeza que deseja deletar o usuário \"" + nome + "\"? Todos os dados, progresso e conquistas serão perdidos permanentemente.",
+        async function() {
+          try {
+            await window.apiCall("/admin/users/" + id, { method: "DELETE" });
+            loadUsers();
+            showNotification("Usuário deletado com sucesso\!");
+          } catch (error) {
+            console.error("Erro ao deletar usuário:", error);
+            showNotification(error.message || "Erro ao deletar usuário", "error");
+          }
+        },
+        "Sim, Deletar"
+      );
+    };
+
+    // Send password reset link to user
+    window.sendPasswordResetLink = (id, email, nome) => {
+      showConfirmModal(
+        "Enviar Link de Redefinicao",
+        "Enviar link de redefinicao de senha para " + nome + " (" + email + ")?<br><br>O usuario recebera um email com instrucoes para criar uma nova senha.",
+        async function() {
+          try {
+            await window.apiCall("/admin/users/" + id + "/send-reset-link", { method: "POST" });
+            showNotification("Link de redefinicao enviado para " + email + "!");
+          } catch (error) {
+            console.error("Erro ao enviar link:", error);
+            showNotification(error.message || "Erro ao enviar link de redefinicao", "error");
+          }
+        },
+        "Sim, Enviar"
+      );
+    };
+
+    // Course Preview - Exact user view replication
+    let previewCurrentLesson = null;
+
+    window.previewCourse = async (id) => {
+      try {
+        const courses = await apiCall('/admin/courses');
+        const course = courses.data.find(c => c._id === id);
+        if (!course) return;
+
+        const lessons = (course.lessons || []).sort((a, b) => a.order - b.order);
+        previewCurrentLesson = lessons[0]; // Start with first lesson
+
+        // Helper function to convert video URL to embed URL
+        const getEmbedUrl = (url) => {
+          if (url.includes('youtube.com/watch')) {
+            const videoId = url.split('v=')[1]?.split('&')[0];
+            return `https://www.youtube.com/embed/${videoId}`;
+          } else if (url.includes('youtu.be/')) {
+            const videoId = url.split('youtu.be/')[1]?.split('?')[0];
+            return `https://www.youtube.com/embed/${videoId}`;
+          } else if (url.includes('vimeo.com/')) {
+            const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+            return `https://player.vimeo.com/video/${videoId}`;
+          }
+          return url;
+        };
+
+        const renderPreviewContent = () => {
+          const embedUrl = previewCurrentLesson ? getEmbedUrl(previewCurrentLesson.videoUrl) : '';
+
+          return `
+            <style>
+              .preview-container {
+                display: flex;
+                gap: 0;
+                background: #000;
+                height: 75vh;
+                border-radius: 8px;
+                overflow: hidden;
+              }
+              .preview-sidebar {
+                width: 350px;
+                background: #111;
+                border-right: 1px solid rgba(212, 175, 55, 0.2);
+                overflow-y: auto;
+                flex-shrink: 0;
+              }
+              .preview-sidebar-header {
+                padding: 1.5rem;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+                background: rgba(0,0,0,0.3);
+              }
+              .preview-course-title {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #fff;
+                margin: 0 0 0.5rem;
+              }
+              .preview-course-category {
+                font-size: 0.85rem;
+                color: #d4af37;
+                font-weight: 600;
+              }
+              .preview-progress-bar {
+                height: 6px;
+                background: rgba(212, 175, 55, 0.2);
+                border-radius: 3px;
+                overflow: hidden;
+                margin-top: 1rem;
+              }
+              .preview-progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #d4af37, #b89418);
+                width: 0%;
+                transition: width 0.3s ease;
+              }
+              .preview-lessons-list {
+                padding: 1rem;
+              }
+              .preview-lesson-item {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.875rem;
+                margin-bottom: 0.5rem;
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(212, 175, 55, 0.15);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              }
+              .preview-lesson-item:hover {
+                background: rgba(212, 175, 55, 0.1);
+                border-color: rgba(212, 175, 55, 0.3);
+              }
+              .preview-lesson-item.active {
+                background: rgba(212, 175, 55, 0.15);
+                border-color: #d4af37;
+              }
+              .preview-lesson-number {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #d4af37, #b89418);
+                color: #000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 0.85rem;
+                flex-shrink: 0;
+              }
+              .preview-lesson-item.active .preview-lesson-number {
+                box-shadow: 0 0 0 2px #d4af37;
+              }
+              .preview-lesson-content {
+                flex: 1;
+                min-width: 0;
+              }
+              .preview-lesson-title {
+                font-weight: 600;
+                color: #fff;
+                font-size: 0.9rem;
+                margin: 0 0 0.25rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+              .preview-lesson-meta {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.75rem;
+                color: #999;
+              }
+              .preview-main {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                background: #000;
+                overflow-y: auto;
+              }
+              .preview-video-container {
+                position: relative;
+                width: 100%;
+                padding-bottom: 56.25%;
+                background: #000;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+              }
+              .preview-video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+              }
+              .preview-video-info {
+                padding: 2rem;
+                background: #111;
+              }
+              .preview-current-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #fff;
+                margin: 0 0 0.75rem;
+              }
+              .preview-current-desc {
+                color: #c7c7c7;
+                line-height: 1.6;
+                margin-bottom: 1.5rem;
+              }
+              .preview-note {
+                background: rgba(212, 175, 55, 0.1);
+                border: 1px solid rgba(212, 175, 55, 0.3);
+                border-radius: 8px;
+                padding: 1rem;
+                color: #d4af37;
+                font-size: 0.9rem;
+                text-align: center;
+              }
+            </style>
+            <div class="preview-container">
+              <!-- Sidebar -->
+              <div class="preview-sidebar">
+                <div class="preview-sidebar-header">
+                  <h3 class="preview-course-title">${course.title}</h3>
+                  <div class="preview-course-category">📂 ${course.category}</div>
+                  <div class="preview-progress-bar">
+                    <div class="preview-progress-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+                <div class="preview-lessons-list">
+                  ${lessons.length > 0 ? lessons.map((lesson, index) => `
+                    <div class="preview-lesson-item ${previewCurrentLesson && lesson._id === previewCurrentLesson._id ? 'active' : ''}"
+                         onclick="window.loadPreviewLesson('${lesson._id}')">
+                      <div class="preview-lesson-number">${index + 1}</div>
+                      <div class="preview-lesson-content">
+                        <div class="preview-lesson-title">${lesson.title}</div>
+                        <div class="preview-lesson-meta">
+                          <span>⏱️ ${lesson.duration || 'N/A'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  `).join('') : '<p style="text-align: center; color: #666; padding: 2rem;">Nenhuma aula cadastrada</p>'}
+                </div>
+              </div>
+
+              <!-- Main Content -->
+              <div class="preview-main">
+                ${previewCurrentLesson ? `
+                  <div class="preview-video-container">
+                    <iframe
+                      src="${embedUrl}"
+                      allowfullscreen
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    ></iframe>
+                  </div>
+                  <div class="preview-video-info">
+                    <h2 class="preview-current-title">${previewCurrentLesson.title}</h2>
+                    ${previewCurrentLesson.description ? `<p class="preview-current-desc">${previewCurrentLesson.description}</p>` : ''}
+                    <div class="preview-note">
+                      👁️ Esta é a visualização exata de como os usuários veem o curso
+                    </div>
+                  </div>
+                ` : `
+                  <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
+                    <p>Selecione uma aula para visualizar</p>
+                  </div>
+                `}
+              </div>
+            </div>
+          `;
+        };
+
+        // Function to load specific lesson in preview
+        window.loadPreviewLesson = (lessonId) => {
+          const lesson = lessons.find(l => l._id === lessonId);
+          if (lesson) {
+            previewCurrentLesson = lesson;
+            document.getElementById('coursePreviewContent').innerHTML = renderPreviewContent();
+          }
+        };
+
+        document.getElementById('coursePreviewContent').innerHTML = renderPreviewContent();
+        document.getElementById('coursePreviewModal').classList.add('active');
+      } catch (error) {
+        console.error('Erro ao carregar preview:', error);
+        showNotification('Erro ao carregar preview', 'error');
+      }
+    };
+
+    // Ad Preview
+    window.previewAd = async (id) => {
+      try {
+        const adsResponse = await apiCall('/admin/ads');
+        const currentAd = adsResponse.data.find(a => a._id === id);
+        if (!currentAd) return;
+
+        // Get all active ads for the same placement (sidebar)
+        const sidebarAds = adsResponse.data.filter(a =>
+          a.placement === currentAd.placement && a.isActive
+        );
+
+        const placements = {
+          left: 'Barra Lateral Esquerda',
+          right: 'Barra Lateral Direita'
+        };
+
+        const positions = {
+          0: 'Topo',
+          1: 'Meio',
+          2: 'Rodapé'
+        };
+
+        // Render an ad card
+        const renderAdCard = (ad, isCurrentAd = false) => `
+          <div class="sidebar-ad-card ${isCurrentAd ? 'current-ad-highlight' : ''}">
+            <img src="${ad.imageUrl}" alt="${ad.title}" class="sidebar-ad-image"
+                 onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22169%22><rect fill=%22%23333%22 width=%22300%22 height=%22169%22/><text fill=%22%23999%22 font-family=%22Arial%22 font-size=%2216%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22>Imagem indisponível</text></svg>'">
+            <div class="sidebar-ad-content">
+              <h3 class="sidebar-ad-title">${ad.title}</h3>
+              ${ad.description ? `<p class="sidebar-ad-description">${ad.description}</p>` : ''}
+              <button class="sidebar-ad-button">${ad.buttonText || 'Comprar Agora'}</button>
+            </div>
+            ${isCurrentAd ? '<div class="current-ad-badge">Este anúncio</div>' : ''}
+          </div>
+        `;
+
+        // Create placeholder for empty slots
+        const emptySlot = '<div class="sidebar-ad-empty">Nenhum anúncio nesta posição</div>';
+
+        // Get ads for each position
+        const topAd = sidebarAds.find(a => a.order === 0);
+        const middleAd = sidebarAds.find(a => a.order === 1);
+        const bottomAd = sidebarAds.find(a => a.order === 2);
+
+        document.getElementById('adPreviewContent').innerHTML = `
+          <style>
+            .ad-preview-info {
+              background: rgba(212, 175, 55, 0.1);
+              border: 1px solid rgba(212, 175, 55, 0.3);
+              border-radius: 8px;
+              padding: 1rem;
+              margin-bottom: 1.5rem;
+              color: #d4af37;
+              font-size: 0.875rem;
+            }
+            .ad-preview-container {
+              display: flex;
+              gap: 2rem;
+              background: #000;
+              border-radius: 12px;
+              padding: 2rem;
+              min-height: 600px;
+            }
+            .ad-preview-main {
+              flex: 1;
+              background: #0a0a0a;
+              border-radius: 8px;
+              padding: 2rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #666;
+              font-size: 1.1rem;
+              border: 1px solid rgba(255,255,255,0.1);
+            }
+            .ad-preview-sidebar {
+              width: 300px;
+              background: transparent;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              gap: 1.5rem;
+              flex-shrink: 0;
+            }
+            .ad-preview-slot {
+              flex: 1;
+              display: flex;
+              align-items: flex-start;
+              background: transparent;
+            }
+            .ad-preview-slot.middle {
+              align-items: center;
+            }
+            .ad-preview-slot.bottom {
+              align-items: flex-end;
+            }
+            .sidebar-ad-card {
+              background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+              border: 2px solid rgba(212, 175, 55, 0.3);
+              border-radius: 12px;
+              overflow: hidden;
+              transition: all 0.3s;
+              width: 100%;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            }
+            .sidebar-ad-card:hover {
+              border-color: #d4af37;
+              transform: translateY(-4px);
+              box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+            }
+            .sidebar-ad-image {
+              width: 100%;
+              aspect-ratio: 16/9;
+              object-fit: cover;
+            }
+            .sidebar-ad-content {
+              padding: 1.25rem;
+            }
+            .sidebar-ad-title {
+              font-size: 1.1rem;
+              font-weight: 700;
+              color: #d4af37;
+              margin: 0 0 0.5rem;
+              line-height: 1.3;
+            }
+            .sidebar-ad-description {
+              color: #c7c7c7;
+              font-size: 0.875rem;
+              line-height: 1.5;
+              margin: 0 0 1rem;
+            }
+            .sidebar-ad-button {
+              display: block;
+              width: 100%;
+              padding: 0.75rem;
+              background: linear-gradient(135deg, #d4af37, #b89418);
+              color: #000;
+              font-weight: 700;
+              text-decoration: none;
+              border-radius: 999px;
+              transition: all 0.2s;
+              cursor: pointer;
+              border: none;
+              font-size: 0.9rem;
+              text-align: center;
+            }
+            .sidebar-ad-button:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+            }
+            .sidebar-ad-empty {
+              width: 100%;
+              padding: 2rem 1rem;
+              background: rgba(255,255,255,0.03);
+              border: 1px dashed rgba(212, 175, 55, 0.2);
+              border-radius: 8px;
+              color: #666;
+              font-size: 0.85rem;
+              text-align: center;
+            }
+            .ad-position-badge {
+              display: inline-block;
+              background: linear-gradient(135deg, #d4af37, #b89418);
+              color: #000;
+              font-weight: 700;
+              padding: 0.25rem 0.75rem;
+              border-radius: 999px;
+              font-size: 0.75rem;
+              margin-left: 0.5rem;
+            }
+            .current-ad-highlight {
+              position: relative;
+              box-shadow: 0 0 0 3px #d4af37 !important;
+            }
+            .current-ad-badge {
+              position: absolute;
+              top: -12px;
+              right: -12px;
+              background: #d4af37;
+              color: #000;
+              font-weight: 700;
+              padding: 0.5rem 1rem;
+              border-radius: 999px;
+              font-size: 0.75rem;
+              box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
+              z-index: 10;
+            }
+          </style>
+          <div class="ad-preview-info">
+            <strong>📍 Posicionamento:</strong> ${placements[currentAd.placement] || currentAd.placement}
+            <span class="ad-position-badge">${positions[currentAd.order] || `Posição ${currentAd.order}`}</span>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">
+              👁️ Visualização completa da barra lateral - mostrando todos os anúncios ativos
+            </div>
+          </div>
+          <div class="ad-preview-container">
+            ${currentAd.placement === 'left' ? `
+              <div class="ad-preview-sidebar">
+                <div class="ad-preview-slot top">
+                  ${topAd ? renderAdCard(topAd, topAd._id === id) : emptySlot}
+                </div>
+                <div class="ad-preview-slot middle">
+                  ${middleAd ? renderAdCard(middleAd, middleAd._id === id) : emptySlot}
+                </div>
+                <div class="ad-preview-slot bottom">
+                  ${bottomAd ? renderAdCard(bottomAd, bottomAd._id === id) : emptySlot}
+                </div>
+              </div>
+            ` : ''}
+            <div class="ad-preview-main">
+              <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">📚</div>
+                <div style="font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem;">
+                  Conteúdo Principal
+                </div>
+                <div style="font-size: 0.9rem; color: #999; line-height: 1.6;">
+                  Aqui aparecem os cursos, lista de usuários,<br>
+                  treinamentos e outros conteúdos da plataforma
+                </div>
+              </div>
+            </div>
+            ${currentAd.placement === 'right' ? `
+              <div class="ad-preview-sidebar">
+                <div class="ad-preview-slot top">
+                  ${topAd ? renderAdCard(topAd, topAd._id === id) : emptySlot}
+                </div>
+                <div class="ad-preview-slot middle">
+                  ${middleAd ? renderAdCard(middleAd, middleAd._id === id) : emptySlot}
+                </div>
+                <div class="ad-preview-slot bottom">
+                  ${bottomAd ? renderAdCard(bottomAd, bottomAd._id === id) : emptySlot}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+
+        document.getElementById('adPreviewModal').classList.add('active');
+      } catch (error) {
+        console.error('Erro ao carregar preview:', error);
+        ultraToast({ type: 'error', message: 'Erro ao carregar preview' });
+      }
+    };
+
+    // Toggle Course Status
+    window.toggleCourseStatus = async (id, isActive) => {
+      try {
+        await apiCall(`/admin/courses/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ isActive })
+        });
+        loadCourses();
+      } catch (error) {
+        console.error('Erro ao atualizar status:', error);
+        ultraToast({ type: 'error', message: 'Erro: ' + error.message });
+      }
+    };
+
+    // Toggle Ad Status
+    window.toggleAdStatus = async (id, isActive) => {
+      try {
+        await apiCall(`/admin/ads/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ isActive })
+        });
+        loadAds();
+      } catch (error) {
+        console.error('Erro ao atualizar status:', error);
+        ultraToast({ type: 'error', message: 'Erro: ' + error.message });
+      }
+    };
+
+    // Modal Close Handlers
+    document.querySelectorAll('.modal-close').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.classList.remove('active');
+        });
+      });
+    });
+
+    // Close modals on outside click
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+
+    // Initial load
+// Product Upsell Management
+let currentUpsell = null;
+
+async function loadUpsellEditor() {
+  try {
+    const response = await fetch('/api/public/product-upsell/all', {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('authToken') }
+    });
+    const result = await response.json();
+    
+    if (result.success && result.data && result.data.length > 0) {
+      currentUpsell = result.data[0];
+      document.getElementById('upsellHtmlEditor').value = currentUpsell.customHtml || '';
+      updateUpsellPreview();
+    }
+  } catch (error) {
+    console.error('Error loading upsell:', error);
+  }
+}
+
+function updateUpsellPreview() {
+  const html = document.getElementById('upsellHtmlEditor').value;
+  const preview = document.getElementById('upsellPreview');
+  preview.innerHTML = html || '<p style="text-align: center; color: #999;">Preview aparecerá aqui...</p>';
+}
+
+async function saveUpsell() {
+  const html = document.getElementById('upsellHtmlEditor').value;
+  
+  if (!html.trim()) {
+    ultraToast({ type: 'warning', message: 'Por favor, adicione o HTML do upsell' });
+    return;
+  }
+  
+  const saveBtn = document.getElementById('saveUpsellBtn');
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" class="spinner"><circle cx="12" cy="12" r="10"/></svg> Salvando...';
+  
+  try {
+    const response = await fetch('/api/public/product-upsell', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+      },
+      body: JSON.stringify({ customHtml: html })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      ultraToast({ type: 'success', title: 'Salvo!', message: 'Product Upsell salvo com sucesso!' });
+      currentUpsell = result.data;
+    } else {
+      ultraToast({ type: 'error', message: 'Erro: ' + result.message });
+    }
+  } catch (error) {
+    console.error('Error saving upsell:', error);
+    ultraToast({ type: 'error', message: 'Erro ao salvar upsell' });
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg> Salvar Upsell';
+  }
+}
+
+// Add event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  const upsellEditor = document.getElementById('upsellHtmlEditor');
+  if (upsellEditor) {
+    upsellEditor.addEventListener('input', updateUpsellPreview);
+  }
+  
+  const saveUpsellBtn = document.getElementById('saveUpsellBtn');
+  if (saveUpsellBtn) {
+    saveUpsellBtn.addEventListener('click', saveUpsell);
+  }
+});
+
+// Load when upsell section is shown
+const originalShowSection = window.showSection || function() {};
+window.showSection = function(sectionId) {
+  if (typeof originalShowSection === 'function') {
+    originalShowSection(sectionId);
+  }
+  
+  if (sectionId === 'upsell') {
+    loadUpsellEditor();
+  }
+};
+
+</script>
+
+  <!-- Logout Modal -->
+  <div id="logoutModal" class="logout-modal">
+    <div class="logout-modal-content">
+      <div class="logout-icon">👋</div>
+      <h2 class="logout-title">Até logo!</h2>
+      <p class="logout-message">Tem certeza que deseja sair?<br>Sua jornada está apenas começando!</p>
+      <div class="logout-buttons">
+        <button onclick="closeLogoutModal()" class="btn-cancel">Cancelar</button>
+        <button onclick="confirmLogout()" class="btn-confirm">Sim, Sair</button>
+      </div>
+    </div>
+  </div>
+
+<style>
+.logout-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:9999;animation:fadeIn 0.3s}
+.logout-modal-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#1a1a1a,#2d2d2d);border:2px solid rgba(255,215,0,0.3);border-radius:24px;padding:3rem;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:slideUp 0.4s}
+.logout-icon{font-size:4rem;text-align:center;margin-bottom:1rem}
+.logout-title{color:#FFD700;font-size:1.8rem;margin:0 0 1rem;font-weight:700;text-align:center}
+.logout-message{color:#c7c7c7;font-size:1.1rem;margin:0 0 2rem;line-height:1.6;text-align:center}
+.logout-buttons{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-cancel{padding:1rem 2rem;background:transparent;border:2px solid rgba(255,215,0,0.5);color:#FFD700;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif}
+.btn-cancel:hover{background:rgba(255,215,0,0.1);border-color:#FFD700;transform:translateY(-2px)}
+.btn-confirm{padding:1rem 2rem;background:linear-gradient(135deg,#FFD700,#FFA500);border:none;color:#000;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-family:Montserrat,sans-serif;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
+.btn-confirm:hover{box-shadow:0 6px 20px rgba(255,215,0,0.4);transform:translateY(-2px)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translate(-50%,-20%);opacity:0}to{transform:translate(-50%,-50%);opacity:1}}
+</style>
+
+<script>
+// Video Management Functions
+let currentSection = 'dashboard';
+
+async function loadVideos() {
+  try {
+    console.log('[DEBUG] loadVideos called');
+    const token = localStorage.getItem('authToken');
+    const url = API_URL.replace('/auth', '') + '/admin/videos';
+    console.log('[DEBUG] Fetching videos from:', url);
+    const response = await fetch(url, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    console.log('[DEBUG] Response status:', response.status);
+    const result = await response.json();
+    console.log('[DEBUG] Result:', result);
+    const videos = result.data || [];
+    console.log('[DEBUG] Videos count:', videos.length);
+
+    let html = '';
+    if (videos.length === 0) {
+      console.log('[DEBUG] No videos to display');
+      html = '<div style="text-align:center;padding:3rem;color:#999;">Nenhum vídeo. Clique em Fazer Upload!</div>';
+    } else {
+      console.log('[DEBUG] Building HTML for', videos.length, 'videos');
+      // Group videos by folder
+      const videosByFolder = {};
+      videos.forEach(v => {
+        const folderName = v.folder || 'Sem Pasta';
+        if (!videosByFolder[folderName]) {
+          videosByFolder[folderName] = [];
+        }
+        videosByFolder[folderName].push(v);
+      });
+      console.log('[DEBUG] Videos grouped by folder:', Object.keys(videosByFolder));
+
+      // Display videos grouped by folder
+      Object.keys(videosByFolder).sort().forEach(folderName => {
+        console.log('[DEBUG] Rendering folder:', folderName, 'with', videosByFolder[folderName].length, 'videos');
+        html += '<div style="margin-bottom:2rem;"><h3 style="color:#FFD700;margin:0 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid rgba(255,215,0,0.3);"><svg style="width:20px;height:20px;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>' + folderName + ' (' + videosByFolder[folderName].length + ')</h3>';
+
+        videosByFolder[folderName].forEach(v => {
+          const st = v.status === 'ready' ? 'Pronto' : v.status === 'processing' ? 'Processando' : 'Falhou';
+          const statusColor = v.status === 'ready' ? '#4CAF50' : v.status === 'processing' ? '#FF9800' : '#F44336';
+          html += '<div style="background:#0a0a0a;border:1px solid rgba(255,215,0,0.3);border-radius:12px;padding:1.5rem;margin-bottom:1rem;"><div style="display:flex;justify-content:space-between;align-items:start;"><div style="flex:1;"><h4 style="color:#FFD700;margin:0 0 0.5rem;">' + v.title + '</h4><p style="color:#999;margin:0 0 0.75rem;font-size:0.9rem;">' + (v.description || 'Sem descrição') + '</p><div style="display:flex;gap:1rem;flex-wrap:wrap;"><span style="color:' + statusColor + ';font-size:0.9rem;">● ' + st + '</span>';
+
+          if (v.duration) {
+            const mins = Math.floor(v.duration / 60);
+            const secs = v.duration % 60;
+            html += '<span style="color:#999;font-size:0.9rem;">⏱ ' + mins + ':' + (secs < 10 ? '0' : '') + secs + '</span>';
+          }
+
+          if (v.originalFileSize) {
+            const sizeMB = (v.originalFileSize / (1024 * 1024)).toFixed(2);
+            html += '<span style="color:#999;font-size:0.9rem;">📦 ' + sizeMB + ' MB</span>';
+          }
+
+          html += '</div></div><button onclick="deleteVideo(\'' + v._id + '\')" style="background:#F44336;color:white;border:none;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;font-size:0.9rem;">Deletar</button></div></div>';
+        });
+
+        html += '</div>';
+      });
+    }
+
+    console.log('[DEBUG] Setting videosList innerHTML, HTML length:', html.length);
+    const videosListElement = document.getElementById('videosList');
+    console.log('[DEBUG] videosList element found:', !!videosListElement);
+    if (videosListElement) {
+      videosListElement.innerHTML = html;
+      console.log('[DEBUG] innerHTML set successfully');
+    } else {
+      console.error('[ERROR] videosList element not found!');
+    }
+  } catch (error) {
+    console.error('Error loading videos:', error);
+    document.getElementById('videosList').innerHTML = '<div style="text-align:center;padding:3rem;color:#ff4444;">Erro ao carregar vídeos</div>';
+  }
+}
+
+
+// Load existing folders from videos
+async function loadFolderSuggestions() {
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await fetch(API_URL.replace('/auth', '') + '/admin/videos', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const result = await response.json();
+    
+    if (result.success && result.data) {
+      const folders = [...new Set(result.data.map(v => v.folder || 'Sem Pasta'))];
+      const datalist = document.getElementById('folderSuggestions');
+      datalist.innerHTML = folders.map(f => `<option value="${f}"></option>`).join('');
+    }
+  } catch (error) {
+    console.error('Error loading folders:', error);
+  }
+}
+
+function showUploadModal() {
+  document.getElementById('uploadModal').style.display = 'flex';
+}
+
+function closeUploadModal() {
+  document.getElementById('uploadModal').style.display = 'none';
+  document.getElementById('uploadForm').reset();
+}
+
+async function uploadVideo(e) {
+  e.preventDefault();
+  const title = document.getElementById('videoTitle').value;
+  const description = document.getElementById('videoDescription').value;
+  const file = document.getElementById('videoFile').files[0];
+  
+  if (!file) { ultraToast({ type: 'warning', message: 'Selecione um arquivo' }); return; }
+  
+  const formData = new FormData();
+  formData.append('video', file);
+  formData.append('title', title);
+  formData.append('description', description);
+  const folder = document.getElementById('videoFolder').value || 'Sem Pasta';
+  formData.append('folder', folder);
+  
+  document.getElementById('uploadBtn').disabled = true;
+  document.getElementById('uploadBtn').textContent = 'Enviando...';
+  document.getElementById('uploadProgress').style.display = 'block';
+  
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await fetch(API_URL.replace('/auth', '') + '/admin/videos/upload', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+      body: formData
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      ultraToast({ type: 'success', title: 'Enviado!', message: 'Video enviado! Processamento iniciado.' });
+      closeUploadModal();
+      loadVideos();
+    } else {
+      ultraToast({ type: 'error', message: 'Erro: ' + result.message });
+    }
+  } catch (error) {
+    ultraToast({ type: 'error', message: 'Erro ao enviar: ' + error.message });
+  }
+  
+  document.getElementById('uploadBtn').disabled = false;
+  document.getElementById('uploadBtn').textContent = 'Fazer Upload';
+}
+
+async function deleteVideo(videoId) {
+  if (!confirm('Tem certeza que deseja deletar este vídeo? Esta ação não pode ser desfeita.')) {
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await fetch(API_URL.replace('/auth', '') + '/admin/videos/' + videoId, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      ultraToast({ type: 'success', message: 'Video deletado com sucesso!' });
+      loadVideos();
+    } else {
+      ultraToast({ type: 'error', message: 'Erro: ' + result.message });
+    }
+  } catch (error) {
+    ultraToast({ type: 'error', message: 'Erro ao deletar: ' + error.message });
+  }
+}
+
+// Add to existing navigation handler
+document.addEventListener('DOMContentLoaded', function() {
+});
+</script>
+
+</body>
+  <!-- Custom Confirmation Modal -->
+  <div id="confirmModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(12px); z-index: 10001; align-items: center; justify-content: center;">
+    <div style="background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%); border: 3px solid rgba(212, 175, 55, 0.6); border-radius: 28px; padding: 3rem 2.5rem; max-width: 480px; width: 90%; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7); animation: modalSlideIn 0.3s ease-out;">
+      <div style="font-size: 4rem; text-align: center; margin-bottom: 1.5rem;">⚠️</div>
+      <h2 id="confirmTitle" style="background: linear-gradient(135deg, #ff6b6b, #ff5252, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 1rem;">Confirmar Exclusão</h2>
+      <p id="confirmMessage" style="color: #c0c0c0; font-size: 1.1rem; margin: 0 0 2.5rem; text-align: center; line-height: 1.6;">Tem certeza que deseja deletar esta conquista? Esta ação não pode ser desfeita.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <button id="confirmCancel" style="padding: 1rem 1.5rem; background: transparent; border: 2px solid rgba(212, 175, 55, 0.6); color: #d4af37; border-radius: 14px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Cancelar</button>
+        <button id="confirmOk" style="padding: 1rem 1.5rem; background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 50%, #ff6b6b 100%); border: none; color: white; border-radius: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4); transition: all 0.3s;">Sim, Deletar</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+
+<script>
+    // ===== BEAUTIFUL NOTIFICATION SYSTEM =====
+    (function() {
+      if (!document.getElementById('ultraToastContainer')) {
+        var container = document.createElement('div');
+        container.id = 'ultraToastContainer';
+        container.className = 'ultra-toast-container';
+        document.body.appendChild(container);
+      }
+    })();
+
+    function ultraNotify(options) {
+      var opts = typeof options === 'string' ? { message: options } : options;
+      var type = opts.type || 'success';
+      var title = opts.title || '';
+      var message = opts.message || '';
+      var buttonText = opts.buttonText || 'OK';
+      var showButton = opts.showButton !== false;
+      var onClose = opts.onClose || null;
+
+      var icons = { success: '✓', error: '✕', warning: '⚠', info: '★' };
+      var defaultTitles = { success: 'Sucesso!', error: 'Erro!', warning: 'Atencao!', info: 'Informacao' };
+
+      var existing = document.querySelector('.ultra-notification-overlay');
+      if (existing) existing.remove();
+
+      var overlay = document.createElement('div');
+      overlay.className = 'ultra-notification-overlay';
+      overlay.innerHTML =
+        '<div class="ultra-notification">' +
+          '<div class="ultra-notification-icon ' + type + '">' + icons[type] + '</div>' +
+          '<div class="ultra-notification-title">' + (title || defaultTitles[type]) + '</div>' +
+          '<div class="ultra-notification-message">' + message + '</div>' +
+          (showButton ? '<button class="ultra-notification-btn" onclick="closeUltraNotify()">' + buttonText + '</button>' : '') +
+        '</div>';
+
+      document.body.appendChild(overlay);
+      overlay._onClose = onClose;
+
+      setTimeout(function() { overlay.classList.add('show'); }, 10);
+
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeUltraNotify();
+      });
+
+      return overlay;
+    }
+
+    function closeUltraNotify() {
+      var overlay = document.querySelector('.ultra-notification-overlay');
+      if (overlay) {
+        overlay.classList.remove('show');
+        var callback = overlay._onClose;
+        setTimeout(function() {
+          overlay.remove();
+          if (callback) callback();
+        }, 300);
+      }
+    }
+
+    function ultraToast(options) {
+      var opts = typeof options === 'string' ? { message: options } : options;
+      var type = opts.type || 'success';
+      var title = opts.title || '';
+      var message = opts.message || '';
+      var duration = opts.duration || 4000;
+
+      var icons = { success: '✓', error: '✕', warning: '⚠', info: '★' };
+      var defaultTitles = { success: 'Sucesso', error: 'Erro', warning: 'Atencao', info: 'Info' };
+
+      var container = document.getElementById('ultraToastContainer');
+      var toast = document.createElement('div');
+      toast.className = 'ultra-toast ' + type;
+      toast.innerHTML =
+        '<div class="ultra-toast-icon">' + icons[type] + '</div>' +
+        '<div class="ultra-toast-content">' +
+          '<div class="ultra-toast-title">' + (title || defaultTitles[type]) + '</div>' +
+          '<div class="ultra-toast-message">' + message + '</div>' +
+        '</div>' +
+        '<button class="ultra-toast-close" onclick="this.parentElement.remove()">x</button>';
+
+      container.appendChild(toast);
+      setTimeout(function() { toast.classList.add('show'); }, 10);
+
+      setTimeout(function() {
+        toast.classList.add('hiding');
+        setTimeout(function() { toast.remove(); }, 400);
+      }, duration);
+
+      return toast;
+    }
+</script>
+</body>
+</html>
